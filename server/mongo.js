@@ -13,4 +13,4 @@ const mongo = {
     }
 }
  
-exports.mongo = mongo
+exports.mongo = mongo;
