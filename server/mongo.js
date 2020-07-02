@@ -1,8 +1,10 @@
+//TODO: refactor here
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/mydb', {useNewUrlParser: true});
+let testModel = mongoose.model('users', (req,res)=>{
+    name:String
+})
+console.log('costam')
+mongoose.connect('mongodb://localhost/mydb', {useUnifiedTopology: true,useNewUrlParser: true});
+console.log('costam')
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-});
+testModel.findOne(function(error, result) { /* ... */ });
