@@ -1,10 +1,11 @@
-//TODO: refactor here
-const mongoose = require('mongoose');
-var schema = new mongoose.Schema({ name: 'string'});
-var User = mongoose.model('user', schema);
-
-console.log('costam')
-mongoose.connect('mongodb://localhost/mydb', {useUnifiedTopology: true,useNewUrlParser: true});
-console.log('costam')
-
-testModel.findOne(function(error, result) { /* ... */ });
+import mongoose from 'mongoose';
+import User from './models/User.js';
+import Task from './models/Task.js';
+ 
+const connectDb = () => {
+  return mongoose.connect("mongodb://localhost:27017/myDb", {useUnifiedTopology: true});
+};
+ 
+const models = { User, Task };
+ 
+export default connectDb
