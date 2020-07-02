@@ -1,20 +1,19 @@
 const express = require('express');
-const {PORT} = require('./config')
-const {models, connectDb} = require('./mongo')
+const {config} = require('./config')
+const {mongo} = require('./mongo')
 const app = express();
  
 app.get('/api/tasks', (req, res)=> {
   const users = models.User.find()
   console.log(users)
 })
-
-connectDb()
-.then(async () => {
-  app.listen(PORT, () =>
-    console.log(`Task-app listening on port ${PORT}!`),
+mongo.connect()
+.then(() => {
+  app.listen(config.db.PORT, () =>
+    console.log(`Task-app listening on port ${config.db.PORT}!`),
   );
 })
 .catch(err=>{
   console.log('Database connection error')
-  console.log('err')
+  console.log(err)
 });
