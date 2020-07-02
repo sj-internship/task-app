@@ -1,10 +1,16 @@
-//TODO: refactor here
 const mongoose = require('mongoose');
-let testModel = mongoose.model('users', (req,res)=>{
-    name:String
-})
-console.log('costam')
-mongoose.connect('mongodb://localhost/mydb', {useUnifiedTopology: true,useNewUrlParser: true});
-console.log('costam')
+const {config} = require ('./config')
 
-testModel.findOne(function(error, result) { /* ... */ });
+const mongo = {
+    connect: async ()=>{
+        return mongoose.connect(config.db.DATABASE_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }).then(async res=>{
+            require('./models/User');
+            require('./models/Task');
+        })
+    }
+}
+ 
+exports.mongo = mongo

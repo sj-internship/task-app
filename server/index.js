@@ -1,7 +1,15 @@
-var express = require('express')
-var app = express()
-app.get('/', function (req, res) {
-  res.send('hello world')
+const express = require('express');
+const {config} = require('./config')
+const {mongo} = require('./mongo')
+const app = express();
+ 
+mongo.connect()
+.then(() => {
+  app.listen(config.db.PORT, () =>
+    console.log(`Task-app listening on port ${config.db.PORT}!`),
+  );
 })
-
-app.listen(3000)
+.catch(err=>{
+  console.log('Database connection error')
+  console.log(err)
+});
