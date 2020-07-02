@@ -3,10 +3,6 @@ const {config} = require('./config')
 const {mongo} = require('./mongo')
 const app = express();
  
-app.get('/api/tasks', (req, res)=> {
-  const users = models.User.find()
-  console.log(users)
-})
 mongo.connect()
 .then(() => {
   app.listen(config.db.PORT, () =>
