@@ -1,11 +1,9 @@
-import mongoose from 'mongoose';
-import User from './models/User.js';
-import Task from './models/Task.js';
- 
+const mongoose = require('mongoose');
+const User = require('./models/User');
+const Task = require('./models/Task') ;
+const {DATABASE_URL} = require ('./config')
 const connectDb = () => {
-  return mongoose.connect("mongodb://localhost:27017/myDb", {useUnifiedTopology: true});
+  return mongoose.connect(DATABASE_URL, {useUnifiedTopology: true});
 };
  
-const models = { User, Task };
- 
-export default connectDb
+exports.connectDb = connectDb
