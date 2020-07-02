@@ -1,8 +1,8 @@
 //TODO: refactor here
 const mongoose = require('mongoose');
-let testModel = mongoose.model('users', (req,res)=>{
-    name:String
-})
+var schema = new mongoose.Schema({ name: 'string'});
+var User = mongoose.model('user', schema);
+
 console.log('costam')
 mongoose.connect('mongodb://localhost/mydb', {useUnifiedTopology: true,useNewUrlParser: true});
 console.log('costam')
