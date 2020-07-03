@@ -1,14 +1,15 @@
 const express = require('express');
 const {config} = require('./config');
-const {mongo} = require('./mongo');
+const mongo = require('./db/mongo');
+const bodyParser = require('body-parser')
 const app = express();
+
 mongo.connect()
-<<<<<<< HEAD
 .then(() => {
+  app.use(bodyParser.json());
   app.use(require('./router'))
   app.listen(config.db.PORT, () =>{
     console.log(`Task-app listening on port ${config.db.PORT}!`);
-    
   }
   );
 })
@@ -16,14 +17,3 @@ mongo.connect()
   console.log('Database connection error');
   console.log(err);
 });
-=======
-  .then(() => {
-    app.listen(config.db.PORT, () =>
-      console.log(`Task-app listening on port ${config.db.PORT}!`),
-    );
-  })
-  .catch(err=>{
-    console.log('Database connection error');
-    console.log(err);
-  });
->>>>>>> server-task1
