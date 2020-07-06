@@ -10,6 +10,7 @@ export class TaskService {
   constructor(private http : HttpClient) { }
 
   getAllTasks():Observable<any>{
+    console.log('getall')
     return this.http.get('localhost:3000/api/tasks').pipe(
       map(res=>{
         console.log(res)
