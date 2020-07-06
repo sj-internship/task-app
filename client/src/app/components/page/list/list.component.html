@@ -1,2 +1,12 @@
-<div (click)="getAllTasks()">Get all!</div>
-
+<div class="container">
+  <div *ngFor="let task of tasks; let i = index">
+    <div *ngIf="i%4==0" class="row">
+        <div class="col card cardCol">
+          <p>{{tasks[i+0].title}}</p>
+        </div>
+        <div class="col card cardCol"><p>{{tasks[i+1].title}}</p></div>
+        <div class="col card cardCol"><p>{{tasks[i+2].title}}</p></div>
+        <div class="col card cardCol"><p>{{tasks[i+3].title}}</p></div>
+    </div>
+  </div>
+</div>
