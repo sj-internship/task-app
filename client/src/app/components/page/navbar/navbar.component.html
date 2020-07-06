@@ -1,0 +1,9 @@
+<div class="">
+  <nav class="navbar navbar-light bg-light">
+    <ul class="menuList">
+      <li (click)="onLogClick()" *ngIf="currentUser === null" class="nav-item"><a class="navbar-brand" routerLink='/login'>Login</a></li>
+      <li (click)="onLogOut()" *ngIf="currentUser !== null" class="nav-item"><a class="navbar-brand" routerLink='/login'>Log out</a></li>
+      <li class="nav-item"><a class="navbar-brand" routerLink='/tasks'>Tasks</a></li>
+    </ul>
+  </nav>
+</div>
