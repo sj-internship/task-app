@@ -18,31 +18,19 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string){
+  login(username: string, password: string):boolean{
     const hardCodedUser:User = {
       id:1,
       userName:'admin',
       password:'admin123',
       token:'token'
     }
-    if(username === hardCodedUser.userName){
-      if(password === hardCodedUser.password){
+    if(username === hardCodedUser.userName && password === hardCodedUser.password){
         localStorage.setItem('currentUser', JSON.stringify(hardCodedUser));
         this.currentUserSubject.next(hardCodedUser);
-        return {
-          incorrectUserName:false,
-          incorrectPassword:false
-        }
-      }
-      return {
-        incorrectUserName:false,
-        incorrectPassword:true
-      }
-    }
-    return {
-      incorrectUserName:true,
-      incorrectPassword:true
-    }
+        return true;
+    };
+    return false;
   }
 
   logout() {

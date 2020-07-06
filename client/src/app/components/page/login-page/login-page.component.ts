@@ -10,8 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   loginForm : FormGroup;
   returnUrl: string;
-  incorrectPassword:boolean;
-  incorrectUserName:boolean;
+  correctCredentials:boolean;
   submitted:boolean;
   constructor(
     private fb : FormBuilder, 
@@ -35,10 +34,9 @@ export class LoginPageComponent implements OnInit {
     if(this.loginForm.invalid){
       return;
     }
-    const loginErrors = this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password);
-    this.incorrectUserName = loginErrors.incorrectUserName
-    this.incorrectPassword = loginErrors.incorrectPassword
-    if(!this.incorrectUserName && !this.incorrectPassword){
+    this.correctCredentials = this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password);
+
+    if(this.correctCredentials){
       this.router.navigate([this.returnUrl])
       console.log('Loggin in')
     }
