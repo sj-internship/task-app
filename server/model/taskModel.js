@@ -3,8 +3,16 @@ module.exports={
     getAll:()=>{
         return Task.find({}).exec();
     },
-    save:(task)=>{
-        return task.save();
+    save:(params)=>{
+        const newTask = new Task({
+            createdAt:new Date(),
+            updatedAt:new Date(),
+            title:params.title,
+            description: params.description,
+            tasks:[],
+            createdBy:params.createdBy
+        });
+        return newTask.save();
     },
     update:(filter, update)=>{
         return Task.findByIdAndUpdate(filter, update, {new:true});

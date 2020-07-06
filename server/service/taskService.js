@@ -1,29 +1,22 @@
 const taskModel= require('../model/taskModel');
 const Task = require('../db/models/Task');
-const taskController = require('../controller/taskController');
 
 module.exports={
     getTasks : async()=>{
         console.log('getTasks');
         const result = await taskModel.getAll();
-        console.log(result);
 
         return {
             data:result
         };
     },
-    saveTask : async(params)=>{
-        const newTask = new Task({
-            createdAt:new Date(),
-            updatedAt:new Date(),
-            title:params.title,
-            description: params.description,
-            tasks:[],
-            createdBy:params.createdBy
-        });
+    saveTask : async(params)=>{ 
+        const result = await taskModel.save(params);
+        console.log(result)
         //adding id to the parent 
-        const result = await taskModel.save(newTask);
-        const parent = await taskModel.updateParentArray(params.parentId, result._id);
+        if(params.parendId !== null){
+            await taskModel.updateParentArray(params.parentId, result._id);
+        }
         return{
             data:result
         };
