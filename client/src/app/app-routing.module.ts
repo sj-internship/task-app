@@ -5,7 +5,11 @@ import {ListComponent} from './components/page/list/list.component'
 import {AuthGuard} from './AuthGuard'
 const routes: Routes = [
   {path:'login', component:LoginPageComponent},
-  {path:'tasks', component:ListComponent, canActivate:[AuthGuard]}
+  {path:'tasks', component:ListComponent, canActivate:[AuthGuard]},
+  {path:'tasks/:id', },
+  {path:'**', redirectTo:'tasks'}, //TODO 404 page
+  {path:'', pathMatch:'full', redirectTo:'tasks'},
+  
 ];
 
 @NgModule({

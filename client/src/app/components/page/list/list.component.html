@@ -1,12 +1,7 @@
 <div class="container">
-  <div *ngFor="let task of tasks; let i = index">
-    <div *ngIf="i%4==0" class="row">
-        <div class="col card cardCol">
-          <p>{{tasks[i+0].title}}</p>
-        </div>
-        <div class="col card cardCol"><p>{{tasks[i+1].title}}</p></div>
-        <div class="col card cardCol"><p>{{tasks[i+2].title}}</p></div>
-        <div class="col card cardCol"><p>{{tasks[i+3].title}}</p></div>
+  <div class="row">
+    <div *ngFor="let task of tasks; let i = index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <div>{{task.title}}</div>
     </div>
   </div>
 </div>
