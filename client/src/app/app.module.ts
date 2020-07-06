@@ -8,6 +8,7 @@ import { ListComponent } from './components/page/list/list.component';
 import { LoginPageComponent } from './components/page/login-page/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/page/navbar/navbar.component'  
+import {AuthGuard} from './AuthGuard'
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { NavbarComponent } from './components/page/navbar/navbar.component'
     AppRoutingModule,
     FormsModule, ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
