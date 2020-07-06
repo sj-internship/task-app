@@ -7,7 +7,7 @@ const app = express();
 mongo.connect()
 .then(() => {
   app.use(bodyParser.json());
-  app.use(require('./router'))
+  app.use(require('./router'));
   app.listen(config.db.PORT, () =>{
     console.log(`Task-app listening on port ${config.db.PORT}!`);
   }

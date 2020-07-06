@@ -18,4 +18,4 @@ router.post('/api/task/:id',taskController.updateTask);
 
 router.delete('/api/task/:id', taskController.deleteTask);
 
-module.exports = router
+module.exports = router;
