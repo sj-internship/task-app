@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {config} = require ('./config')
+const {config} = require('../config')
 
 const mongo = {
     connect: async ()=>{
@@ -13,4 +13,4 @@ const mongo = {
     }
 }
  
-exports.mongo = mongo
+module.exports = mongo;
