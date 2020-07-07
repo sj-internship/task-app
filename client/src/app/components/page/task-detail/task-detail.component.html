@@ -1,0 +1,12 @@
+<div class="card" style="width: 18rem;">
+  <form [formGroup]="taskForm" (submit)="onSubmit()">
+    <label>Title</label>
+  <input formControlName="title"  class="form-control">
+  <label>Description</label>
+  <input formControlName='description'  class="form-control"><br>
+  <button class="btn btn-outline-success my-2 my-sm-0">
+    {{buttonText}}</button>
+</form>
+<button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
+<!--<button (click)="toggleEditMode()" class= "btn btn-outline-success my-2 my-sm-0">Edit</button> -->
+</div>

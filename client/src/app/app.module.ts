@@ -8,7 +8,8 @@ import { ListComponent } from './components/page/list/list.component';
 import { LoginPageComponent } from './components/page/login-page/login-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/page/navbar/navbar.component'  
-import {AuthGuard} from './AuthGuard'
+import {AuthGuard} from './AuthGuard';
+import { TaskDetailComponent } from './components/page/task-detail/task-detail.component'
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {AuthGuard} from './AuthGuard'
     ListComponent,
     LoginPageComponent,
     NavbarComponent,
+    TaskDetailComponent,
   ],
   imports: [
     BrowserModule,

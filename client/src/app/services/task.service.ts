@@ -16,7 +16,29 @@ export class TaskService {
         return res.result.data.map(item=>{
           console.log(item)
           return <Task>item;
+          
         })
+      })
+    )
+  }
+  getTaskById(id):Observable<Task>{
+    return this.apiService.getTaskById(id).pipe(
+      map((res:any)=>{
+        return <Task>res.result.data
+      })
+    )
+  }
+  updateTask(params):Observable<Task>{
+    return this.apiService.updateTask(params).pipe(
+      map((res:any)=>{
+        return <Task>res.result.data
+      })
+    )
+  }
+  addTask(params):Observable<Task>{
+    return this.apiService.addTask(params).pipe(
+      map((res:any)=>{
+        return <Task>res.result.data
       })
     )
   }
