@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import {TaskService} from '../../../services/task.service'
 import {Task} from '../../../models/task'
 import {FormBuilder, FormGroup} from '@angular/forms'
@@ -21,7 +21,8 @@ export class TaskDetailComponent implements OnInit {
     private route:ActivatedRoute,
     private ts:TaskService,
     private fb : FormBuilder, 
-    private as : AuthenticationService
+    private as : AuthenticationService,
+    private router : Router
     ) { }
     
   ngOnInit() {
@@ -57,7 +58,7 @@ export class TaskDetailComponent implements OnInit {
         _id:this.id,
         title: this.taskForm.value.title,
         description:this.taskForm.value.description
-      }).subscribe(updatedTask=>console.log(updatedTask))
+      }).subscribe()
     }
     else{
       this.ts.addTask({
@@ -65,10 +66,15 @@ export class TaskDetailComponent implements OnInit {
         description:this.taskForm.value.description,
         createdBy: this.as.currentUserValue.userName,
         parentId:null
-      }).subscribe(newTask=> console.log(newTask))
+      }).subscribe(newTask=>{
+        console.log(newTask)
+        this.router.navigate(['/tasks/' + newTask._id])
+        
+      }) 
     }
   }
   deleteTask(){
-    
+    this.ts.deleteTask(this.id).subscribe(res=>console.log(res))
+    this.router.navigate(['/tasks'])
   }
 }

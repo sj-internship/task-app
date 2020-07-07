@@ -22,6 +22,9 @@ export class ApiService {
   addTask(params):Observable<any>{
     return this.http.post('/api/task/', params)
   }
-  //deleteTask(id):
+  deleteTask(id):Observable<any>{
+    console.log(id)
+    return this.http.delete('/api/task/' + id)
+  }
   
 }

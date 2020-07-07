@@ -7,10 +7,11 @@
         </div>
       </a>
     </div>
-    <a [routerLink]="['/tasks/newTask']">
-      <div class="card mt-3 cardCol">
-        <h5 class="card-title">Dodaj task</h5>
-      </div>
-    </a>
   </div>
+  <div class="addTaskButton">
+    <a [routerLink]="['/tasks/newTask']">
+      <button class="btn btn-outline-success my-2 my-sm-0">Add task</button>
+    </a>
+
+  </div >
 </div>

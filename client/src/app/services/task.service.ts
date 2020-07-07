@@ -42,4 +42,7 @@ export class TaskService {
       })
     )
   }
+  deleteTask(id):Observable<any>{
+    return this.apiService.deleteTask(id)
+  }
 }
