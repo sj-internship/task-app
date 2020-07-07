@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from '../../../services/authentication.service'
-import {User} from '../../../models/user'
+import {AuthenticationService} from '../../../services/authentication.service';
+import {User} from '../../../models/user';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -16,10 +16,9 @@ export class NavbarComponent implements OnInit {
     this.as.currentUser.subscribe(x => this.currentUser = x);
   }
   onLogClick(){
-    console.log(this.currentUser)
   
   }
   onLogOut(){
-    this.as.logout()
+    this.as.logout();
   }
 }

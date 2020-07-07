@@ -10,21 +10,20 @@ export class ApiService {
   constructor(private http : HttpClient) { }
 
   getAllTasks():Observable<any>{
-    return this.http.get('/api/tasks')
+    return this.http.get('/api/tasks');
   }
   getTaskById(id:number):Observable<any>{
-    return this.http.get('/api/task/' + id)
+    return this.http.get('/api/task/' + id);
   }
 
   updateTask(params):Observable<any>{
-    return this.http.post('/api/task/' + params._id, params)
+    return this.http.post('/api/task/' + params._id, params);
   }
   addTask(params):Observable<any>{
-    return this.http.post('/api/task/', params)
+    return this.http.post('/api/task/', params);
   }
   deleteTask(id):Observable<any>{
-    console.log(id)
-    return this.http.delete('/api/task/' + id)
+    return this.http.delete('/api/task/' + id);
   }
   
 }

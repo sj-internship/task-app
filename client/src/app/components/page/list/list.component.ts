@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {TaskService} from '../../../services/task.service'
-import { Observable } from 'rxjs';
-import {Task} from '../../../models/task'
+import {TaskService} from '../../../services/task.service';
+import {Task} from '../../../models/task';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -12,11 +11,11 @@ export class ListComponent implements OnInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
-    this.getAllTasks()
+    this.getAllTasks();
   }
   getAllTasks(){
     this.taskService.getAllTasks().subscribe(tasks=>{
-      this.tasks = tasks
-    })    
+      this.tasks = tasks;
+    });    
   }
 }
