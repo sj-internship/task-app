@@ -4,7 +4,7 @@ import {TaskService} from '../../../services/task.service'
 import {Task} from '../../../models/task'
 import {FormBuilder, FormGroup} from '@angular/forms'
 import {AuthenticationService} from '../../../services/authentication.service'
-
+import {ModalService} from '../../../services/modal.service'
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
@@ -22,7 +22,8 @@ export class TaskDetailComponent implements OnInit {
     private ts:TaskService,
     private fb : FormBuilder, 
     private as : AuthenticationService,
-    private router : Router
+    private router : Router,
+    private modalService : ModalService
     ) { }
     
   ngOnInit() {
@@ -74,7 +75,15 @@ export class TaskDetailComponent implements OnInit {
     }
   }
   deleteTask(){
-    this.ts.deleteTask(this.id).subscribe(res=>console.log(res))
-    this.router.navigate(['/tasks'])
+    const modalRef = this.modalService.openYesNoModal();
+    modalRef.componentInstance.description = 'Do you want to delete this task?'
+    modalRef.componentInstance.title = 'WARNING'
+    modalRef.result.then((result)=>{
+      console.log(result);
+      if(result){
+        this.ts.deleteTask(this.id).subscribe(res=>console.log(res))
+        this.router.navigate(['/tasks'])
+      }
+    });
   }
 }

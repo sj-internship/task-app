@@ -10,7 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/page/navbar/navbar.component'  
 import {AuthGuard} from './AuthGuard';
 import { TaskDetailComponent } from './components/page/task-detail/task-detail.component'
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.component'
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
     LoginPageComponent,
     NavbarComponent,
     TaskDetailComponent,
+    YesNoModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
     HttpClientModule,
     NgbModule
   ],
+  entryComponents: [YesNoModalComponent],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
