@@ -63,9 +63,11 @@ export class TaskDetailComponent implements OnInit {
     }
   }
   deleteTask(){
-    const modalRef = this.modalService.openYesNoModal();
-    modalRef.componentInstance.description = 'Do you want to delete this task?';
-    modalRef.componentInstance.title = 'WARNING';
+    const modalParams={
+      title:'WARNING',
+      description:'Do you want to delete this task?'
+    }
+    const modalRef = this.modalService.openYesNoModal(modalParams);
     modalRef.result.then((result)=>{
       if(result){
         this.ts.deleteTask(this.id).subscribe(res=>{

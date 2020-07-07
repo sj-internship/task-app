@@ -1,10 +1,10 @@
-<div class="card" style="width: 18rem; margin:auto; padding: 7px;">
+<div class="card mt-4 cardContainer">
   <form [formGroup]="taskForm" (submit)="onSubmit()">
-    <label>Title</label>
+    <label class="font-weight-light text-center text-lg-left mt-4 mb-0">Title</label>
   <input formControlName="title"  class="form-control">
   <label>Description</label>
   <input formControlName='description'  class="form-control"><br>
-  <button class="btn btn-outline-success my-2 my-sm-0">
+  <button class="btn btn-outline-success my-2 my-sm-0 w-50">
     {{buttonText}}</button>
 </form>
 <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
