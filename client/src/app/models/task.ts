@@ -4,7 +4,6 @@ export interface Task {
     description: string;
     createdAt: Date;
     updatedAt: Date;
-    createdBy: string;
     tasks:[string];
 }
 
@@ -17,5 +16,5 @@ export interface TaskAdd{
     title: string;
     description:string;
     createdBy:string;
-    parentId:string;
+    parentId:string|null;
 }
