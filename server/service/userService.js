@@ -12,15 +12,15 @@ module.exports = {
     },
     register: async (credentials) => {
         const hashedPass = await bcrypt.hash(credentials.password, config.bcrypt.saltRounds);
-        const result = await userModel.save({
+        await userModel.save({
             name: credentials.name,
             password: hashedPass
         }
         );
         return {
-            data: result
+            data: null
         };
-    },//change to status 200 only 
+    },
     signIn: async (credentials) => {
         const user = await userModel.getByName(credentials.name)
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
@@ -34,15 +34,10 @@ module.exports = {
         }, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "1h"
         });
-        console.log(jwtToken)
         return {
             data: {
-                name: credentials.name,
-                password: credentials.password,
                 token: jwtToken
             }
         }
-
-
     }
 }

@@ -11,7 +11,7 @@ module.exports={
     },
     saveTask : async(params)=>{ 
         const result = await taskModel.save(params);
-        console.log(result)
+        
         //adding id to the parent 
         if(params.parendId !== null){
             await taskModel.updateParentArray(params.parentId, result._id);
@@ -20,8 +20,8 @@ module.exports={
             data:result
         };
     },
-    getTask: async(id)=>{
-        const result = await taskModel.getOne(id);
+    getTask: async(id, user)=>{
+        const result = await taskModel.getOne(id, user);
         return{
             data:result
         };
@@ -34,8 +34,8 @@ module.exports={
             data:result
         };
     },
-    deleteTask:async(id)=>{
-        const filter = {_id:id};
+    deleteTask:async(id, user)=>{
+        const filter = {_id:id, createdBy:user.name};
         const result =  await taskModel.deleteOne(filter);
         return {
             data:result

@@ -12,7 +12,7 @@ module.exports={
     register: (req, res)=>{
         userService.register(req.body)
             .then(result=>{
-                res.status(200).json({result});
+                res.status(200).send();
             })
             .catch(err=>{
                 res.status(500).json({message:'Something went wrong.'});

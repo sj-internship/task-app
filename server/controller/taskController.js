@@ -11,7 +11,7 @@ const taskController={
             })
     },
     getTask:async(req,res)=>{
-        taskService.getTask(req.params.id)
+        taskService.getTask(req.params.id, req.user)
             .then(result=>{
                 res.status(200).json({result});
             })
@@ -39,7 +39,7 @@ const taskController={
             })
     },
     deleteTask:async(req, res)=>{
-        taskService.deleteTask(req.params.id)
+        taskService.deleteTask(req.params.id, req.user)
             .then(result=>{
                 res.status(200).send();
             })
