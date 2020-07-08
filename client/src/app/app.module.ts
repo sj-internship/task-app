@@ -11,7 +11,8 @@ import { NavbarComponent } from './components/page/navbar/navbar.component'
 import {AuthGuard} from './AuthGuard';
 import { TaskDetailComponent } from './components/page/task-detail/task-detail.component'
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.component'
+import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.component';
+import { Page404Component } from './components/page/page404/page404.component'
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.comp
     NavbarComponent,
     TaskDetailComponent,
     YesNoModalComponent,
+    Page404Component,
   ],
   imports: [
     BrowserModule,
