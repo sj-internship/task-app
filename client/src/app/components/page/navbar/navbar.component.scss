@@ -1,0 +1,16 @@
+.menuList{
+    list-style-type: none;
+    margin: 0;
+};
+.menuList li{
+    float: left;
+    padding: 5px;
+    margin:10px;
+    
+}
+.menuList li .a{
+    display: block;
+}
+.navContainer{
+    height: 200px;
+}
