@@ -1,7 +1,7 @@
 const Task = require('../db/models/Task');
 module.exports={
-    getAll:()=>{
-        return Task.find({}).exec();
+    getAll:(user)=>{
+        return Task.find({createdBy:user.name}).exec();
     },
     save:(params)=>{
         const newTask = new Task({

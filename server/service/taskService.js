@@ -2,9 +2,8 @@ const taskModel= require('../model/taskModel');
 const Task = require('../db/models/Task');
 
 module.exports={
-    getTasks : async()=>{
-        console.log('getTasks');
-        const result = await taskModel.getAll();
+    getTasks : async(user)=>{
+        const result = await taskModel.getAll(user);
 
         return {
             data:result
