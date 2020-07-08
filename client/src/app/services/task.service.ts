@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {tap, map, catchError} from 'rxjs/operators';
-import {Task} from '../models/task';
+import {Task, TaskUpdate, TaskAdd} from '../models/task';
 import {ApiService} from './api.service';
 @Injectable({
   providedIn: 'root'
@@ -20,28 +20,28 @@ export class TaskService {
       })
     );
   }
-  getTaskById(id):Observable<Task>{
+  getTaskById(id:string):Observable<Task>{
     return this.apiService.getTaskById(id).pipe(
       map((res:any)=>{
         return <Task>res.result.data;
       })
     );
   }
-  updateTask(params):Observable<Task>{
+  updateTask(params:TaskUpdate):Observable<Task>{
     return this.apiService.updateTask(params).pipe(
       map((res:any)=>{
         return <Task>res.result.data;
       })
     );
   }
-  addTask(params):Observable<Task>{
+  addTask(params:TaskAdd):Observable<Task>{
     return this.apiService.addTask(params).pipe(
       map((res:any)=>{
         return <Task>res.result.data;
       })
     );
   }
-  deleteTask(id):Observable<any>{
+  deleteTask(id:string):Observable<any>{
     return this.apiService.deleteTask(id);
   }
 }

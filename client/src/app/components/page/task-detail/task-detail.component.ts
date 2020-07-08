@@ -5,6 +5,8 @@ import {Task} from '../../../models/task';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {ModalService} from '../../../services/modal.service';
+import {YesNoModalParams} from '../../../models/modals'
+import {TaskUpdate, TaskAdd} from '../../../models/task'
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
@@ -44,26 +46,27 @@ export class TaskDetailComponent implements OnInit {
   }
   onSubmit(){
     if(this.updateMode){
-      this.ts.updateTask({
+      const updatedTask:TaskUpdate = {
         _id:this.id,
         title: this.taskForm.value.title,
         description:this.taskForm.value.description
-      }).subscribe();
+      }
+      this.ts.updateTask(updatedTask).subscribe();
     }
     else{
-      this.ts.addTask({
+      const newTask:TaskAdd={
         title: this.taskForm.value.title,
         description:this.taskForm.value.description,
         createdBy: this.as.currentUserValue.userName,
         parentId:null
-      }).subscribe(newTask=>{
+      }
+      this.ts.addTask(newTask).subscribe(newTask=>{
         this.router.navigate(['/tasks/' + newTask._id]);
-        
       }) 
     }
   }
   deleteTask(){
-    const modalParams={
+    const modalParams:YesNoModalParams={
       title:'WARNING',
       description:'Do you want to delete this task?'
     }
@@ -71,6 +74,7 @@ export class TaskDetailComponent implements OnInit {
     modalRef.result.then((result)=>{
       if(result){
         this.ts.deleteTask(this.id).subscribe(res=>{
+          console.log(res)
           this.router.navigate(['/tasks']);
         })
       }
