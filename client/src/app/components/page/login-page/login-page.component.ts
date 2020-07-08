@@ -8,10 +8,10 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-  loginForm : FormGroup;
-  returnUrl: string;
-  correctCredentials:boolean;
-  submitted:boolean;
+  public loginForm : FormGroup;
+  private returnUrl: string;
+  public correctCredentials:boolean;
+  public submitted:boolean;
   constructor(
     private fb : FormBuilder, 
     private authenticationService: AuthenticationService, 
@@ -28,7 +28,7 @@ export class LoginPageComponent implements OnInit {
     this.returnUrl = '/tasks';
     this.submitted = false;
   }
-  onSubmit(){
+  public onSubmit(){
     this.submitted = true;
     if(this.loginForm.invalid){
       return;

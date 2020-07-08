@@ -8,17 +8,17 @@ import {User} from '../../../models/user';
 })
 export class NavbarComponent implements OnInit {
 
-  currentUser: User;
+  public currentUser: User;
 
   constructor(public as: AuthenticationService) { }
 
   ngOnInit() {
     this.as.currentUser.subscribe(x => this.currentUser = x);
   }
-  onLogClick(){
+  public onLogClick(){
   
   }
-  onLogOut(){
+  public onLogOut(){
     this.as.logout();
   }
 }

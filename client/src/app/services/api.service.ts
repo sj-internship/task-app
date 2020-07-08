@@ -9,20 +9,20 @@ export class ApiService {
 
   constructor(private http : HttpClient) { }
 
-  getAllTasks():Observable<any>{
+  public getAllTasks():Observable<any>{
     return this.http.get('/api/tasks');
   }
-  getTaskById(id:string):Observable<any>{
+  public getTaskById(id:string):Observable<any>{
     return this.http.get('/api/task/' + id);
   }
 
-  updateTask(params:TaskUpdate):Observable<any>{
+  public updateTask(params:TaskUpdate):Observable<any>{
     return this.http.post('/api/task/' + params._id, params);
   }
-  addTask(params:TaskAdd):Observable<any>{
+  public addTask(params:TaskAdd):Observable<any>{
     return this.http.post('/api/task/', params);
   }
-  deleteTask(id):Observable<any>{
+  public deleteTask(id):Observable<any>{
     return this.http.delete('/api/task/' + id);
   }
 }

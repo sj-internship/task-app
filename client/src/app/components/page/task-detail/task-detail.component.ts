@@ -13,12 +13,11 @@ import {TaskUpdate, TaskAdd} from '../../../models/task'
   styleUrls: ['./task-detail.component.scss']
 })
 export class TaskDetailComponent implements OnInit {
-  updateMode:boolean = true;
-  buttonText:string = 'Update';
-  id: string;
-  task:Task;
-  editMode:boolean = false;
-  taskForm:FormGroup;
+  public updateMode:boolean = true;
+  public buttonText:string = 'Update';
+  private id: string;
+  public task:Task;
+  public taskForm:FormGroup;
   constructor(
     private route:ActivatedRoute,
     private ts:TaskService,
@@ -44,7 +43,7 @@ export class TaskDetailComponent implements OnInit {
       this.taskForm.controls['description'].setValue(this.task.description);    
     })
   }
-  onSubmit(){
+  public onSubmit(){
     if(this.updateMode){
       const updatedTask:TaskUpdate = {
         _id:this.id,
@@ -65,7 +64,7 @@ export class TaskDetailComponent implements OnInit {
       }) 
     }
   }
-  deleteTask(){
+  public deleteTask(){
     const modalParams:YesNoModalParams={
       title:'WARNING',
       description:'Do you want to delete this task?'

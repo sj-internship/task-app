@@ -7,13 +7,13 @@ import {Task} from '../../../models/task';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  tasks:Task[];
+  public tasks:Task[];
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {
     this.getAllTasks();
   }
-  getAllTasks(){
+  public getAllTasks(){
     this.taskService.getAllTasks().subscribe(tasks=>{
       this.tasks = tasks;
     });    
