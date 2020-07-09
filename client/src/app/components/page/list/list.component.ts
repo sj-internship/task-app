@@ -13,12 +13,16 @@ export class ListComponent implements OnInit {
   private ngUnsubscribe = new Subject<void>();
   constructor(private taskService: TaskService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getAllTasks();
   }
   public getAllTasks(){
     this.taskService.getAllTasks().pipe(takeUntil(this.ngUnsubscribe)).subscribe(tasks=>{
       this.tasks = tasks;
     });    
+  }
+  public onDestroy(){
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

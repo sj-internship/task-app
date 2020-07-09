@@ -16,5 +16,5 @@ export interface TaskAdd{
     title: string;
     description:string;
     createdBy:string;
-    parentId:string|null;
+    parentId?:string;
 }

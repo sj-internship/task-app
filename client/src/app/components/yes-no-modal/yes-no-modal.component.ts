@@ -11,7 +11,7 @@ export class YesNoModalComponent implements OnInit {
   @Input() public title;
   constructor(private activeModal: NgbActiveModal) { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
   public close(answer:boolean){
     this.answer = answer;

@@ -30,7 +30,7 @@ export class TaskDetailComponent implements OnInit {
     private modalService: ModalService
   ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.taskForm = this.fb.group({
       title: [''],
@@ -90,5 +90,9 @@ export class TaskDetailComponent implements OnInit {
         })
       }
     });
+  }
+  public onDestroy(){
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

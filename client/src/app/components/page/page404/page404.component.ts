@@ -9,7 +9,7 @@ export class Page404Component implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(public as: AuthenticationService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.as.currentUser.pipe(takeUntil(this.ngUnsubscribe)).subscribe(x => this.currentUser = x);
   }
   public onLogClick(){
@@ -23,5 +23,9 @@ export class NavbarComponent implements OnInit {
   }
   public onLogOut(){
     this.as.logout();
+  }
+  public onDestroy(){
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
