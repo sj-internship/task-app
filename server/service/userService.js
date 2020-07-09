@@ -22,7 +22,6 @@ module.exports = {
         };
     },
     signIn: async (credentials) => {
-        console.log(credentials)
         const user = await userModel.getByName(credentials.name)
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
         if (!isValidPassword) {
