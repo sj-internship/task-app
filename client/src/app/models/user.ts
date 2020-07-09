@@ -4,3 +4,7 @@ export interface User {
     password: string;
     token: string;
 }
+export interface UserCredentials{
+    name: string,
+    password:string
+}

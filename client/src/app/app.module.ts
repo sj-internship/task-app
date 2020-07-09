@@ -13,7 +13,8 @@ import { TaskDetailComponent } from './components/page/task-detail/task-detail.c
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.component';
 import { Page404Component } from './components/page/page404/page404.component'
-
+import {HTTP_INTERCEPTORS} from '@angular/common/http'
+import {AddHeaderInterceptor} from './services/headerInterceptor'
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,11 @@ import { Page404Component } from './components/page/page404/page404.component'
     NgbModule
   ],
   entryComponents: [YesNoModalComponent],
-  providers: [AuthGuard],
+  providers: [AuthGuard, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AddHeaderInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {TaskUpdate, TaskAdd} from '../models/task'
+import {UserCredentials} from '../models/user'
 @Injectable({
   providedIn: 'root'
 })
@@ -9,6 +10,9 @@ export class ApiService {
 
   constructor(private http : HttpClient) { }
 
+  public login(params:UserCredentials):Observable<any>{
+    return this.http.post('/api/signIn', params);
+  }
   public getAllTasks():Observable<any>{
     return this.http.get('/api/tasks');
   }
