@@ -37,4 +37,12 @@ export class TaskService {
   public deleteTask(id:string):Observable<any>{
     return this.apiService.deleteTask(id);
   }
+  public getTags():Observable<[String]>{
+    return this.apiService.getAllTags().pipe(
+      map(res=>{
+        console.log(res)
+        return res;
+      })
+    )
+  }
 }

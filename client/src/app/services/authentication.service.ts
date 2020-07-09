@@ -33,9 +33,6 @@ export class AuthenticationService {
         this.currentUserSubject.next(user);
         return res
       }),
-      /*catchError((error, caught) => {
-        return throwError(error)
-      })*/
     )
 
   }

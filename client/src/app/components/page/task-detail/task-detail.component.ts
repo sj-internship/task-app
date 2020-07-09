@@ -9,6 +9,7 @@ import { YesNoModalParams } from '../../../models/modals'
 import { TaskUpdate, TaskAdd } from '../../../models/task'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import {Select2OptionData} from 'ng2-select2'
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
@@ -18,6 +19,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
   public updateMode: boolean = true;
   public buttonText: string = 'Update';
+  public tagsData: Array<Select2OptionData>;
   private id: string;
   public task: Task;
   public taskForm: FormGroup;
@@ -42,12 +44,13 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     }
     else {
       this.ts.getTaskById(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(task => {
-        console.log(task)
         this.task = task;
         this.taskForm.controls['title'].setValue(this.task.title);
         this.taskForm.controls['description'].setValue(this.task.description);
       })
     }
+    this.getTags();
+    this.prepareSelectTags();
   }
   public onSubmit() {
     if (this.updateMode) {
@@ -86,7 +89,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     modalRef.result.then((result) => {
       if (result) {
         this.ts.deleteTask(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
-          console.log(res)
           this.router.navigate(['/tasks']);
         })
       }
@@ -95,5 +97,21 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   public ngOnDestroy(){
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+  private getTags(){
+    this.ts.getTags().subscribe();
+  }
+
+  private prepareSelectTags(){
+    this.tagsData = [
+      {
+        id:'1',
+        text:'hej'
+      },
+      {
+        id:'2',
+        text:'hej2'
+      }
+    ]
   }
 }

@@ -33,4 +33,7 @@ export class ApiService {
   public deleteTask(id): Observable<any> {
     return this.http.delete('/api/task/' + id);
   }
+  public getAllTags():Observable<any>{
+    return this.http.get('/api/tags');
+  }
 }
