@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
-import {AuthenticationService} from '../../../services/authentication.service';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthenticationService } from '../../../services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-login-page',
@@ -8,36 +8,40 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-  public loginForm : FormGroup;
+  public loginMode: Boolean = true;
+  public loginForm: FormGroup;
   private returnUrl: string;
-  public correctCredentials:boolean;
-  public submitted:boolean;
+  public correctCredentials: boolean;
+  public submitted: boolean;
   constructor(
-    private fb : FormBuilder, 
-    private authenticationService: AuthenticationService, 
-    private router: Router) 
-    {
-
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private router: Router) {
   }
 
   public ngOnInit() {
     this.loginForm = this.fb.group({
-      userName : ['', Validators.required],
-      password:['', [Validators.required, Validators.minLength(6)]]
+      userName: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
     this.returnUrl = '/tasks';
     this.submitted = false;
   }
-  public onSubmit(){
+  public onSubmit() {
     this.submitted = true;
-    if(this.loginForm.invalid){
+    if (this.loginForm.invalid) {
       return;
     }
-    this.correctCredentials = this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password);
-
-    if(this.correctCredentials){
-      this.router.navigate([this.returnUrl]);
-    }
+    this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe(
+      data => {
+        this.correctCredentials = true;
+        this.router.navigate([this.returnUrl]);
+      },
+      error=>{
+      }
+    )
   }
-
+  public goToRegister(){
+    this.router.navigate(['/register']);
+  }
 }

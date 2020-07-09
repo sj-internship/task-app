@@ -42,6 +42,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     }
     else {
       this.ts.getTaskById(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(task => {
+        console.log(task)
         this.task = task;
         this.taskForm.controls['title'].setValue(this.task.title);
         this.taskForm.controls['description'].setValue(this.task.description);

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import {User} from '../models/user';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { ApiService } from './api.service'
+import { tap, map, catchError } from 'rxjs/operators';
+import { User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +10,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor() { 
+  constructor(private apiService: ApiService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -18,19 +19,25 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public login(username: string, password: string):boolean{
-    const hardCodedUser:User = {
-      id:1,
-      userName:'admin',
-      password:'admin123',
-      token:'token'
+  public login(username: string, password: string): Observable<any> {
+    const user: User = {
+      id: 1,                     //do I need that?
+      userName: username,
+      password: password,
+      token: ''
     }
-    if(username === hardCodedUser.userName && password === hardCodedUser.password){
-        localStorage.setItem('currentUser', JSON.stringify(hardCodedUser));
-        this.currentUserSubject.next(hardCodedUser);
-        return true;
-    };
-    return false;
+    return this.apiService.login({ name: username, password: password }).pipe(
+      map((res: any) => {
+        user.token = res.result.data.token;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return res
+      }),
+      /*catchError((error, caught) => {
+        return throwError(error)
+      })*/
+    )
+
   }
 
   public logout() {
