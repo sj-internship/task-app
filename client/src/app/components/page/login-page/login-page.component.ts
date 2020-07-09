@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms'
-import {AuthenticationService} from '../../../authentication.service'
+import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
+import {AuthenticationService} from '../../../services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-login-page',
@@ -8,28 +8,27 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-  loginForm : FormGroup;
-  returnUrl: string;
-  correctCredentials:boolean;
-  submitted:boolean;
+  public loginForm : FormGroup;
+  private returnUrl: string;
+  public correctCredentials:boolean;
+  public submitted:boolean;
   constructor(
     private fb : FormBuilder, 
     private authenticationService: AuthenticationService, 
-    private router: Router,
-    private route: ActivatedRoute,) 
+    private router: Router) 
     {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loginForm = this.fb.group({
       userName : ['', Validators.required],
       password:['', [Validators.required, Validators.minLength(6)]]
-    })
-    this.returnUrl = '/tasks'
+    });
+    this.returnUrl = '/tasks';
     this.submitted = false;
   }
-  onSubmit(){
+  public onSubmit(){
     this.submitted = true;
     if(this.loginForm.invalid){
       return;
@@ -37,8 +36,7 @@ export class LoginPageComponent implements OnInit {
     this.correctCredentials = this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password);
 
     if(this.correctCredentials){
-      this.router.navigate([this.returnUrl])
-      console.log('Loggin in')
+      this.router.navigate([this.returnUrl]);
     }
   }
 

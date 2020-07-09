@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {User} from './user'
+import {User} from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +18,7 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string):boolean{
+  public login(username: string, password: string):boolean{
     const hardCodedUser:User = {
       id:1,
       userName:'admin',
@@ -33,7 +33,7 @@ export class AuthenticationService {
     return false;
   }
 
-  logout() {
+  public logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
