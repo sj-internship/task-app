@@ -32,20 +32,16 @@ export class LoginPageComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    if(this.loginMode){
-      this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe(
-        data => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error=>{
-        }
-      )
-    }
-    else{
-      //this.authenticationService
-    }
+    this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe(
+      data => {
+        this.correctCredentials = true;
+        this.router.navigate([this.returnUrl]);
+      },
+      error=>{
+      }
+    )
   }
-  public changeMode(){
-    this.loginMode = !this.loginMode;
+  public goToRegister(){
+    this.router.navigate(['/register']);
   }
 }

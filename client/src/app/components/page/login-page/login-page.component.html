@@ -17,10 +17,10 @@
     </label><br>
     <div *ngIf="submitted && !correctCredentials" class="alert alert-danger"> Incorrect username or password</div>
     <button class="btn btn-outline-success my-4 my-sm-0">
-      {{loginMode?'Login':'Register'}}
+      Login
     </button>
     <div>
-      <span>{{loginMode?'Need an account? ':'Already have an account? '}}</span> <span (click)="changeMode()">{{loginMode? 'Register' : 'Login'}}</span>
+      <span>Need an account? </span> <span (click)="goToRegister()">Register</span>
     </div>
   </form>
 </div>

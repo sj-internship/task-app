@@ -1,9 +1,9 @@
 <div class="formContainer">
-  <form [formGroup]="loginForm" (submit)="onSubmit()">
+  <form [formGroup]="registerForm" (submit)="onSubmit()">
     <label>
       UserName<br>
       <input type="text" formControlName="userName">
-      <div *ngIf="loginForm.controls['userName'].invalid && (loginForm.controls['userName'].dirty || loginForm.controls['userName'].touched)" 
+      <div *ngIf="registerForm.controls['userName'].invalid && (registerForm.controls['userName'].dirty || registerForm.controls['userName'].touched)" 
             class="alert alert-warning"> Username is required</div>
       <br>
     </label>
@@ -11,16 +11,16 @@
       Password
       <br>
       <input type="password" formControlName="password">
-      <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" 
+      <div *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)" 
       class="alert alert-warning"> Password is required</div>
       
     </label><br>
-    <div *ngIf="submitted && !correctCredentials" class="alert alert-danger"> Incorrect username or password</div>
+    <div *ngIf="submitted && !correctCredentials" class="alert alert-danger">The credentials don't meet the requirements.</div>
     <button class="btn btn-outline-success my-4 my-sm-0">
-      {{loginMode?'Login':'Register'}}
+      Register
     </button>
     <div>
-      <span>{{loginMode?'Need an account? ':'Already have an account? '}}</span> <span (click)="changeMode()">{{loginMode? 'Register' : 'Login'}}</span>
+      <span>Already have an account? </span><span (click)="goToLogin()">Login</span>
     </div>
   </form>
 </div>

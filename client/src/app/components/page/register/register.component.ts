@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../../services/user.service'
 @Component({
-  selector: 'app-login-page',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
@@ -11,9 +12,11 @@ export class RegisterComponent implements OnInit {
   private returnUrl: string;
   public correctCredentials: boolean;
   public submitted: boolean;
+
   constructor(
     private fb: FormBuilder,
-    private router: Router) {
+    private router: Router,
+    private userService:UserService) {
   }
 
   public ngOnInit() {
@@ -29,5 +32,14 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    this.userService.registerUser({
+      name:this.registerForm.value.userName,
+      password:this.registerForm.value.password
+    }).subscribe(data=>{
+      this.router.navigate([this.returnUrl]);
+    })
+  }
+  public goToLogin(){
+    this.router.navigate([this.returnUrl]);
   }
 }
