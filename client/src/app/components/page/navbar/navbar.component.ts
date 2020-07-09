@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {User} from '../../../models/user';
 import { Subject } from 'rxjs';
@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   public currentUser: User;
   private ngUnsubscribe = new Subject<void>();
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
   public onLogOut(){
     this.as.logout();
   }
-  public onDestroy(){
+  public ngOnDestroy(){
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
