@@ -46,6 +46,15 @@ const taskController={
             .catch(err=>{
                 res.status(500).json({message:'Something went wrong.'});
             })
+    },
+    getUniqueTags:async(req, res)=>{
+        taskService.getUniqueTags(req.user)
+            .then(result=>{
+                res.status(200).send(result);
+            })
+            .catch(err=>{
+                res.status(500).json({message:'Something went wrong.'});
+            })
     }
 };
 module.exports = taskController;

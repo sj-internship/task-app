@@ -22,4 +22,6 @@ router.post('/api/register', userController.register)
 
 router.post('/api/signIn', userController.signIn)
 
+router.get('/api/tags',authorizationJWT, taskController.getUniqueTags)
+
 module.exports = router;

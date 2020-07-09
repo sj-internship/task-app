@@ -40,5 +40,25 @@ module.exports={
         return {
             data:result
         };
+    },
+    getUniqueTags:async(user)=>{
+        const userTasks = await taskModel.getAll(user);
+        let uniqueTags = [];
+        userTasks.forEach(task=>{
+            task.tags.forEach(tag=>{
+                let repeating = false;
+                uniqueTags.forEach(item=>{
+                    if(item == tag){
+                        repeating = true;
+                    }
+                })
+                if(!repeating){
+                    uniqueTags.push(tag);
+                }
+            })
+        })
+        return{
+            data:uniqueTags
+        }
     }
 }
