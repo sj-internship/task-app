@@ -18,7 +18,7 @@ module.exports={
         return Task.findByIdAndUpdate(filter, update, {new:true});
     },
     getOne:(id, user)=>{
-        return Task.find({_id:id, createdBy:user.name});
+        return Task.findOne({_id:id, createdBy:user.name});
     },
     updateParentArray:(parentId, childId)=>{
         return Task.updateOne(
