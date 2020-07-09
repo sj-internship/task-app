@@ -14,7 +14,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.component';
 import { Page404Component } from './components/page/page404/page404.component'
 import {HTTP_INTERCEPTORS} from '@angular/common/http'
-import {AddHeaderInterceptor} from './services/headerInterceptor'
+import {AddHeaderInterceptor} from './services/headerInterceptor';
+import { RegisterComponent } from './components/page/register/register.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import {AddHeaderInterceptor} from './services/headerInterceptor'
     TaskDetailComponent,
     YesNoModalComponent,
     Page404Component,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

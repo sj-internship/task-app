@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
+  public loginMode: Boolean = true;
   public loginForm: FormGroup;
   private returnUrl: string;
   public correctCredentials: boolean;
@@ -16,7 +17,6 @@ export class LoginPageComponent implements OnInit {
     private fb: FormBuilder,
     private authenticationService: AuthenticationService,
     private router: Router) {
-
   }
 
   public ngOnInit() {
@@ -32,13 +32,20 @@ export class LoginPageComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe(
-      data => {
-        this.router.navigate([this.returnUrl]);
-      },
-      error=>{
-        console.log('err')
-      }
-    )
+    if(this.loginMode){
+      this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error=>{
+        }
+      )
+    }
+    else{
+      //this.authenticationService
+    }
+  }
+  public changeMode(){
+    this.loginMode = !this.loginMode;
   }
 }
