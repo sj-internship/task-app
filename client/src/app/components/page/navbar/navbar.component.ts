@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
 import {User} from '../../../models/user';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -8,17 +10,22 @@ import {User} from '../../../models/user';
 })
 export class NavbarComponent implements OnInit {
 
-  currentUser: User;
+  public currentUser: User;
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(public as: AuthenticationService) { }
 
-  ngOnInit() {
-    this.as.currentUser.subscribe(x => this.currentUser = x);
+  public ngOnInit() {
+    this.as.currentUser.pipe(takeUntil(this.ngUnsubscribe)).subscribe(x => this.currentUser = x);
   }
-  onLogClick(){
+  public onLogClick(){
   
   }
-  onLogOut(){
+  public onLogOut(){
     this.as.logout();
+  }
+  public onDestroy(){
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

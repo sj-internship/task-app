@@ -9,7 +9,7 @@ export class ModalService {
 
   constructor(private modalService: NgbModal) { }
 
-  openYesNoModal(params:YesNoModalParams):NgbModalRef{
+  public openYesNoModal(params:YesNoModalParams):NgbModalRef{
     const modalRef = this.modalService.open(YesNoModalComponent);
     modalRef.componentInstance.description = params.description;
     modalRef.componentInstance.title = params.title;

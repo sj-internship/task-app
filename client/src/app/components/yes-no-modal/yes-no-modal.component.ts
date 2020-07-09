@@ -6,14 +6,14 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./yes-no-modal.component.scss']
 })
 export class YesNoModalComponent implements OnInit {
-  answer:boolean = false;
+  public answer:boolean = false;
   @Input() public description;
   @Input() public title;
   constructor(private activeModal: NgbActiveModal) { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
-  close(answer:boolean){
+  public close(answer:boolean){
     this.answer = answer;
     this.activeModal.close(this.answer);  
   }

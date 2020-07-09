@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import {TaskService} from '../../../services/task.service';
 import {Task} from '../../../models/task';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  tasks:Task[];
+  public tasks:Task[];
+  private ngUnsubscribe = new Subject<void>();
   constructor(private taskService: TaskService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getAllTasks();
   }
-  getAllTasks(){
-    this.taskService.getAllTasks().subscribe(tasks=>{
+  public getAllTasks(){
+    this.taskService.getAllTasks().pipe(takeUntil(this.ngUnsubscribe)).subscribe(tasks=>{
       this.tasks = tasks;
     });    
+  }
+  public onDestroy(){
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
