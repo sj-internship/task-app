@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
 import { Task } from '../../../models/task';
@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './task-detail.component.html',
   styleUrls: ['./task-detail.component.scss']
 })
-export class TaskDetailComponent implements OnInit {
+export class TaskDetailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
   public updateMode: boolean = true;
   public buttonText: string = 'Update';
@@ -91,7 +91,7 @@ export class TaskDetailComponent implements OnInit {
       }
     });
   }
-  public onDestroy(){
+  public ngOnDestroy(){
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
