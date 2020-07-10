@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {tap, map, catchError} from 'rxjs/operators';
-import {Task, TaskUpdate, TaskAdd} from '../models/task';
+import {TaskModel, TaskUpdateModel, TaskAddModel} from '../models/task';
 import {ApiService} from './api.service';
 @Injectable({
   providedIn: 'root'
@@ -10,26 +10,26 @@ export class TaskService {
 
   constructor(private apiService:ApiService) { }
 
-  public getAllTasks():Observable<Task[]>{
+  public getAllTasks():Observable<TaskModel[]>{
     return this.apiService.getAllTasks().pipe(
       map((res:any)=>{
         return res.result.data.map(item=> item)
       })
     );
   }
-  public getTaskById(id:string):Observable<Task>{
+  public getTaskById(id:string):Observable<TaskModel>{
     return this.apiService.getTaskById(id).pipe(
       map((res:any)=>{
-        return <Task>res.result.data;
+        return <TaskModel>res.result.data;
       })
     );
   }
-  public updateTask(params:TaskUpdate):Observable<Task>{
+  public updateTask(params:TaskUpdateModel):Observable<TaskModel>{
     return this.apiService.updateTask(params).pipe(
       map((res:any)=>res.result.data)
     );
   }
-  public addTask(params:TaskAdd):Observable<Task>{
+  public addTask(params:TaskAddModel):Observable<TaskModel>{
     return this.apiService.addTask(params).pipe(
       map((res:any)=>res.result.data)
     );

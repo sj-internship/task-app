@@ -14,7 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.component';
 import { Page404Component } from './components/page/page404/page404.component'
 import { HTTP_INTERCEPTORS } from '@angular/common/http'
-import { AddHeaderInterceptor } from './services/headerInterceptor';
+import { JwtInterceptor } from './services/headerInterceptor';
 import { RegisterComponent } from './components/page/register/register.component'
 import {Select2Module} from 'ng2-select2'
 @NgModule({
@@ -41,7 +41,7 @@ import {Select2Module} from 'ng2-select2'
   entryComponents: [YesNoModalComponent],
   providers: [AuthGuard, {
     provide: HTTP_INTERCEPTORS,
-    useClass: AddHeaderInterceptor,
+    useClass: JwtInterceptor,
     multi: true,
   }],
   bootstrap: [AppComponent]

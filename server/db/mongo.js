@@ -7,6 +7,7 @@ const mongo = {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).then(async res=>{
+            mongoose.set('useCreateIndex', true);
             require('./models/User');
             require('./models/Task');
         })

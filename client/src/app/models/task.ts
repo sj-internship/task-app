@@ -1,4 +1,4 @@
-export interface Task {
+export interface TaskModel {
     _id: string;
     title: string;
     description: string;
@@ -7,12 +7,12 @@ export interface Task {
     tasks:[string];
 }
 
-export interface TaskUpdate{
+export interface TaskUpdateModel{
     _id:string;
     title: string;
     description:string;
 }
-export interface TaskAdd{
+export interface TaskAddModel{
     title: string;
     description:string;
     createdBy:string;

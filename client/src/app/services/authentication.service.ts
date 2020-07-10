@@ -2,26 +2,25 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { ApiService } from './api.service'
 import { tap, map, catchError } from 'rxjs/operators';
-import { User } from '../models/user';
+import { UserModel } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<UserModel>;
+  public currentUser: Observable<UserModel>;
 
   constructor(private apiService: ApiService) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
+  public get currentUserValue(): UserModel {
     return this.currentUserSubject.value;
   }
 
   public login(username: string, password: string): Observable<any> {
-    const user: User = {
-      id: 1,                     //do I need that?
+    const user: UserModel = {
       userName: username,
       password: password,
       token: ''

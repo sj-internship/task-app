@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
-import { Task } from '../../../models/task';
+import { TaskModel } from '../../../models/task';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { ModalService } from '../../../services/modal.service';
 import { YesNoModalParams } from '../../../models/modals'
-import { TaskUpdate, TaskAdd } from '../../../models/task'
+import { TaskUpdateModel, TaskAddModel } from '../../../models/task'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {Select2OptionData} from 'ng2-select2'
@@ -21,7 +21,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   public buttonText: string = 'Update';
   public tagsData: Array<Select2OptionData>;
   private id: string;
-  public task: Task;
+  public task: TaskModel;
   public taskForm: FormGroup;
   constructor(
     private route: ActivatedRoute,
@@ -54,7 +54,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   }
   public onSubmit() {
     if (this.updateMode) {
-      const updatedTask: TaskUpdate = {
+      const updatedTask: TaskUpdateModel = {
         _id: this.id,
         title: this.taskForm.value.title,
         description: this.taskForm.value.description
@@ -64,7 +64,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       });
     }
     else {
-      const newTask: TaskAdd = {
+      const newTask: TaskAddModel = {
         title: this.taskForm.value.title,
         description: this.taskForm.value.description,
         createdBy: this.as.currentUserValue.userName,

@@ -4,24 +4,24 @@ import {
     HttpHandler,
     HttpRequest,
 } from '@angular/common/http';
-import { User } from '../models/user';
 import { AuthenticationService } from './authentication.service'
 
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 @Injectable() 
-export class AddHeaderInterceptor implements HttpInterceptor {
-    public currentUser: User;
+export class JwtInterceptor implements HttpInterceptor {
     constructor(private as: AuthenticationService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         let token = '';
-        if(this.as.currentUserValue !== null){
+        if(this.as.currentUserValue && this.as.currentUserValue.token){
             token = this.as.currentUserValue.token;
+            console.log()
         };
-        // Clone the request to add the new header
-        const clonedRequest = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
+        if(req.url.startsWith('/api')){
+            req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
+        }
 
-        return next.handle(clonedRequest);
+        return next.handle(req);
     }
 }

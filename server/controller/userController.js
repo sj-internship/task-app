@@ -19,7 +19,6 @@ module.exports={
             })
     },
     signIn:(req, res)=>{
-        console.log('sign')
         userService.signIn(req.body)
             .then(result=>{
                 res.status(200).json({result});
