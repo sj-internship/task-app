@@ -4,8 +4,8 @@ import {
     HttpHandler,
     HttpRequest,
 } from '@angular/common/http';
-import { AuthenticationService } from './authentication.service'
-
+import { AuthenticationService } from './authentication.service';
+import {environment as config } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 @Injectable() 
@@ -17,7 +17,7 @@ export class JwtInterceptor implements HttpInterceptor {
         if(this.as.currentUserValue && this.as.currentUserValue.token){
             token = this.as.currentUserValue.token;
         };
-        if(req.url.startsWith('/api')){
+        if(req.url.startsWith(config.apiUrl)){
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
         }
 
