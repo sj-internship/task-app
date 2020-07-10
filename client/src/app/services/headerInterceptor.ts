@@ -16,7 +16,6 @@ export class JwtInterceptor implements HttpInterceptor {
         let token = '';
         if(this.as.currentUserValue && this.as.currentUserValue.token){
             token = this.as.currentUserValue.token;
-            console.log()
         };
         if(req.url.startsWith('/api')){
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });

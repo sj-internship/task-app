@@ -40,8 +40,7 @@ export class TaskService {
   public getTags():Observable<[String]>{
     return this.apiService.getAllTags().pipe(
       map(res=>{
-        console.log(res)
-        return res;
+        return res.data;
       })
     )
   }

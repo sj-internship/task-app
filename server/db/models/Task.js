@@ -7,7 +7,10 @@ const taskSchema = new mongoose.Schema(
         description: String,
         tasks: [String],
         createdBy: String,
-        tags: [String]
+        tags: [{
+            type:String,
+            lowercase: true
+        }]
     }
 )
 module.exports = mongoose.model('task', taskSchema);

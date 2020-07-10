@@ -9,7 +9,7 @@ import { YesNoModalParams } from '../../../models/modals'
 import { TaskUpdateModel, TaskAddModel } from '../../../models/task'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {Select2OptionData} from 'ng2-select2'
+import { Select2OptionData } from 'ng2-select2'
 @Component({
   selector: 'app-task-detail',
   templateUrl: './task-detail.component.html',
@@ -19,10 +19,13 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
   public updateMode: boolean = true;
   public buttonText: string = 'Update';
-  public tagsData: Array<Select2OptionData>;
+  public allUniqueTags: Array<Select2OptionData> = [];
+
   private id: string;
+  public tags: string[];
   public task: TaskModel;
   public taskForm: FormGroup;
+  public inputNewTag: FormGroup;
   constructor(
     private route: ActivatedRoute,
     private ts: TaskService,
@@ -33,31 +36,16 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.taskForm = this.fb.group({
-      title: [''],
-      description: ['']
-    });
-    if (this.id === 'newTask') {
-      this.updateMode = false;
-      this.buttonText = 'Add task';
-    }
-    else {
-      this.ts.getTaskById(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(task => {
-        this.task = task;
-        this.taskForm.controls['title'].setValue(this.task.title);
-        this.taskForm.controls['description'].setValue(this.task.description);
-      })
-    }
+    this.initialize();
     this.getTags();
-    this.prepareSelectTags();
   }
   public onSubmit() {
     if (this.updateMode) {
       const updatedTask: TaskUpdateModel = {
         _id: this.id,
         title: this.taskForm.value.title,
-        description: this.taskForm.value.description
+        description: this.taskForm.value.description,
+        tags: this.tags
       }
       this.ts.updateTask(updatedTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(x => {
         this.router.navigate(['/tasks'])
@@ -94,24 +82,61 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       }
     });
   }
-  public ngOnDestroy(){
+  public ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  private getTags(){
-    this.ts.getTags().subscribe();
+  private getTags() {
+    return this.ts.getTags().subscribe(
+      tags => this.prepareTagsSelect(tags)
+    );
   }
 
-  private prepareSelectTags(){
-    this.tagsData = [
-      {
-        id:'1',
-        text:'hej'
-      },
-      {
-        id:'2',
-        text:'hej2'
-      }
-    ]
+  private prepareTagsSelect(tags) {
+    tags.forEach((item, index) => {
+      this.allUniqueTags = [...this.allUniqueTags, { id: index, text: item }];
+    });
+  }
+  public selectChanged(event) {
+    if (!this.tags.includes(event.data[0].text)) {
+      this.tags.push(event.data[0].text)
+
+
+      // I don't know if the user should be able to choose tags which are already in use
+      //this.allUniqueTags = this.allUniqueTags.filter((_, index) => index != event.value)  
+    }
+  }
+  public deleteTag(index) {
+    this.tags = this.tags.filter((_, i) => i !== index);
+  }
+  private initialize() {
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.taskForm = this.fb.group({
+      title: [''],
+      description: ['']
+    });
+    if (this.id === 'newTask') {
+      this.updateMode = false;
+      this.tags = [];
+      this.buttonText = 'Add task';
+    }
+    else {
+      this.ts.getTaskById(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(task => {
+        this.task = task;
+        this.tags = task.tags;
+        this.taskForm.controls['title'].setValue(this.task.title);
+        this.taskForm.controls['description'].setValue(this.task.description);
+      })
+    }
+    this.inputNewTag = this.fb.group({
+      tag: ['']
+    })
+  }
+  public addNewTag() {
+    const tag = this.inputNewTag.value.tag;
+    if (!this.tags.includes(tag)) {
+      this.tags.push(tag);
+      this.allUniqueTags = [...this.allUniqueTags, tag];
+    };
   }
 }
