@@ -20,17 +20,13 @@ export class AuthenticationService {
   }
 
   public login(username: string, password: string): Observable<any> {
-    const user: UserModel = {
-      userName: username,
-      password: password,
-      token: ''
-    }
+
     return this.apiService.login({ name: username, password: password }).pipe(
       map((res: any) => {
-        user.token = res.result.data.token;
+        const user:UserModel = res.result.data;
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
-        return res
+        return user;
       }),
     )
 
