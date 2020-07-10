@@ -19,7 +19,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public getAllTasks(){
     this.taskService.getAllTasks().pipe(takeUntil(this.ngUnsubscribe)).subscribe(tasks=>{
       this.tasks = tasks;
-    });    
+    });    ``
   }
   public ngOnDestroy(){
     this.ngUnsubscribe.next();

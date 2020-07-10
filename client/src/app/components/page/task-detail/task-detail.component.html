@@ -1,6 +1,6 @@
 <div class="card mt-4 cardContainer flex-row">
   <div class="colCard">
-    <form [formGroup]="taskForm" (submit)="onSubmit()">
+    <form  [formGroup]="taskForm" (submit)="onSubmit()">
       <label class="font-weight-light text-center text-lg-left mt-4 mb-0">Title</label>
       <input formControlName="title"  class="form-control">
       <label>Description</label>
@@ -10,7 +10,7 @@
     </form>
     <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
   </div>
-  <div class="colCard">
+  <div class="colCard mt-2">
     <h3>Tags</h3>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let tag of tags; let i = index;" >
@@ -20,6 +20,7 @@
     <select2 
       [data]="allUniqueTags"
       (valueChanged)="selectChanged($event)"  
+      [width]="200"
     ></select2>
     <p>or create new one</p>
     <form [formGroup]="inputNewTag" (submit)="addNewTag()">
