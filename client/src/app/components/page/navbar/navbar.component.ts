@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {AuthenticationService} from '../../../services/authentication.service';
-import {User} from '../../../models/user';
+import {UserModel} from '../../../models/user';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  public currentUser: User;
+  public currentUser: UserModel;
   private ngUnsubscribe = new Subject<void>();
 
   constructor(public as: AuthenticationService) { }

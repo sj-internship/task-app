@@ -28,7 +28,7 @@ module.exports = {
             throw new Error();
         }
 
-        let jwtToken = jwt.sign({
+        const jwtToken = jwt.sign({
             name: user.name,
             userId: user._id
         }, process.env.ACCESS_TOKEN_SECRET, {

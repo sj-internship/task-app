@@ -1,10 +1,9 @@
-export interface User {
-    id: number;
+export interface UserModel {
     userName: string;
     password: string;
     token: string;
 }
-export interface UserCredentials{
+export interface UserCredentialsModel{
     name: string,
     password:string
 }

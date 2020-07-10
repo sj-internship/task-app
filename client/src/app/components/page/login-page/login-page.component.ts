@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit, OnDestroy {
+
+  private ngUnsubscribe = new Subject<void>();
   public loginMode: Boolean = true;
   public loginForm: FormGroup;
   private returnUrl: string;
@@ -32,16 +36,21 @@ export class LoginPageComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).subscribe(
-      data => {
-        this.correctCredentials = true;
-        this.router.navigate([this.returnUrl]);
-      },
-      error=>{
-      }
-    )
+    this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).pipe(
+      takeUntil(this.ngUnsubscribe)).subscribe(
+        _ => {
+          this.correctCredentials = true;
+          this.router.navigate([this.returnUrl]);
+        },
+        _ => {
+        }
+      )
   }
-  public goToRegister(){
+  public goToRegister() {
     this.router.navigate(['/register']);
+  }
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

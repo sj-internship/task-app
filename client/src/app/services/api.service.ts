@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { TaskUpdate, TaskAdd } from '../models/task'
-import { UserCredentials } from '../models/user'
+import { TaskUpdateModel, TaskAddModel } from '../models/task'
+import { UserCredentialsModel } from '../models/user'
 @Injectable({
   providedIn: 'root'
 })
@@ -10,11 +10,11 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  public register(params: UserCredentials): Observable<any> {
+  public register(params: UserCredentialsModel): Observable<any> {
     return this.http.post('/api/register', params);
   }
 
-  public login(params: UserCredentials): Observable<any> {
+  public login(params: UserCredentialsModel): Observable<any> {
     return this.http.post('/api/signIn', params);
   }
   public getAllTasks(): Observable<any> {
@@ -24,10 +24,10 @@ export class ApiService {
     return this.http.get('/api/task/' + id);
   }
 
-  public updateTask(params: TaskUpdate): Observable<any> {
+  public updateTask(params: TaskUpdateModel): Observable<any> {
     return this.http.post('/api/task/' + params._id, params);
   }
-  public addTask(params: TaskAdd): Observable<any> {
+  public addTask(params: TaskAddModel): Observable<any> {
     return this.http.post('/api/task/', params);
   }
   public deleteTask(id): Observable<any> {
