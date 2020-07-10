@@ -27,17 +27,16 @@ module.exports = {
         if (!isValidPassword) {
             throw new Error();
         }
-        console.log('ss')
         let jwtToken = jwt.sign({
             name: user.name,
             userId: user._id
         }, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "1h"
         });
-        console.log(jwtToken)
         return {
             data: {
-                token: jwtToken
+                token: jwtToken,
+                userName: user.name
             }
         }
     }

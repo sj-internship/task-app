@@ -12,14 +12,10 @@ import { Injectable } from '@angular/core';
 export class JwtInterceptor implements HttpInterceptor {
     constructor(private as: AuthenticationService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        let token = '';
-        if(this.as.currentUserValue && this.as.currentUserValue.token){
-            token = this.as.currentUserValue.token;
+        const currentUser = this.as.currentUserValue;
+        if(currentUser && currentUser.token && req.url.startsWith('/api')){ //there's no hostName or port in req.url so i didn't use config.apiUrl
+            req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + currentUser.token) });
         };
-        if(req.url.startsWith(config.apiUrl)){
-            req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
-        }
 
         return next.handle(req);
     }
