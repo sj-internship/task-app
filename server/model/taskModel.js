@@ -1,7 +1,7 @@
 const Task = require('../db/models/Task');
 module.exports={
-    getAll:()=>{
-        return Task.find({}).exec();
+    getAll:(user)=>{
+        return Task.find({createdBy:user.name}).exec();
     },
     save:(params)=>{
         const newTask = new Task({
@@ -17,8 +17,8 @@ module.exports={
     update:(filter, update)=>{
         return Task.findByIdAndUpdate(filter, update, {new:true});
     },
-    getOne:(id)=>{
-        return Task.findById(id);
+    getOne:(id, user)=>{
+        return Task.findOne({_id:id, createdBy:user.name});
     },
     updateParentArray:(parentId, childId)=>{
         return Task.updateOne(

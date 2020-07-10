@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {TaskService} from '../../../services/task.service';
-import {Task} from '../../../models/task';
+import {TaskModel} from '../../../models/task';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
@@ -9,7 +9,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit, OnDestroy {
-  public tasks:Task[];
+  public tasks:TaskModel[];
   private ngUnsubscribe = new Subject<void>();
   constructor(private taskService: TaskService) { }
 

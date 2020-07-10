@@ -1,36 +1,35 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import {User} from '../models/user';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { ApiService } from './api.service'
+import { tap, map, catchError } from 'rxjs/operators';
+import { UserModel } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<UserModel>;
+  public currentUser: Observable<UserModel>;
 
-  constructor() { 
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+  constructor(private apiService: ApiService) {
+    this.currentUserSubject = new BehaviorSubject<UserModel>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
+  public get currentUserValue(): UserModel {
     return this.currentUserSubject.value;
   }
 
-  public login(username: string, password: string):boolean{
-    const hardCodedUser:User = {
-      id:1,
-      userName:'admin',
-      password:'admin123',
-      token:'token'
-    }
-    if(username === hardCodedUser.userName && password === hardCodedUser.password){
-        localStorage.setItem('currentUser', JSON.stringify(hardCodedUser));
-        this.currentUserSubject.next(hardCodedUser);
-        return true;
-    };
-    return false;
+  public login(username: string, password: string): Observable<any> {
+
+    return this.apiService.login({ name: username, password: password }).pipe(
+      map((res: any) => {
+        const user:UserModel = res.result.data;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return user;
+      }),
+    )
+
   }
 
   public logout() {

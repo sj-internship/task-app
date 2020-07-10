@@ -16,8 +16,11 @@
       
     </label><br>
     <div *ngIf="submitted && !correctCredentials" class="alert alert-danger"> Incorrect username or password</div>
-    <button class="btn btn-outline-success my-2 my-sm-0">
+    <button class="btn btn-outline-success my-4 my-sm-0">
       Login
-  </button>
+    </button>
+    <div>
+      <span>Need an account? </span> <span (click)="goToRegister()">Register</span>
+    </div>
   </form>
 </div>
