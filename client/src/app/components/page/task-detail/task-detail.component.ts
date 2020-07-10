@@ -18,6 +18,7 @@ import { Select2OptionData } from 'ng2-select2'
 export class TaskDetailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
   public updateMode: boolean = true;
+  public selectOptions;
   public buttonText: string = 'Update';
   public allUniqueTags: Array<Select2OptionData> = [];
 
@@ -37,6 +38,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.initialize();
+    this.initializeSelectOptions();
     this.getTags();
   }
   public onSubmit() {
@@ -98,6 +100,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     });
   }
   public selectChanged(event) {
+    console.log(event)
     if (!this.tags.includes(event.data[0].text)) {
       this.tags.push(event.data[0].text)
 
@@ -138,5 +141,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       this.tags.push(tag);
       this.allUniqueTags = [...this.allUniqueTags, tag];
     };
+  }
+  private initializeSelectOptions(){
+    this.selectOptions={
+      allowClear:true,
+      placeholder:'Choose a tag'
+    }
   }
 }

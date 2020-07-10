@@ -14,19 +14,24 @@
     <h3>Tags</h3>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let tag of tags; let i = index;" >
-        {{tag | lowercase}}<div class="float-right btn btn-danger" (click)="deleteTag(i)"></div></li>
+        {{tag | lowercase}}<div class="float-right btn btn-danger" (click)="deleteTag(i)"></div>
+      </li>
     </ul>
+  </div>
+  <div class="colCard">
     <p>Choose tag</p>
     <select2 
       [data]="allUniqueTags"
       (valueChanged)="selectChanged($event)"  
       [width]="200"
+      [options]="selectOptions"
     ></select2>
     <p>or create new one</p>
     <form [formGroup]="inputNewTag" (submit)="addNewTag()">
       <input formControlName="tag">
       <button class="btn btn-outline-success">Add</button>
     </form>
+  </div>
   </div>
 
 
