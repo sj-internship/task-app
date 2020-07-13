@@ -1,5 +1,5 @@
 <div class="card mt-4 cardContainer flex-row">
-  <div class="colCard">
+  <div class="colCard container">
     <form  [formGroup]="taskForm" (submit)="onSubmit()">
       <label class="font-weight-light text-center text-lg-left mt-4 mb-0">Title</label>
       <input formControlName="title"  class="form-control">
@@ -10,11 +10,13 @@
     </form>
     <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
   </div>
-  <div class="colCard mt-2">
+  <div class="colCard mt-2 container">
     <h3>Tags</h3>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let tag of tags; let i = index;" >
-        {{tag | lowercase}}<div class="float-right btn btn-danger" (click)="deleteTag(i)"></div>
+        {{tag | lowercase}}<div type="button" class="btn btn-outline-danger mr-2 float-right"
+        ngbPopover="Delete"
+        [openDelay]="500" [closeDelay]="700" triggers="mouseenter:mouseleave" (click)="deleteTag(i)"></div>
       </li>
     </ul>
   </div>

@@ -22,7 +22,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   public currentValue:string = null;
   public buttonText: string = 'Update';
   public allUniqueTags: Array<Select2OptionData> = [];
-
+  private firstSelect = true;
   private id: string;
   public tags: string[];
   public task: TaskModel;
@@ -101,15 +101,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     });
   }
   public selectChanged(event) {
-    console.log('change')
-    console.log(event)
-    if (!this.tags.includes(event.data[0].text)) {
+    if (!this.tags.includes(event.data[0].text) && !this.firstSelect) {
       this.tags.push(event.data[0].text)
-
-
       // I don't know if the user should be able to choose tags which are already in use
       //this.allUniqueTags = this.allUniqueTags.filter((_, index) => index != event.value)  
     }
+    this.firstSelect = false;
   }
   public deleteTag(index) {
     this.tags = this.tags.filter((_, i) => i !== index);
