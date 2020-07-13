@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {tap, map, catchError} from 'rxjs/operators';
-import {TaskModel, TaskUpdateModel, TaskAddModel} from '../models/task';
 import {ApiService} from './api.service';
 import { UserCredentialsModel } from '../models/user';
 @Injectable({

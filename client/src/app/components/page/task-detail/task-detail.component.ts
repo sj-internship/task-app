@@ -100,7 +100,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     });
   }
   public selectChanged(event) {
-    console.log(event)
     if (!this.tags.includes(event.data[0].text)) {
       this.tags.push(event.data[0].text)
 

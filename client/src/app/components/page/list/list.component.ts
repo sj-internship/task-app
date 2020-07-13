@@ -18,6 +18,8 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(private taskService: TaskService) { }
 
   public ngOnInit() {
+
+    
     this.getAllTasks();
     this.getTags();
     this.initializeSelectOptions();

@@ -23,7 +23,6 @@ export class AuthenticationService {
 
     return this.apiService.login({ name: username, password: password }).pipe(
       map((res: any) => {
-        console.log(res.result)
         const user:UserModel = res.result.data;
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
