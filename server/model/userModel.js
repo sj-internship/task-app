@@ -1,6 +1,15 @@
 const User = require('../db/models/User');
 module.exports={
-    //TODO:remove
+    attributes:{
+        name:{
+            type:'string',
+            required:true
+        },
+        password:{
+            type:'string',
+            required:true
+        }
+    },
     test:(params)=>{
         return User.find({}).exec();
     },

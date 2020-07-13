@@ -1,7 +1,8 @@
 const userModel = require('../model/userModel');
-const { config } = require('../config')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const { config } = require('../config');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const validatrService = require('./validator');
 module.exports = {
     //TODO:remove
     test: async () => {
@@ -11,6 +12,7 @@ module.exports = {
         };
     },
     register: async (credentials) => {
+        validatrService.validateAttributes(userModel.attributes, credentials)
         const hashedPass = await bcrypt.hash(credentials.password, config.bcrypt.saltRounds);
         await userModel.save({
             name: credentials.name,
@@ -22,6 +24,7 @@ module.exports = {
         };
     },
     signIn: async (credentials) => {
+        validatrService.validateAttributes(userModel.attributes, credentials)
         const user = await userModel.getByName(credentials.name)
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
         if (!isValidPassword) {
