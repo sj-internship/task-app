@@ -10,7 +10,7 @@ const TaskModel = {
         title: {
             required:true,
             type: 'string',
-            maxLength:30
+            maxLength:30,
         },
         description: {
             required:true,
@@ -25,6 +25,10 @@ const TaskModel = {
         },
         tags: {
             type: 'array',
+        },
+        priority: {
+            type: 'string',
+            in: ['high', 'middle', 'low']
         }
     },
     getAll: (user) => {

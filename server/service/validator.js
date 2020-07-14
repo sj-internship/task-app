@@ -16,6 +16,7 @@ module.exports = {
         });
 
         //check types
+        //constructor.name 
         Object.keys(filteredAttributes).forEach(key => {
             if (typeof filteredAttributes[key] !== modelAttributes[key].type) {
                 if (!(typeof filteredAttributes[key] === 'object' && modelAttributes[key].type === 'array' && filteredAttributes[key].constructor === Array)) {
@@ -24,6 +25,6 @@ module.exports = {
                 }
             }
         })
-        return
+        //length, in
     }
 }
