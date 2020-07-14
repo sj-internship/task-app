@@ -1,4 +1,4 @@
-export interface YesNoModalParams{
-    title:string,
-    description:string;
+export interface YesNoModalParams {
+    title: string,
+    description: string;
 }

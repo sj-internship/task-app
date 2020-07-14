@@ -1,26 +1,26 @@
 <div class="formContainer">
-  <form [formGroup]="loginForm" (submit)="onSubmit()">
-    <label>
-      UserName<br>
-      <input type="text" formControlName="userName">
-      <div *ngIf="loginForm.controls['userName'].invalid && (loginForm.controls['userName'].dirty || loginForm.controls['userName'].touched)" 
-            class="alert alert-warning"> Username is required</div>
-      <br>
-    </label>
-    <label>
-      Password
-      <br>
-      <input type="password" formControlName="password">
-      <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" 
-      class="alert alert-warning"> Password is required</div>
-      
-    </label><br>
-    <div *ngIf="submitted && !correctCredentials" class="alert alert-danger"> Incorrect username or password</div>
-    <button class="btn btn-outline-success my-4 my-sm-0">
-      Login
-    </button>
-    <div>
-      <span>Need an account? </span> <span (click)="goToRegister()">Register</span>
-    </div>
-  </form>
+    <form [formGroup]="loginForm" (submit)="onSubmit()">
+        <label>
+            UserName<br>
+            <input type="text" formControlName="userName">
+            <div *ngIf="loginForm.controls['userName'].invalid && (loginForm.controls['userName'].dirty || loginForm.controls['userName'].touched)"
+                class="alert alert-warning"> Username is required</div>
+            <br>
+        </label>
+        <label>
+            Password
+            <br>
+            <input type="password" formControlName="password">
+            <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)"
+                class="alert alert-warning"> Password is required</div>
+
+        </label><br>
+        <div *ngIf="submitted && !correctCredentials" class="alert alert-danger"> Incorrect username or password</div>
+        <button class="btn btn-outline-success my-4 my-sm-0">
+            Login
+        </button>
+        <div>
+            <span>Need an account? </span> <span (click)="goToRegister()">Register</span>
+        </div>
+    </form>
 </div>

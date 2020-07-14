@@ -1,17 +1,17 @@
 const User = require('../db/models/User');
-module.exports={
+module.exports = {
     //TODO:remove
-    test:(params)=>{
+    test: (params) => {
         return User.find({}).exec();
     },
-    save:(credentials)=>{
+    save: (credentials) => {
         const newUser = new User({
             name: credentials.name,
-            password:credentials.password
+            password: credentials.password
         });
         return newUser.save();
     },
-    getByName:(name)=>{
-        return User.findOne({name:name});
+    getByName: (name) => {
+        return User.findOne({ name: name });
     }
 }

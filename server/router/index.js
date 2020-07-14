@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const taskController = require('../controller/taskController');
 const userController = require('../controller/userController');
-const authorizationJWT = require('../middlewares/auth')
+const authorizationJWT = require('../middlewares/auth');
 //TODO: remove
 router.get('/test', userController.test);
 
@@ -18,10 +18,10 @@ router.post('/api/task/:id',authorizationJWT,taskController.updateTask);
 
 router.delete('/api/task/:id',authorizationJWT, taskController.deleteTask);
 
-router.post('/api/register', userController.register)
+router.post('/api/register', userController.register);
 
-router.post('/api/signIn', userController.signIn)
+router.post('/api/signIn', userController.signIn);
 
-router.get('/api/tags',authorizationJWT, taskController.getUniqueTags)
+router.get('/api/tags',authorizationJWT, taskController.getUniqueTags);
 
 module.exports = router;

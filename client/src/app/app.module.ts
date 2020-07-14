@@ -22,37 +22,32 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptor } from './services/loader-interceptor'
 @NgModule({
-  declarations: [
-    AppComponent,
-    EntryComponent,
-    ListComponent,
-    LoginPageComponent,
-    NavbarComponent,
-    TaskDetailComponent,
-    YesNoModalComponent,
-    Page404Component,
-    RegisterComponent,
-    LoaderComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    Select2Module,
-    MatProgressSpinnerModule
-  ],
-  entryComponents: [YesNoModalComponent],
-  providers: [
-    AuthGuard, {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true,
-    },
-    LoaderService,
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        EntryComponent,
+        ListComponent,
+        LoginPageComponent,
+        NavbarComponent,
+        TaskDetailComponent,
+        YesNoModalComponent,
+        Page404Component,
+        RegisterComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgbModule,
+        Select2Module
+    ],
+    entryComponents: [YesNoModalComponent],
+    providers: [AuthGuard, {
+        provide: HTTP_INTERCEPTORS,
+        useClass: JwtInterceptor,
+        multi: true,
+    }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
