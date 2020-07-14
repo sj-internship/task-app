@@ -10,6 +10,7 @@ import { TaskUpdateModel, TaskAddModel } from '../../../models/task'
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2'
+import { LoaderService } from 'src/app/services/loader.service';
 @Component({
     selector: 'app-task-detail',
     templateUrl: './task-detail.component.html',
@@ -32,7 +33,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private as: AuthenticationService,
         private router: Router,
-        private modalService: ModalService
+        private modalService: ModalService,
+        private loaderService: LoaderService
     ) { }
 
     public ngOnInit() {
@@ -48,9 +50,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 description: this.taskForm.value.description,
                 tags: this.taskForm.value.tags
             }
-            this.ts.updateTask(updatedTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(x => {
-                this.router.navigate(['/tasks'])
-            });
+            this.loaderService.show();
+            this.ts.updateTask(updatedTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+                _ => this.router.navigate(['/tasks']),
+                _ => { },
+                () => this.loaderService.hide()
+                );
         }
         else {
             const newTask: TaskAddModel = {
@@ -60,9 +65,15 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 parentId: null,
                 tags: this.taskForm.value.tags
             }
-            this.ts.addTask(newTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(newTask => {
-                this.switchToUpdateMode(newTask._id);
-            })
+            this.loaderService.show();
+            this.ts.addTask(newTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+                newTask => {
+                    this.switchToUpdateMode(newTask._id);
+                },
+                _ => { },
+                () => this.loaderService.hide()
+
+            )
         }
     }
     private switchToUpdateMode(taskId) {
@@ -78,9 +89,14 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         const modalRef = this.modalService.openYesNoModal(modalParams);
         modalRef.result.then((result) => {
             if (result) {
-                this.ts.deleteTask(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
-                    this.router.navigate(['/tasks']);
-                })
+                this.loaderService.show();
+                this.ts.deleteTask(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+                    res => {
+                        this.router.navigate(['/tasks']);
+                    },
+                    _ => { },
+                    () => this.loaderService.hide()
+                )
             }
         });
     }
@@ -89,8 +105,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         this.ngUnsubscribe.complete();
     }
     private getTags() {
+        this.loaderService.show();
         return this.ts.getTags().subscribe(
-            tags => this.prepareTagsSelect(tags)
+            tags => this.prepareTagsSelect(tags),
+            _ => { },
+            () => this.loaderService.hide()
         );
     }
 
@@ -119,11 +138,16 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             this.buttonText = 'Add task';
         }
         else {
-            this.ts.getTaskById(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(task => {
-                this.task = task;
-                this.tags = task.tags;
-                this.taskForm.patchValue(task);
-            })
+            this.loaderService.show();
+            this.ts.getTaskById(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+                task => {
+                    this.task = task;
+                    this.tags = task.tags;
+                    this.taskForm.patchValue(task);
+                },
+                _ => { },
+                () => this.loaderService.hide()
+            )
         }
     }
 

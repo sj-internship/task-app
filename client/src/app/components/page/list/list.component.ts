@@ -16,30 +16,39 @@ export class ListComponent implements OnInit, OnDestroy {
     public selectOptions;
     private ngUnsubscribe = new Subject<void>();
     public allUniqueTags: Array<Select2OptionData> = [];
-    constructor(private taskService: TaskService) { }
+    constructor(
+        private taskService: TaskService,
+        private loaderService: LoaderService) { }
 
     public ngOnInit() {
-
-
         this.getAllTasks();
         this.getTags();
         this.initializeSelectOptions();
     }
     public getAllTasks() {
-        this.taskService.getAllTasks().pipe(takeUntil(this.ngUnsubscribe)).subscribe(tasks => {
-            this.tasks = tasks;
-            this.filteredTasks = tasks;
-        });
+        this.loaderService.show();
+        this.taskService.getAllTasks().pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+            tasks => {
+                this.tasks = tasks;
+                this.filteredTasks = tasks;
+            },
+            _ => { },
+            () => this.loaderService.hide()
+        );
     }
     public ngOnDestroy() {
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
     }
     private getTags() {
+        this.loaderService.show();
         return this.taskService.getTags().pipe(takeUntil(this.ngUnsubscribe)).subscribe(
             tags => {
                 this.prepareTagsSelect(tags)
-            }
+                this.loaderService.hide();
+            },
+            _ => { },
+            () => this.loaderService.hide()
         );
     }
     private prepareTagsSelect(tags) {

@@ -4,6 +4,7 @@ import { AuthenticationService } from '../../../services/authentication.service'
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LoaderService } from 'src/app/services/loader.service';
 @Component({
     selector: 'app-login-page',
     templateUrl: './login-page.component.html',
@@ -20,7 +21,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private authenticationService: AuthenticationService,
-        private router: Router) {
+        private router: Router,
+        private loaderService: LoaderService) {
     }
 
     public ngOnInit() {
@@ -36,6 +38,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         if (this.loginForm.invalid) {
             return;
         }
+        this.loaderService.show();
         this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).pipe(
             takeUntil(this.ngUnsubscribe)).subscribe(
                 _ => {
@@ -43,7 +46,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                     this.router.navigate([this.returnUrl]);
                 },
                 _ => {
-                }
+                },
+                ()=>this.loaderService.hide()
             )
     }
     public goToRegister() {

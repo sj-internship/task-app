@@ -20,7 +20,6 @@ import { Select2Module } from 'ng2-select2';
 import { LoaderComponent } from './components/shared/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderService } from './services/loader.service';
-import { LoaderInterceptor } from './services/loader-interceptor'
 @NgModule({
     declarations: [
         AppComponent,
@@ -32,6 +31,7 @@ import { LoaderInterceptor } from './services/loader-interceptor'
         YesNoModalComponent,
         Page404Component,
         RegisterComponent,
+        LoaderComponent
     ],
     imports: [
         BrowserModule,
@@ -40,14 +40,18 @@ import { LoaderInterceptor } from './services/loader-interceptor'
         ReactiveFormsModule,
         HttpClientModule,
         NgbModule,
-        Select2Module
+        Select2Module,
+        MatProgressSpinnerModule
     ],
     entryComponents: [YesNoModalComponent],
-    providers: [AuthGuard, {
-        provide: HTTP_INTERCEPTORS,
-        useClass: JwtInterceptor,
-        multi: true,
-    }],
+    providers: [AuthGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true,
+        },
+        LoaderService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
