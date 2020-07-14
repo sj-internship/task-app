@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
 import { TaskModel } from '../../../models/task';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { ModalService } from '../../../services/modal.service';
 import { YesNoModalParams } from '../../../models/modals'
@@ -18,15 +18,14 @@ import { Select2OptionData } from 'ng2-select2'
 export class TaskDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
     public updateMode: boolean = true;
-    public selectOptions;
+    public selectOptions:Select2Options;
+    public selectValue:string[] = [];
     public buttonText: string = 'Update';
     public allUniqueTags: Array<Select2OptionData> = [];
-    private firstSelect = true;
     private id: string;
     public tags: string[];
     public task: TaskModel;
     public taskForm: FormGroup;
-    public inputNewTag: FormGroup;
     constructor(
         private route: ActivatedRoute,
         private ts: TaskService,
@@ -47,7 +46,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 _id: this.id,
                 title: this.taskForm.value.title,
                 description: this.taskForm.value.description,
-                tags: this.tags
+                tags: this.taskForm.value.tags
             }
             this.ts.updateTask(updatedTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(x => {
                 this.router.navigate(['/tasks'])
@@ -58,7 +57,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 title: this.taskForm.value.title,
                 description: this.taskForm.value.description,
                 createdBy: this.as.currentUserValue.userName,
-                parentId: null
+                parentId: null,
+                tags:this.taskForm.value.tags
             }
             this.ts.addTask(newTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(newTask => {
                 this.switchToUpdateMode(newTask._id);
@@ -96,24 +96,22 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
 
     private prepareTagsSelect(tags) {
         this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }) );
+        this.tags.forEach(tag=>{
+            const foundTag = this.allUniqueTags.find(item=> item.text === tag)
+            this.selectValue = [...this.selectValue,foundTag.id.toString()];
+        })
+    }
+    public onTagsChanged(event) {
+        const textTagsArray = event.data.map(item=>item.text);
+        this.taskForm.get('tags').setValue(textTagsArray);
+    }
 
-    }
-    public selectChanged(event) {
-        if (!this.tags.includes(event.data[0].text) && !this.firstSelect) {
-            this.tags.push(event.data[0].text)
-            // I don't know if the user should be able to choose tags which are already in use
-            //this.allUniqueTags = this.allUniqueTags.filter((_, index) => index != event.value)  
-        }
-        this.firstSelect = false;
-    }
-    public deleteTag(index) {
-        this.tags = this.tags.filter((_, i) => i !== index);
-    }
     private initialize() {
         this.id = this.route.snapshot.paramMap.get('id');
         this.taskForm = this.fb.group({
-            title: [''],
-            description: ['']
+            title: [null],
+            description: [null],
+            tags:[null]
         });
         if (this.id === 'newTask') {
             this.updateMode = false;
@@ -127,22 +125,16 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 this.taskForm.patchValue(task);
             })
         }
-        this.inputNewTag = this.fb.group({
-            tag: ['']
-        })
     }
-    public addNewTag() {
-        const tag = this.inputNewTag.value.tag;
-        if (!this.tags.includes(tag)) {
-            this.tags.push(tag);
-            this.allUniqueTags = [...this.allUniqueTags, tag];
-        };
-    }
+
     private initializeSelectOptions() {
         this.selectOptions = {
             allowClear: true,
             placeholder: 'Choose a tag',
             multiple:true,
+            tags:true,
         }
+        /*matcher: (term, text)=>{
+        return text.toUpperCase().indexOf(term.toUpperCase()) == 0;*/  
     }
 }

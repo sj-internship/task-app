@@ -19,4 +19,5 @@ export interface TaskAddModel {
     description: string;
     createdBy: string;
     parentId?: string;
+    tags?: string[];
 }

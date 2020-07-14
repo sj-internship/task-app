@@ -7,33 +7,18 @@
       <input formControlName='description'  class="form-control"><br>
       <button class="btn btn-outline-success my-2 my-sm-0 w-50">
         {{buttonText}}</button>
-    </form>
-    <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
-  </div>
-  <div class="colCard mt-2 container">
-    <h3>Tags</h3>
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let tag of tags; let i = index;" >
-        {{tag | lowercase}}<div type="button" class="btn btn-outline-danger mr-2 float-right"
-        ngbPopover="Delete"
-        [openDelay]="500" [closeDelay]="700" triggers="mouseenter:mouseleave" (click)="deleteTag(i)"></div>
-      </li>
-    </ul>
-  </div>
-  <div class="colCard">
-    <p>Choose tag</p>
-    <select2 
-      [data]="allUniqueTags"
-      (valueChanged)="selectChanged($event)"  
-      [width]="200"
-      [value]="currentValue"
-      [options]="selectOptions"
-    ></select2>
-    <p>or create new one</p>
-    <form [formGroup]="inputNewTag" (submit)="addNewTag()">
-      <input formControlName="tag">
-      <button class="btn btn-outline-success">Add</button>
-    </form>
+      </form>
+      <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
+    </div>
+    <div class="colCard container">
+      <label>Choose tag</label>
+      <select2 
+        [data]="allUniqueTags"
+        (valueChanged)="onTagsChanged($event)"  
+        [width]="200"
+        [value]="selectValue"
+        [options]="selectOptions"
+      ></select2>
   </div>
   </div>
 
