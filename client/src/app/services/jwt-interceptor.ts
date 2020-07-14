@@ -13,7 +13,7 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private as: AuthenticationService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const currentUser = this.as.currentUserValue;
-        if(currentUser && currentUser.token && req.url.startsWith('/api')){ //there's no hostName or port in req.url so i didn't use config.apiUrl
+        if(currentUser && currentUser.token && req.url.startsWith(config.path)){
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + currentUser.token) });
         };
 

@@ -135,8 +135,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         const tag = this.inputNewTag.value.tag;
         if (!this.tags.includes(tag)) {
             this.tags.push(tag);
-            //this.allUniqueTags = [...this.allUniqueTags, tag];
-            this.allUniqueTags.push(tag);
+            this.allUniqueTags = [...this.allUniqueTags, tag];
         };
     }
     private initializeSelectOptions() {
