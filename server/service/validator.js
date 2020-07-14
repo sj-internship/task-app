@@ -6,6 +6,8 @@ module.exports = {
         const filteredAttributes = Object.keys(attributes)
             .filter(key => modelKeys.includes(key))
             .reduce((acc, key) => Object.assign(acc, { [key]: attributes[key] }), {});
+
+            
         //check required
         modelKeys.forEach(attributeKey => {
             if (modelAttributes[attributeKey].required && filteredAttributes[attributeKey] == undefined) {
