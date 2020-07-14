@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2'
 import { LoaderService } from 'src/app/services/loader.service';
+//import {oldMatcher} from 'node_modules/select2/src/js/select2/compat/matcher'
 @Component({
     selector: 'app-task-detail',
     templateUrl: './task-detail.component.html',
@@ -157,9 +158,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             placeholder: 'Choose a tag',
             multiple: true,
             tags: true,
+            /*matcher: (term, text, option)=>{
+                return option.name.includes(term)
+            }   */
         }
-        /*matcher: (term, text)=>{
-
-        }*/
     }
 }
