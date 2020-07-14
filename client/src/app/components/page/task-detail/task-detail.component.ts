@@ -135,6 +135,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             tags:true,
         }
         /*matcher: (term, text)=>{
-        return text.toUpperCase().indexOf(term.toUpperCase()) == 0;*/  
+        }*/
     }
 }
