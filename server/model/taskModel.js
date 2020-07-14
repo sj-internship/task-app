@@ -10,7 +10,8 @@ module.exports={
             title:params.title,
             description: params.description,
             tasks:[],
-            createdBy:params.createdBy
+            createdBy:params.createdBy,
+            tags:params.tags
         });
         return newTask.save();
     },

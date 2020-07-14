@@ -27,7 +27,6 @@ module.exports = {
         if (!isValidPassword) {
             throw new Error();
         }
-
         const jwtToken = jwt.sign({
             name: user.name,
             userId: user._id
@@ -36,7 +35,8 @@ module.exports = {
         });
         return {
             data: {
-                token: jwtToken
+                token: jwtToken,
+                userName: user.name
             }
         }
     }

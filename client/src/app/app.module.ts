@@ -14,8 +14,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.component';
 import { Page404Component } from './components/page/page404/page404.component'
 import { HTTP_INTERCEPTORS } from '@angular/common/http'
-import { JwtInterceptor } from './services/headerInterceptor';
+import { JwtInterceptor } from './services/jwt-interceptor';
 import { RegisterComponent } from './components/page/register/register.component'
+import { Select2Module } from 'ng2-select2'
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,8 @@ import { RegisterComponent } from './components/page/register/register.component
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    Select2Module
   ],
   entryComponents: [YesNoModalComponent],
   providers: [AuthGuard, {

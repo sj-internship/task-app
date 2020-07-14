@@ -1,4 +1,5 @@
 
+.env
 # compiled output
 /dist
 /tmp
@@ -29,7 +30,6 @@ speed-measure-plugin*.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
-.env
 # misc
 /.sass-cache
 /connect.lock

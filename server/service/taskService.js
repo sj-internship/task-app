@@ -40,5 +40,17 @@ module.exports={
         return {
             data:result
         };
+    },
+    getUniqueTags:async(user)=>{
+        const userTasks = await taskModel.getAll(user);
+        const uniqueTags = [];
+        userTasks.forEach(task=>{
+            task.tags.forEach(tag=>{
+                if(!uniqueTags.includes(tag)){
+                    uniqueTags.push(tag);
+                };
+            });
+        });
+        return uniqueTags;
     }
 }
