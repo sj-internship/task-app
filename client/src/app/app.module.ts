@@ -18,32 +18,32 @@ import { JwtInterceptor } from './services/jwt-interceptor';
 import { RegisterComponent } from './components/page/register/register.component'
 import { Select2Module } from 'ng2-select2'
 @NgModule({
-  declarations: [
-    AppComponent,
-    EntryComponent,
-    ListComponent,
-    LoginPageComponent,
-    NavbarComponent,
-    TaskDetailComponent,
-    YesNoModalComponent,
-    Page404Component,
-    RegisterComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    Select2Module
-  ],
-  entryComponents: [YesNoModalComponent],
-  providers: [AuthGuard, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: JwtInterceptor,
-    multi: true,
-  }],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        EntryComponent,
+        ListComponent,
+        LoginPageComponent,
+        NavbarComponent,
+        TaskDetailComponent,
+        YesNoModalComponent,
+        Page404Component,
+        RegisterComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgbModule,
+        Select2Module
+    ],
+    entryComponents: [YesNoModalComponent],
+    providers: [AuthGuard, {
+        provide: HTTP_INTERCEPTORS,
+        useClass: JwtInterceptor,
+        multi: true,
+    }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

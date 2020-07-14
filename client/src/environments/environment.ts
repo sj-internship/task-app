@@ -3,10 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  hostName:'http://127.0.0.1',
-  port:3000,
-  path:'/api'
+    production: false,
+    hostName: 'http://127.0.0.1',
+    port: 3000,
+    path: '/api'
 };
 
 /*

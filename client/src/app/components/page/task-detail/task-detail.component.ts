@@ -18,8 +18,8 @@ import { Select2OptionData } from 'ng2-select2'
 export class TaskDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
     public updateMode: boolean = true;
-    public selectOptions:Select2Options;
-    public selectValue:string[] = [];
+    public selectOptions: Select2Options;
+    public selectValue: string[] = [];
     public buttonText: string = 'Update';
     public allUniqueTags: Array<Select2OptionData> = [];
     private id: string;
@@ -58,7 +58,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 description: this.taskForm.value.description,
                 createdBy: this.as.currentUserValue.userName,
                 parentId: null,
-                tags:this.taskForm.value.tags
+                tags: this.taskForm.value.tags
             }
             this.ts.addTask(newTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(newTask => {
                 this.switchToUpdateMode(newTask._id);
@@ -95,14 +95,14 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     }
 
     private prepareTagsSelect(tags) {
-        this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }) );
-        this.tags.forEach(tag=>{
-            const foundTag = this.allUniqueTags.find(item=> item.text === tag)
-            this.selectValue = [...this.selectValue,foundTag.id.toString()];
+        this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }));
+        this.tags.forEach(tag => {
+            const foundTag = this.allUniqueTags.find(item => item.text === tag)
+            this.selectValue = [...this.selectValue, foundTag.id.toString()];
         })
     }
     public onTagsChanged(event) {
-        const textTagsArray = event.data.map(item=>item.text);
+        const textTagsArray = event.data.map(item => item.text);
         this.taskForm.get('tags').setValue(textTagsArray);
     }
 
@@ -111,7 +111,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         this.taskForm = this.fb.group({
             title: [null],
             description: [null],
-            tags:[null]
+            tags: [null]
         });
         if (this.id === 'newTask') {
             this.updateMode = false;
@@ -131,10 +131,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         this.selectOptions = {
             allowClear: true,
             placeholder: 'Choose a tag',
-            multiple:true,
-            tags:true,
+            multiple: true,
+            tags: true,
         }
         /*matcher: (term, text)=>{
+
         }*/
     }
 }

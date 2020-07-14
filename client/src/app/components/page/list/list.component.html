@@ -1,25 +1,22 @@
 <div class="float-left ml-4 mt-3">
-  
-  <select2
-    [data]="allUniqueTags"
-    (valueChanged)="selectChanged($event)"  
-    [width]="200"
-    [options]="selectOptions"></select2>
+
+    <select2 [data]="allUniqueTags" (valueChanged)="selectChanged($event)" [width]="200" [options]="selectOptions">
+    </select2>
 
 </div>
 <div class="container">
-  <div class="row">
-    <div *ngFor="let task of filteredTasks; let i = index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-      <a [routerLink]="['/tasks', task._id]">
-        <div class="card mt-3 cardCol">
-          <h5 class="card-title">{{task.title}}</h5>
+    <div class="row">
+        <div *ngFor="let task of filteredTasks; let i = index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <a [routerLink]="['/tasks', task._id]">
+                <div class="card mt-3 cardCol">
+                    <h5 class="card-title">{{task.title}}</h5>
+                </div>
+            </a>
         </div>
-      </a>
     </div>
-  </div>
-  <div class="addTaskButton">
-    <a [routerLink]="['/tasks/newTask']">
-      <button class="btn btn-outline-success my-2 my-sm-0">Add task</button>
-    </a>
-  </div >
+    <div class="addTaskButton">
+        <a [routerLink]="['/tasks/newTask']">
+            <button class="btn btn-outline-success my-2 my-sm-0">Add task</button>
+        </a>
+    </div>
 </div>

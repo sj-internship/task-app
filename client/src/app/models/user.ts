@@ -2,7 +2,7 @@ export interface UserModel {
     userName: string;
     token: string;
 }
-export interface UserCredentialsModel{
+export interface UserCredentialsModel {
     name: string;
-    password:string;
+    password: string;
 }
