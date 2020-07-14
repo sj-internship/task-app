@@ -42,21 +42,15 @@ export class ListComponent implements OnInit, OnDestroy {
     );
   }
   private prepareTagsSelect(tags) {
-    tags.forEach((item, index) => {
-      this.allUniqueTags = [...this.allUniqueTags, { id: index, text: item }];
-    });
+    this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }) );
   }
   public selectChanged(event){
     if(event.data.length >0){
+      const selectedTags = event.data.map(tag => tag.text);
       this.filteredTasks = this.tasks.filter(task => {
-        let flag = false;
-        event.data.forEach(item => {
-          if(task.tags.includes(item.text)){
-            flag = true;
-          }
-        });
-        return flag;
-      })
+        const taskTags = task.tags;
+        return taskTags.some(tag => selectedTags.includes(tag));
+      });
     }
     else{
       this.filteredTasks = this.tasks;

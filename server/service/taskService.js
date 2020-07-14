@@ -43,22 +43,14 @@ module.exports={
     },
     getUniqueTags:async(user)=>{
         const userTasks = await taskModel.getAll(user);
-        let uniqueTags = [];
+        const uniqueTags = [];
         userTasks.forEach(task=>{
             task.tags.forEach(tag=>{
-                let repeating = false;
-                uniqueTags.forEach(item=>{
-                    if(item == tag){
-                        repeating = true;
-                    }
-                })
-                if(!repeating){
+                if(!uniqueTags.includes(tag)){
                     uniqueTags.push(tag);
-                }
-            })
-        })
-        return{
-            data:uniqueTags
-        }
+                };
+            });
+        });
+        return uniqueTags;
     }
 }
