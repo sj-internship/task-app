@@ -8,7 +8,7 @@ const taskSchema = new mongoose.Schema(
         tasks: [String],
         createdBy: String,
         tags: [{
-            type:String,
+            type: String,
             lowercase: true
         }]
     }
