@@ -26,14 +26,14 @@ export class ListComponent implements OnInit, OnDestroy {
         this.initializeSelectOptions();
     }
     public getAllTasks() {
-        this.loaderService.show();
+        //this.loaderService.show();
         this.taskService.getAllTasks().pipe(takeUntil(this.ngUnsubscribe)).subscribe(
             tasks => {
                 this.tasks = tasks;
                 this.filteredTasks = tasks;
             },
             _ => { },
-            () => this.loaderService.hide()
+            //() => this.loaderService.hide()
         );
     }
     public ngOnDestroy() {
@@ -41,14 +41,14 @@ export class ListComponent implements OnInit, OnDestroy {
         this.ngUnsubscribe.complete();
     }
     private getTags() {
-        this.loaderService.show();
+        //this.loaderService.show();
         return this.taskService.getTags().pipe(takeUntil(this.ngUnsubscribe)).subscribe(
             tags => {
                 this.prepareTagsSelect(tags)
-                this.loaderService.hide();
+                //this.loaderService.hide();
             },
             _ => { },
-            () => this.loaderService.hide()
+            //() => this.loaderService.hide()
         );
     }
     private prepareTagsSelect(tags) {

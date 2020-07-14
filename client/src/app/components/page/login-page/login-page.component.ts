@@ -38,7 +38,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         if (this.loginForm.invalid) {
             return;
         }
-        this.loaderService.show();
+        //this.loaderService.show();
         this.authenticationService.login(this.loginForm.value.userName, this.loginForm.value.password).pipe(
             takeUntil(this.ngUnsubscribe)).subscribe(
                 _ => {
@@ -47,7 +47,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
                 },
                 _ => {
                 },
-                ()=>this.loaderService.hide()
+                //()=>this.loaderService.hide()
             )
     }
     public goToRegister() {
