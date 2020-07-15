@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service'
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, finalize } from 'rxjs/operators';
+import { LoaderService } from '../../../services/loader.service'
 @Component({
     selector: 'app-register',
     templateUrl: './register.component.html',
@@ -19,7 +20,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private userService: UserService) {
+        private userService: UserService,
+        private loaderService: LoaderService) {
     }
 
     public ngOnInit() {
@@ -35,12 +37,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
         if (this.registerForm.invalid) {
             return;
         }
+        this.loaderService.setLoading(true);
         this.userService.registerUser({
             name: this.registerForm.value.userName,
             password: this.registerForm.value.password
-        }).pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
-            this.router.navigate([this.returnUrl]);
-        })
+        }).pipe(
+            finalize(() => {
+                this.loaderService.setLoading(false);
+            }),
+            takeUntil(this.ngUnsubscribe)
+        ).subscribe(
+            _ => {
+                this.router.navigate([this.returnUrl]);
+            },
+            _ => { },
+        )
     }
     public goToLogin() {
         this.router.navigate([this.returnUrl]);
