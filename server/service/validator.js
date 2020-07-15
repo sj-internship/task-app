@@ -1,3 +1,4 @@
+const {BadRequestError} = require('../errorTypes/errorTypes')
 module.exports = {
     validateAttributes: (modelAttributes, attributes) => {
         //filtering attributes which aren't in the schema
@@ -11,7 +12,7 @@ module.exports = {
         //check required
         modelKeys.forEach(attributeKey => {
             if (modelAttributes[attributeKey].required && filteredAttributes[attributeKey] == undefined) {
-                throw new Error(`${attributeKey} must be provided`)
+                throw new BadRequestError(`${attributeKey} must be provided`)
             }
         });
 
@@ -19,7 +20,7 @@ module.exports = {
         Object.keys(filteredAttributes).forEach(key => {
             const constructorName = filteredAttributes[key].constructor.name
             if (constructorName.toLowerCase() !== modelAttributes[key].type) {
-                throw new Error(`Type of ${key} doesnt match`);
+                throw new BadRequestError(`Type of ${key} doesnt match`);
             }
         })
         //length, in
@@ -32,32 +33,31 @@ module.exports = {
                     switch (ruleKey) {
                         case 'maxLength':
                             if (attribute.length > ruleValue) {
-                                throw new Error(`${modelKey} is too long`);
+                                throw new BadRequestError(`${modelKey} is too long`);
                             }
                             break;
                         case 'minLength':
                             if (attribute.length < ruleValue) {
-                                throw new Error(`${modelKey} is too short`);
+                                throw new BadRequestError(`${modelKey} is too short`);
                             }
                             break;
                         case 'in':
                             if (!ruleValue.includes(attribute)) {
-                                throw new Error(`${modelKey} has a bad value`);
+                                throw new BadRequestError({priority: `${modelKey} has a bad value`});
                             }
                             break;
                         case 'hasOneDigit':
                             const digitPattern = /[\d]{1}/;
                             if (!digitPattern.test(attribute)) {
-                                throw new Error(`${modelKey} has to have at least one digit`);
+                                throw new BadRequestError(`${modelKey} has to have at least one digit`);
                             }
                             break;
                         case 'hasOneCapitalLetter':
                             const capitalLetterPattern = /[A-Z]+/;
                             if (!capitalLetterPattern.test(attribute)) {
-                                throw new Error(`${modelKey} has to have at least one capital letter`);
+                                throw new BadRequestError(`${modelKey} has to have at least one capital letter`);
                             }
                             break;
-
                     }
                 })
             }
