@@ -28,6 +28,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     public tags: string[];
     public task: TaskModel;
     public taskForm: FormGroup;
+
     constructor(
         private route: ActivatedRoute,
         private ts: TaskService,
@@ -49,7 +50,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 _id: this.id,
                 title: this.taskForm.value.title,
                 description: this.taskForm.value.description,
-                tags: this.taskForm.value.tags
+                tags: this.taskForm.value.tags,
+                deadline:this.taskForm.value.deadline
             }
             this.loaderService.setLoading(true);
             this.ts.updateTask(updatedTask).pipe(
@@ -68,7 +70,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 description: this.taskForm.value.description,
                 createdBy: this.as.currentUserValue.userName,
                 parentId: null,
-                tags: this.taskForm.value.tags
+                tags: this.taskForm.value.tags,
+                deadline:this.taskForm.value.deadline
             }
             this.loaderService.setLoading(true);
             this.ts.addTask(newTask).pipe(
@@ -131,6 +134,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     }
 
     private prepareTagsSelect(tags) {
+        console.log('ss')
+        console.log(tags)
         this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }));
         this.tags.forEach(tag => {
             const foundTag = this.allUniqueTags.find(item => item.text === tag)
@@ -147,7 +152,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         this.taskForm = this.fb.group({
             title: [null],
             description: [null],
-            tags: [null]
+            tags: [null],
+            deadline:[null]
         });
         if (this.id === 'newTask') {
             this.updateMode = false;
@@ -158,13 +164,13 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             this.loaderService.setLoading(true);
             this.ts.getTaskById(this.id).pipe(
                 finalize(() => {
-                    console.log('raz')
                     this.loaderService.setLoading(false);
                 }),
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
                 task => {
                     this.task = task;
+                    console.log(this.task)
                     this.tags = task.tags;
                     this.taskForm.patchValue(task);
                 },
@@ -179,9 +185,10 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             placeholder: 'Choose a tag',
             multiple: true,
             tags: true,
-            /*matcher: (term, text, option)=>{
-                return option.name.includes(term)
-            }   */
         }
+    }
+    public onDateChange(date:Date){
+        this.taskForm.patchValue({deadline:date})
+        console.log(this.taskForm.value)
     }
 }

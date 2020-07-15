@@ -11,8 +11,10 @@
         <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
     </div>
     <div class="colCard container">
-        <label>Choose tag</label>
+        <label>Choose your tags</label>
         <select2 [data]="allUniqueTags" (valueChanged)="onTagsChanged($event)" [width]="200" [value]="selectValue"
             [options]="selectOptions"></select2>
+        <label>Select deadline for your task</label>
+        <app-date-picker [pickedDate]="task.deadline" (onDatePicked)="onDateChange($event)"></app-date-picker>
     </div>
 </div>

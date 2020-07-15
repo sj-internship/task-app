@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { EntryComponent } from './components/page/entry/entry.component';
 import { ListComponent } from './components/page/list/list.component';
 import { LoginPageComponent } from './components/page/login-page/login-page.component';
@@ -15,11 +16,16 @@ import { YesNoModalComponent } from './components/yes-no-modal/yes-no-modal.comp
 import { Page404Component } from './components/page/page404/page404.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './services/jwt-interceptor';
-import { RegisterComponent } from './components/page/register/register.component';
 import { Select2Module } from 'ng2-select2';
-import { LoaderComponent } from './components/shared/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { LoaderComponent } from './components/shared/loader/loader.component';
+import { RegisterComponent } from './components/page/register/register.component';
 import { LoaderService } from './services/loader.service';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { MatInputModule } from '@angular/material';
+import {MatNativeDateModule} from '@angular/material';
+import { MatFormFieldModule } from '@angular/material'
 @NgModule({
     declarations: [
         AppComponent,
@@ -31,7 +37,8 @@ import { LoaderService } from './services/loader.service';
         YesNoModalComponent,
         Page404Component,
         RegisterComponent,
-        LoaderComponent
+        LoaderComponent,
+        DatePickerComponent,
     ],
     imports: [
         BrowserModule,
@@ -41,7 +48,12 @@ import { LoaderService } from './services/loader.service';
         HttpClientModule,
         NgbModule,
         Select2Module,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatDatepickerModule,
+        MatInputModule,
+        MatNativeDateModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule
     ],
     entryComponents: [YesNoModalComponent],
     providers: [AuthGuard,

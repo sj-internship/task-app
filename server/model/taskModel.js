@@ -11,7 +11,8 @@ module.exports = {
             description: params.description,
             tasks: [],
             createdBy: params.createdBy,
-            tags: params.tags
+            tags: params.tags,
+            deadline:params.deadline
         });
         return newTask.save();
     },
