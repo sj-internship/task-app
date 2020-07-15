@@ -54,7 +54,7 @@ module.exports = {
                         case 'hasOneCapitalLetter':
                             const capitalLetterPattern = /[A-Z]+/;
                             if (!capitalLetterPattern.test(attribute)) {
-                                throw new Error(`${modelKey} has to have at least one capital letter`)
+                                throw new Error(`${modelKey} has to have at least one capital letter`);
                             }
                             break;
 

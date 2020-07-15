@@ -30,7 +30,7 @@ module.exports = {
         const user = await userModel.getByName(credentials.name)
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
         if (!isValidPassword) {
-            throw new Error();
+            throw new Error('Invalid password');
         }
         const jwtToken = jwt.sign({
             name: user.name,
