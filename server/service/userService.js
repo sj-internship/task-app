@@ -12,7 +12,8 @@ module.exports = {
         };
     },
     register: async (credentials) => {
-        validatrService.validateAttributes(userModel.attributes, credentials)
+        validatrService.validateAttributes(userModel.attributes, credentials);
+        await validateUniqueName(credentials.name);
         const hashedPass = await bcrypt.hash(credentials.password, config.bcrypt.saltRounds);
         await userModel.save({
             name: credentials.name,
@@ -24,13 +25,13 @@ module.exports = {
         };
     },
     signIn: async (credentials) => {
-        validatrService.validateAttributes(userModel.attributes, credentials)
+        //validatrService.validateAttributes(userModel.attributes, credentials);
         const user = await userModel.getByName(credentials.name)
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
         if (!isValidPassword) {
             throw new Error();
         }
-        let jwtToken = jwt.sign({
+        const jwtToken = jwt.sign({
             name: user.name,
             userId: user._id
         }, process.env.ACCESS_TOKEN_SECRET, {
@@ -42,5 +43,11 @@ module.exports = {
                 userName: user.name
             }
         }
+    }
+}
+const validateUniqueName = async (name)=>{
+    const user = await userModel.getByName(name);
+    if(user != null){
+        throw new Error(`Username ${name} is already taken`);
     }
 }

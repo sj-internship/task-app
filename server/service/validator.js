@@ -14,17 +14,53 @@ module.exports = {
                 throw new Error(`${attributeKey} must be provided`)
             }
         });
-
+  
         //check types
-        //constructor.name 
         Object.keys(filteredAttributes).forEach(key => {
-            if (typeof filteredAttributes[key] !== modelAttributes[key].type) {
-                if (!(typeof filteredAttributes[key] === 'object' && modelAttributes[key].type === 'array' && filteredAttributes[key].constructor === Array)) {
-                    //if modelAttributes[key].type == 'object' we could remove this if 
-                    throw new Error(`Type of ${key} doesnt match`);
-                }
+            const constructorName = filteredAttributes[key].constructor.name 
+            if (constructorName.toLowerCase() !== modelAttributes[key].type) {
+                throw new Error(`Type of ${key} doesnt match`);
             }
         })
         //length, in
+        modelKeys.forEach(modelKey=>{
+            const attribute = filteredAttributes[modelKey];
+            if(attribute){
+                const rulesKeys = Object.keys(modelAttributes[modelKey])
+                rulesKeys.forEach(ruleKey=>{
+                    const ruleValue = modelAttributes[modelKey][ruleKey];
+                    switch(ruleKey){
+                        case 'maxLength':
+                            if(attribute.length > ruleValue){
+                                throw new Error(`${modelKey} is too long`);
+                            }
+                            break;
+                        case 'minLength':
+                            if(attribute.length < ruleValue){
+                                throw new Error(`${modelKey} is too short`);
+                            }
+                            break;
+                        case 'in':
+                            if(!ruleValue.includes(attribute)){
+                                throw new Error(`${modelKey} has a bad value`);   
+                            }
+                            break;
+                        case 'hasOneDigit':
+                            const digitPattern = /[\d]{1}/;
+                            if(!digitPattern.test(attribute)){
+                                throw new Error(`${modelKey} has to have at least one digit`);
+                            }
+                            break;
+                        case 'hasOneCapitalLetter':
+                            const capitalLetterPattern = /[A-Z]+/;
+                            if(!capitalLetterPattern.test(attribute)){
+                                throw new Error(`${modelKey} has to have at least one capital letter`)
+                            }
+                            break;
+                            
+                    }
+                })
+            }
+        })
     }
 }

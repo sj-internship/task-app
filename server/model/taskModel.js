@@ -42,17 +42,13 @@ const TaskModel = {
             description: params.description,
             tasks: [],
             createdBy: params.createdBy,
-            tags: params.tags
+            tags: params.tags,
+            priority:params.priority
 
         });
         return newTask.save();
     },
     update: (filter, update) => {
-        // if(validate(update)){
-        //     console.log()
-        // }
-        //lista kolumn
-        //omit tego czego nie ma
         return Task.findByIdAndUpdate(filter, update, { new: true });
     },
     getOne: (id, user) => {
@@ -71,14 +67,5 @@ const TaskModel = {
     deleteOne: (filter) => {
         return Task.findOneAndRemove(filter);
     },
-    validateAttributes: (attributes) => {
-        //TaskModel.attributes
-        //todo 
-        //filter attributes in schema
-        //require
-        //check types
-        //await validateService.validateAttributes(TaskModel.attributes, attributes) return / throw Error
-        
-    }
 }
 module.exports= TaskModel;

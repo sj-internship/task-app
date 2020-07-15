@@ -7,7 +7,10 @@ module.exports={
         },
         password:{
             type:'string',
-            required:true
+            required:true,
+            minLength: 8,
+            hasOneDigit:true,
+            hasOneCapitalLetter:true
         }
     },
     test:(params)=>{
