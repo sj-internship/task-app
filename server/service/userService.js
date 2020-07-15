@@ -3,6 +3,7 @@ const { config } = require('../config');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validatrService = require('./validator');
+const userValidatorService = require('./userValidator');
 module.exports = {
     //TODO:remove
     test: async () => {
@@ -13,7 +14,7 @@ module.exports = {
     },
     register: async (credentials) => {
         validatrService.validateAttributes(userModel.attributes, credentials);
-        await validateUniqueName(credentials.name);
+        await userValidatorService.validateUniqueName(credentials.name);
         const hashedPass = await bcrypt.hash(credentials.password, config.bcrypt.saltRounds);
         await userModel.save({
             name: credentials.name,
@@ -43,11 +44,5 @@ module.exports = {
                 userName: user.name
             }
         }
-    }
-}
-const validateUniqueName = async (name)=>{
-    const user = await userModel.getByName(name);
-    if(user != null){
-        throw new Error(`Username ${name} is already taken`);
     }
 }
