@@ -51,12 +51,16 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 description: this.taskForm.value.description,
                 tags: this.taskForm.value.tags
             }
-            //this.loaderService.show();
-            this.ts.updateTask(updatedTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+            this.loaderService.setLoading(true);
+            this.ts.updateTask(updatedTask).pipe(
+                finalize(() => {
+                    this.loaderService.setLoading(false);
+                }),
+                takeUntil(this.ngUnsubscribe)
+            ).subscribe(
                 _ => this.router.navigate(['/tasks']),
                 _ => { },
-                //() => this.loaderService.hide()
-                );
+            );
         }
         else {
             const newTask: TaskAddModel = {
@@ -66,13 +70,17 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 parentId: null,
                 tags: this.taskForm.value.tags
             }
-            //this.loaderService.show();
-            this.ts.addTask(newTask).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+            this.loaderService.setLoading(true);
+            this.ts.addTask(newTask).pipe(
+                finalize(() => {
+                    this.loaderService.setLoading(false);
+                }),
+                takeUntil(this.ngUnsubscribe)
+            ).subscribe(
                 newTask => {
                     this.switchToUpdateMode(newTask._id);
                 },
                 _ => { },
-               // () => this.loaderService.hide()
 
             )
         }
@@ -90,13 +98,17 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         const modalRef = this.modalService.openYesNoModal(modalParams);
         modalRef.result.then((result) => {
             if (result) {
-               // this.loaderService.show();
-                this.ts.deleteTask(this.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+                this.loaderService.setLoading(true);
+                this.ts.deleteTask(this.id).pipe(
+                    finalize(() => {
+                        this.loaderService.setLoading(false);
+                    }),
+                    takeUntil(this.ngUnsubscribe)
+                ).subscribe(
                     res => {
                         this.router.navigate(['/tasks']);
                     },
                     _ => { },
-                //    () => this.loaderService.hide()
                 )
             }
         });
@@ -108,12 +120,10 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     private getTags() {
         this.loaderService.setLoading(true);
         return this.ts.getTags().pipe(
-            finalize(()=>{
-                setTimeout(()=>{
-                    this.loaderService.setLoading(false)
-                }, 2000)
-
-                })
+            finalize(() => {
+                this.loaderService.setLoading(false)
+            }),
+            takeUntil(this.ngUnsubscribe)
         ).subscribe(
             tags => this.prepareTagsSelect(tags),
             _ => { }
@@ -147,7 +157,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         else {
             this.loaderService.setLoading(true);
             this.ts.getTaskById(this.id).pipe(
-                finalize(()=>{
+                finalize(() => {
                     console.log('raz')
                     this.loaderService.setLoading(false);
                 }),

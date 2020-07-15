@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TaskService } from '../../../services/task.service';
 import { TaskModel } from '../../../models/task';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2';
 import { LoaderService } from '../../../services/loader.service'
 @Component({
@@ -26,14 +26,18 @@ export class ListComponent implements OnInit, OnDestroy {
         this.initializeSelectOptions();
     }
     public getAllTasks() {
-        //this.loaderService.show();
-        this.taskService.getAllTasks().pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+        this.loaderService.setLoading(true);
+        this.taskService.getAllTasks().pipe(
+            finalize(() => {
+                this.loaderService.setLoading(false);
+            }),
+            takeUntil(this.ngUnsubscribe)
+        ).subscribe(
             tasks => {
                 this.tasks = tasks;
                 this.filteredTasks = tasks;
             },
-            _ => { },
-            //() => this.loaderService.hide()
+            _ => { }
         );
     }
     public ngOnDestroy() {
@@ -41,14 +45,17 @@ export class ListComponent implements OnInit, OnDestroy {
         this.ngUnsubscribe.complete();
     }
     private getTags() {
-        //this.loaderService.show();
-        return this.taskService.getTags().pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+        this.loaderService.setLoading(true);
+        return this.taskService.getTags().pipe(
+            finalize(() => {
+                this.loaderService.setLoading(false);
+            }),
+            takeUntil(this.ngUnsubscribe)
+        ).subscribe(
             tags => {
                 this.prepareTagsSelect(tags)
-                //this.loaderService.hide();
             },
             _ => { },
-            //() => this.loaderService.hide()
         );
     }
     private prepareTagsSelect(tags) {
