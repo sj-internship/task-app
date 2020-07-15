@@ -1,5 +1,6 @@
 const taskModel = require('../model/taskModel');
 const Task = require('../db/models/Task');
+const validatorService = require('../service/validator')
 
 module.exports = {
     getTasks: async (user) => {
@@ -10,8 +11,9 @@ module.exports = {
         };
     },
     saveTask: async (params) => {
+        validatorService.validateAttributes(taskModel.attributes, params)
         const result = await taskModel.save(params);
-
+        //priority in 
         //adding id to the parent 
         if (params.parendId !== null) {
             await taskModel.updateParentArray(params.parentId, result._id);
@@ -28,6 +30,10 @@ module.exports = {
 
     },
     updateTask: async (id, params) => {
+        //walidacja
+        //priority in 
+
+        validatorService.validateAttributes(taskModel.attributes, params);
         const filter = { _id: id };
         const result = await taskModel.update(filter, params);
         return {
