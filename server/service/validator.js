@@ -19,7 +19,7 @@ class ValidatorService {
         //check types
         Object.keys(filteredAttributes).forEach(key => {
             const constructorName = filteredAttributes[key].constructor.name
-            if (constructorName.toLowerCase() !== modelAttributes[key].type) {
+            if (constructorName !== modelAttributes[key].type) {
                 throw new BadRequestError(`Type of ${key} doesnt match`);
             }
         })
