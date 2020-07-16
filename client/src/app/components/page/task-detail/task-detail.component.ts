@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2'
 import { LoaderService } from 'src/app/services/loader.service';
+import { NgbTimepickerConfig } from 'bootstrap'
 //import {oldMatcher} from 'node_modules/select2/src/js/select2/compat/matcher'
 @Component({
     selector: 'app-task-detail',

@@ -25,7 +25,9 @@ import { LoaderService } from './services/loader.service';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { MatInputModule } from '@angular/material';
 import {MatNativeDateModule} from '@angular/material';
-import { MatFormFieldModule } from '@angular/material'
+import { MatFormFieldModule } from '@angular/material';
+import { DeadlineCounterComponent } from './components/deadline-counter/deadline-counter.component';
+import { TimePickerComponent } from './components/time-picker/time-picker.component'
 @NgModule({
     declarations: [
         AppComponent,
@@ -39,6 +41,8 @@ import { MatFormFieldModule } from '@angular/material'
         RegisterComponent,
         LoaderComponent,
         DatePickerComponent,
+        DeadlineCounterComponent,
+        TimePickerComponent,
     ],
     imports: [
         BrowserModule,
