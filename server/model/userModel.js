@@ -2,11 +2,11 @@ const User = require('../db/models/User');
 module.exports = {
     attributes: {
         name: {
-            type: 'string',
+            type: 'String',
             required: true
         },
         password: {
-            type: 'string',
+            type: 'String',
             required: true,
             minLength: 8,
             hasOneDigit: true,
