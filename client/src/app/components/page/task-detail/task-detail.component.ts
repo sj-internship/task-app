@@ -20,6 +20,7 @@ import { LoaderService } from 'src/app/services/loader.service';
 export class TaskDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
     public updateMode: boolean = true;
+    public fetchedData: boolean = false;
     public selectOptions: Select2Options;
     public selectValue: string[] = [];
     public buttonText: string = 'Update';
@@ -36,7 +37,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         private as: AuthenticationService,
         private router: Router,
         private modalService: ModalService,
-        private loaderService: LoaderService
+        public loaderService: LoaderService
     ) { }
 
     public ngOnInit() {
@@ -51,7 +52,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 title: this.taskForm.value.title,
                 description: this.taskForm.value.description,
                 tags: this.taskForm.value.tags,
-                deadline:this.taskForm.value.deadline
+                deadline: this.taskForm.value.deadline
             }
             this.loaderService.setLoading(true);
             this.ts.updateTask(updatedTask).pipe(
@@ -71,7 +72,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 createdBy: this.as.currentUserValue.userName,
                 parentId: null,
                 tags: this.taskForm.value.tags,
-                deadline:this.taskForm.value.deadline
+                deadline: this.taskForm.value.deadline
             }
             this.loaderService.setLoading(true);
             this.ts.addTask(newTask).pipe(
@@ -134,8 +135,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     }
 
     private prepareTagsSelect(tags) {
-        console.log('ss')
-        console.log(tags)
         this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }));
         this.tags.forEach(tag => {
             const foundTag = this.allUniqueTags.find(item => item.text === tag)
@@ -153,7 +152,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             title: [null],
             description: [null],
             tags: [null],
-            deadline:[null]
+            deadline: [null]
         });
         if (this.id === 'newTask') {
             this.updateMode = false;
@@ -165,12 +164,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             this.ts.getTaskById(this.id).pipe(
                 finalize(() => {
                     this.loaderService.setLoading(false);
+                    this.fetchedData = true;
                 }),
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
                 task => {
                     this.task = task;
-                    console.log(this.task)
                     this.tags = task.tags;
                     this.taskForm.patchValue(task);
                 },
@@ -187,8 +186,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             tags: true,
         }
     }
-    public onDateChange(date:Date){
-        this.taskForm.patchValue({deadline:date})
-        console.log(this.taskForm.value)
+    public onDateChange(date: Date) {
+        this.taskForm.patchValue({ deadline: date })
     }
 }

@@ -12,8 +12,7 @@ export class DatePickerComponent implements OnInit {
     date:FormControl;
     constructor() { }
     ngOnInit() {
-        this.date = new FormControl(this.pickedDate);
-        console.log(this.pickedDate)
+        this.date = new FormControl(this.pickedDate)
     }
     public onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
         this.onDatePicked.emit(event.value);

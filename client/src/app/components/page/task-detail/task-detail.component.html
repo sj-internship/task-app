@@ -15,6 +15,6 @@
         <select2 [data]="allUniqueTags" (valueChanged)="onTagsChanged($event)" [width]="200" [value]="selectValue"
             [options]="selectOptions"></select2>
         <label>Select deadline for your task</label>
-        <app-date-picker [pickedDate]="task.deadline" (onDatePicked)="onDateChange($event)"></app-date-picker>
+        <app-date-picker *ngIf="fetchedData || !updateMode" [pickedDate]="taskForm.value.deadline" (onDatePicked)="onDateChange($event)"></app-date-picker>
     </div>
 </div>
