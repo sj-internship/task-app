@@ -47,7 +47,7 @@ const taskController = {
                 res.handleError(err, res);
             })
     },
-    getUniqueTags: (req, res, next) => {
+    getUniqueTags: (req, res) => {
         taskService.getUniqueTags(req.user)
             .then(result => {
                 res.status(200).send(result);
