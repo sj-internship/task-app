@@ -10,24 +10,27 @@ module.exports = handleError = (req, res, next) => {
         switch (err.constructor) {
             case NotFoundError:
                 return res.status(404).json({
-                    message:err.message
+                    message:err.message || 'Resource not found'
                 })
             case UnauthorizedError:
                 return res.status(401).json({
-                    message:err.message
+                    message:err.message || 'Authorization failed'
                 })
             case AuthenticationError:
-                console.log('auth failed')
                 return res.status(403).json({
-                    message:err.message
+                    message:err.message || 'Authentication failed'
                 })
             case UnavailableServiceError:
                 return res.status(503).json({
-                    message:err.message
+                    message:err.message || 'Service unavailable'
                 })
             case BadRequestError:
                 return res.status(400).json({
-                    message:err.message
+                    message:err.message || 'Bad request'
+                })
+            default:
+                return res.status(500).json({
+                    message:err.message || 'Something went wrong'
                 })
         }
     };
