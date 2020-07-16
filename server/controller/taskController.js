@@ -7,7 +7,7 @@ const taskController = {
                 res.status(200).json({ result });
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     },
     getTask: (req, res) => {
@@ -16,7 +16,7 @@ const taskController = {
                 res.status(200).json({ result });
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     },
     addTask: (req, res) => {
@@ -25,17 +25,17 @@ const taskController = {
                 res.status(200).json({ result });
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     },
     updateTask: (req, res) => {
         const id = req.params.id
-        taskService.updateTask(id, req.body)
+        taskService.updateTask(id, req.body, req.user)
             .then(result => {
                 res.status(200).json({ result });
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     },
     deleteTask: (req, res) => {
@@ -44,7 +44,7 @@ const taskController = {
                 res.status(200).send();
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     },
     getUniqueTags: (req, res) => {
@@ -53,7 +53,7 @@ const taskController = {
                 res.status(200).send(result);
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     }
 };

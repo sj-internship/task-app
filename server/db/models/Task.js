@@ -10,7 +10,8 @@ const taskSchema = new mongoose.Schema(
         tags: [{
             type: String,
             lowercase: true
-        }]
+        }],
+        priority:String
     }
 )
 module.exports = mongoose.model('task', taskSchema);
