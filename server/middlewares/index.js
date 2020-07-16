@@ -1,7 +1,6 @@
-//require all middlewares
 const authorizationJWT = require('./auth');
 const handleErrors = require('./errorHandler');
-//create config object where u sign all middlwares to correct paths
+
 const endpointsConfig={
     get:{
         '/api/tasks':{
@@ -32,7 +31,6 @@ const endpointsConfig={
     }
 }
 
-//apply middlewares to paths? 
 module.exports=(app)=>{
     //all paths use handleErrors
     app.use(handleErrors);
