@@ -9,8 +9,8 @@ const handleError = require('./middlewares/errorHandler')
 mongo.connect()
     .then(() => {
         app.use(bodyParser.json());
-        app.use(require('./router'));
         app.use(handleError);
+        app.use(require('./router'));
         app.listen(config.db.PORT, () => {
             console.log(`Task-app listening on port ${config.db.PORT}!`);
         }
