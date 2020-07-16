@@ -14,7 +14,6 @@ module.exports = {
     },
     register: async (credentials) => {
         validatorService.validateAttributes(userModel.attributes, credentials);
-        validatorService.validateRules(userModel.attributes, credentials);
         await userValidatorService.validateUniqueName(credentials.name);
         const hashedPass = await bcrypt.hash(credentials.password, config.bcrypt.saltRounds);
         await userModel.save({

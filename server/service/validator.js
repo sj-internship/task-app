@@ -1,6 +1,6 @@
 const { BadRequestError } = require('../errorTypes/errorTypes')
-module.exports = {
-    validateAttributes: (modelAttributes, attributes) => {
+class ValidatorService {
+    validateAttributes= (modelAttributes, attributes) => {
         //filtering attributes which aren't in the schema
 
         const modelKeys = Object.keys(modelAttributes);
@@ -23,8 +23,10 @@ module.exports = {
                 throw new BadRequestError(`Type of ${key} doesnt match`);
             }
         })
-    },
-    validateRules: (modelAttributes, attributes) => {
+
+        this.validateRules(modelAttributes, filteredAttributes);
+    }
+    validateRules= (modelAttributes, attributes) => {
         const modelKeys = Object.keys(modelAttributes);
         modelKeys.forEach(modelKey => {
             const attribute = attributes[modelKey];
@@ -66,5 +68,6 @@ module.exports = {
         })
 
     }
-
 }
+
+module.exports = new ValidatorService();
