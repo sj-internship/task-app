@@ -3,33 +3,19 @@ const handleErrors = require('./errorHandler');
 
 const endpointsConfig={
     get:{
-        '/api/tasks':{
-            middlewares:[authorizationJWT]
-        },
-        '/api/task/:id':{
-            middlewares:[authorizationJWT]
-        },
-        '/api/tags':{
-            middlewares:[authorizationJWT]
-        }
+        '/api/tasks':[authorizationJWT],
+        '/api/task/:id':[authorizationJWT],
+        '/api/tags':[authorizationJWT]
     },
     post:{
-        '/api/task':{
-            middlewares:[authorizationJWT]
-        },
-        '/api/register':{
-            middlewares:[]
-        },
-        '/api/signIn':{
-            middlewares:[]
-        }
+        '/api/task':[authorizationJWT],
+        '/api/register':[],
+        '/api/signIn':[]
     },
     delete:{
-        '/api/task/:id':{
-            middlewares:[authorizationJWT]
-        }
+        '/api/task/:id':[authorizationJWT]
     }
-}
+};
 
 module.exports=(app)=>{
     //all paths use handleErrors
@@ -41,37 +27,36 @@ module.exports=(app)=>{
         switch(method){
             case 'get':
                 paths.forEach(path=>{
-                    const middlewares = endpointsConfig[method][path].middlewares;
+                    const middlewares = endpointsConfig[method][path];
                     middlewares.forEach(middleware=>{
                         app.get(path, middleware);
-                        console.log(middleware);
-                    })
-                })
+                    });
+                });
                 break;
             case 'post':
                 paths.forEach(path=>{
-                    const middlewares = endpointsConfig[method][path].middlewares;
+                    const middlewares = endpointsConfig[method][path];
                     middlewares.forEach(middleware=>{
                         app.post(path, middleware);
-                    })
-                })
+                    });
+                });
                 break;
             case 'delete':
                 paths.forEach(path=>{
-                    const middlewares = endpointsConfig[method][path].middlewares;
+                    const middlewares = endpointsConfig[method][path];
                     middlewares.forEach(middleware=>{
                         app.delete(path, middleware);
-                    })
-                })
+                    });
+                });
                 break;
             case 'put':
                 paths.forEach(path=>{
-                    const middlewares = endpointsConfig[method][path].middlewares;
+                    const middlewares = endpointsConfig[method][path];
                     middlewares.forEach(middleware=>{
                         app.put(path, middleware);
-                    })
-                })
+                    });
+                });
                 break;
-        }
-    })
-}
+        };
+    });
+};
