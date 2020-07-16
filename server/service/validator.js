@@ -1,4 +1,4 @@
-const {BadRequestError} = require('../errorTypes/errorTypes')
+const { BadRequestError } = require('../errorTypes/errorTypes')
 module.exports = {
     validateAttributes: (modelAttributes, attributes) => {
         //filtering attributes which aren't in the schema
@@ -11,7 +11,7 @@ module.exports = {
 
         //check required
         modelKeys.forEach(attributeKey => {
-            if (modelAttributes[attributeKey].required && filteredAttributes[attributeKey] == undefined) {
+            if (modelAttributes[attributeKey].required && !filteredAttributes[attributeKey]) {
                 throw new BadRequestError(`${attributeKey} must be provided`)
             }
         });
@@ -23,9 +23,11 @@ module.exports = {
                 throw new BadRequestError(`Type of ${key} doesnt match`);
             }
         })
-        //length, in
+    },
+    validateRules: (modelAttributes, attributes) => {
+        const modelKeys = Object.keys(modelAttributes);
         modelKeys.forEach(modelKey => {
-            const attribute = filteredAttributes[modelKey];
+            const attribute = attributes[modelKey];
             if (attribute) {
                 const rulesKeys = Object.keys(modelAttributes[modelKey])
                 rulesKeys.forEach(ruleKey => {
@@ -62,5 +64,7 @@ module.exports = {
                 })
             }
         })
+
     }
+
 }

@@ -11,7 +11,8 @@ module.exports = {
         };
     },
     saveTask: async (params) => {
-        validatorService.validateAttributes(taskModel.attributes, params)
+        validatorService.validateAttributes(taskModel.attributes, params);
+        validatorService.validateRules(taskModel.attributes, params);
         const result = await taskModel.save(params);
         //adding id to the parent 
         if (params.parendId !== null) {
@@ -30,6 +31,7 @@ module.exports = {
     },
     updateTask: async (id, params, user) => {
         validatorService.validateAttributes(taskModel.attributes, params);
+        validatorService.validateRules(taskModel.attributes, params);
         const filter = { _id: id };
         await validateUserTask(id, user)
         const result = await taskModel.update(filter, params);
