@@ -8,20 +8,20 @@ const TaskModel = {
             type: 'date'
         },
         title: {
-            required:true,
+            required: true,
             type: 'string',
-            maxLength:30,
+            maxLength: 30,
         },
         description: {
-            required:true,
+            required: true,
             type: 'string',
-            maxLength:300
+            maxLength: 300
         },
         tasks: {
             type: 'array'
         },
-        createdBy:{
-            type : 'string'
+        createdBy: {
+            type: 'string'
         },
         tags: {
             type: 'array',
@@ -43,7 +43,7 @@ const TaskModel = {
             tasks: [],
             createdBy: params.createdBy,
             tags: params.tags,
-            priority:params.priority
+            priority: params.priority
 
         });
         return newTask.save();
@@ -51,8 +51,8 @@ const TaskModel = {
     update: (filter, update) => {
         return Task.findByIdAndUpdate(filter, update, { new: true });
     },
-    getOne: (id, user) => {
-        return Task.findOne({ _id: id, createdBy: user.name });
+    getOne: (id) => {
+        return Task.findOne({ _id: id });
     },
     updateParentArray: (parentId, childId) => {
         return Task.updateOne(
@@ -68,4 +68,4 @@ const TaskModel = {
         return Task.findOneAndRemove(filter);
     },
 }
-module.exports= TaskModel;
+module.exports = TaskModel;

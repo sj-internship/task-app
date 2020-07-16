@@ -33,7 +33,7 @@ const taskController = {
     },
     updateTask: (req, res, next) => {
         const id = req.params.id
-        taskService.updateTask(id, req.body)
+        taskService.updateTask(id, req.body, req.user)
             .then(result => {
                 res.status(200).json({ result });
             })

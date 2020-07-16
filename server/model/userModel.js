@@ -1,19 +1,19 @@
 const User = require('../db/models/User');
-module.exports={
-    attributes:{
-        name:{
-            type:'string',
-            required:true
+module.exports = {
+    attributes: {
+        name: {
+            type: 'string',
+            required: true
         },
-        password:{
-            type:'string',
-            required:true,
+        password: {
+            type: 'string',
+            required: true,
             minLength: 8,
-            hasOneDigit:true,
-            hasOneCapitalLetter:true
+            hasOneDigit: true,
+            hasOneCapitalLetter: true
         }
     },
-    test:(params)=>{
+    test: (params) => {
         return User.find({}).exec();
     },
     save: (credentials) => {
