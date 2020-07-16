@@ -43,7 +43,7 @@ module.exports = {
                             break;
                         case 'in':
                             if (!ruleValue.includes(attribute)) {
-                                throw new BadRequestError({priority: `${modelKey} has a bad value`});
+                                throw new BadRequestError(`${modelKey} has a bad value`);
                             }
                             break;
                         case 'hasOneDigit':

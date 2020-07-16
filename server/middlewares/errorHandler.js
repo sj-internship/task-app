@@ -17,7 +17,6 @@ module.exports = handleError = (req, res, next) => {
                     message:err.message
                 })
             case AuthenticationError:
-                console.log('auth failed')
                 return res.status(403).json({
                     message:err.message
                 })
@@ -28,6 +27,10 @@ module.exports = handleError = (req, res, next) => {
             case BadRequestError:
                 return res.status(400).json({
                     message:err.message
+                })
+            default:
+                return res.status(500).json({
+                    message:'Something went wrong'
                 })
         }
     };

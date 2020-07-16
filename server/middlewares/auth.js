@@ -6,15 +6,14 @@ module.exports = (req, res, next) => {
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) {
                 const error = new AuthenticationError("Authentication failed!");
-                next(error)
+                res.handleError(error, res);
             }
             req.user = user;
         });
         next();
     }
     else {
-        //res.status(401).json({ message: "Authentication failed!" });
         const error = new AuthenticationError("Authentication failed!");
-            next(error)
+        res.handleError(error, res);
     }
 };
