@@ -1,9 +1,9 @@
 <div class="card mt-4 cardContainer flex-row">
     <div class="colCard container">
         <form [formGroup]="taskForm" (submit)="onSubmit()">
-            <label class="font-weight-light text-center text-lg-left mt-4 mb-0">Title</label>
+            <h5 class="font-weight-light text-center text-lg-left mb-2">Title</h5>
             <input formControlName="title" class="form-control">
-            <label>Description</label>
+            <h5 class="mt-2">Description</h5>
             <input formControlName='description' class="form-control"><br>
             <button class="btn btn-outline-success my-2 my-sm-0 w-50">
                 {{buttonText}}</button>
@@ -11,10 +11,10 @@
         <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
     </div>
     <div class="colCard container">
-        <label>Choose your tags</label>
+        <h5>Choose your tags</h5>
         <select2 [data]="allUniqueTags" (valueChanged)="onTagsChanged($event)" [width]="200" [value]="selectValue"
             [options]="selectOptions"></select2>
-        <label>Select deadline for your task</label>
+        <h5 class="mt-2">Deadline</h5>
         <app-date-picker *ngIf="fetchedData || !updateMode" [pickedDate]="taskForm.value.deadline" (onDatePicked)="onDateChange($event)"></app-date-picker>
     </div>
 </div>
