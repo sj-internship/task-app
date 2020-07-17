@@ -10,18 +10,18 @@ router.get('/test', userController.test);
 
 router.get('/api/tasks', authorizationJWT, taskController.getTasks);
 
-router.get('/api/task/:id',authorizationJWT, taskController.getTask);
+router.get('/api/task/:id', authorizationJWT, taskController.getTask);
 
-router.post('/api/task',authorizationJWT, taskController.addTask);
+router.post('/api/task', authorizationJWT, taskController.addTask);
 
-router.post('/api/task/:id',authorizationJWT,taskController.updateTask);
+router.post('/api/task/:id', authorizationJWT, taskController.updateTask);
 
-router.delete('/api/task/:id',authorizationJWT, taskController.deleteTask);
+router.delete('/api/task/:id', authorizationJWT, taskController.deleteTask);
 
-router.post('/api/register', userController.register);
+router.post('/api/register', userController.register)
 
-router.post('/api/signIn', userController.signIn);
+router.post('/api/signIn', userController.signIn)
 
-router.get('/api/tags',authorizationJWT, taskController.getUniqueTags);
+router.get('/api/tags', authorizationJWT, taskController.getUniqueTags)
 
 module.exports = router;

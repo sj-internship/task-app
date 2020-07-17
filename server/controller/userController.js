@@ -6,7 +6,7 @@ module.exports = {
                 res.status(200).json({ result });
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     },
     register: (req, res) => {
@@ -15,7 +15,7 @@ module.exports = {
                 res.status(200).send();
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     },
     signIn: (req, res) => {
@@ -24,7 +24,7 @@ module.exports = {
                 res.status(200).json({ result });
             })
             .catch(err => {
-                res.status(500).json({ message: 'Something went wrong.' });
+                res.handleError(err, res);
             })
     }
 }
