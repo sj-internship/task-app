@@ -7,21 +7,21 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class DeadlineCounterComponent implements OnInit {
 
-    @Input() date: Date;
-    daysLeft: Number;
-    hoursLeft: Number;
-    minutesLeft: Number;
-    secondsLeft: Number;
-    interval = null;
+    @Input() public date: Date;
+    public daysLeft: Number;
+    public hoursLeft: Number;
+    public minutesLeft: Number;
+    public secondsLeft: Number;
+    private interval = null;
     constructor() {
 
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.date = new Date();
         this.startCounter();
     }
-    setDate(date) {
+    public setDate(date) {
         this.date = date;
         clearInterval(this.interval);
         if(date !== null){
@@ -46,7 +46,7 @@ export class DeadlineCounterComponent implements OnInit {
             }
         }, 1000);
     }
-    clearCounter(){
+    private clearCounter(){
         this.daysLeft = 0;
         this.hoursLeft= 0;
         this.minutesLeft = 0;

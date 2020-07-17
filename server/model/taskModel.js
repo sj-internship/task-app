@@ -45,7 +45,7 @@ const TaskModel = {
             description: params.description,
             tasks: [],
             createdBy: params.createdBy,
-            tags: params.tags != null? params.tags : [],
+            tags: params.tags !== null? params.tags : [],
             deadline:params.deadline
         });
         return newTask.save();
