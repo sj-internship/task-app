@@ -81,6 +81,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             this.ts.addTask(newTask).pipe(
                 finalize(() => {
                     this.loaderService.setLoading(false);
+                    this.fetchedData = true;
                 }),
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
@@ -170,11 +171,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                     this.fetchedData = true;
                 }),
                 takeUntil(this.ngUnsubscribe)
-            ).subscribe(
-                task => {
-                    this.task = task;
-                    this.tags = task.tags;
-                    this.taskForm.patchValue(task);
+                ).subscribe(
+                    task => {
+                        this.task = task;
+                        this.tags = task.tags;
+                        this.taskForm.patchValue(task);
+                        this.counterComponent.setDate(new Date(task.deadline));
                 },
                 _ => { },
             )

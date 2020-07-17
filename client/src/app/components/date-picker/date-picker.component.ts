@@ -37,4 +37,8 @@ export class DatePickerComponent implements OnInit {
         date.setMinutes(this.time.minute);
         this.onDatePicked.emit(date);
     }
+    public onClearDate(){
+        this.date.setValue(null);
+        this.onDatePicked.emit(null);
+    }
 }
