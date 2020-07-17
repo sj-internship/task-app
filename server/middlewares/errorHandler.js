@@ -3,7 +3,7 @@ const {
     UnauthorizedError,
     AuthenticationError,
     UnavailableServiceError,
-    BadRequestError } = require('../errorTypes/errorTypes')
+    BadRequestError } = require('../errorTypes/errorTypes');
 
 module.exports = handleError = (req, res, next) => {
     res.handleError = (err, res) => {

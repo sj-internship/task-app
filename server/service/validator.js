@@ -1,4 +1,4 @@
-const { BadRequestError } = require('../errorTypes/errorTypes')
+const { BadRequestError } = require('../errorTypes/errorTypes');
 class ValidatorService {
     validateAttributes= (modelAttributes, attributes) => {
         //filtering attributes which aren't in the schema

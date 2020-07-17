@@ -1,7 +1,6 @@
 const taskModel = require('../model/taskModel');
-const Task = require('../db/models/Task');
-const validatorService = require('../service/validator')
-const { validateUserTask } = require('./taskValidator')
+const validatorService = require('../service/validator');
+const { validateUserTask } = require('./taskValidator');
 module.exports = {
     getTasks: async (user) => {
         const result = await taskModel.getAll(user);

@@ -1,5 +1,5 @@
 const taskModel = require('../model/taskModel');
-const { NotFoundError, UnauthorizedError } = require('../errorTypes/errorTypes')
+const { NotFoundError, UnauthorizedError } = require('../errorTypes/errorTypes');
 module.exports = {
     validateUserTask: async (id, user) => {
         const task = await taskModel.getOne(id);
