@@ -1,6 +1,5 @@
 const taskModel = require('../model/taskModel');
 const validatorService = require('../service/validator');
-const { validateUserTask } = require('./taskValidator');
 module.exports = {
     getTasks: async (user) => {
         const result = await taskModel.getAll(user);
@@ -20,27 +19,25 @@ module.exports = {
             data: result
         };
     },
-    getTask: async (id, user) => {
-        const result = await validateUserTask(id, user);
+    getTask: async (id) => {
+        const result = await taskModel.getOne(id);
         return {
             data: result
         };
 
     },
-    updateTask: async (id, params, user) => {
+    updateTask: async (id, params) => {
         validatorService.validateAttributes(taskModel.attributes, params);
         const filter = { _id: id };
-        await validateUserTask(id, user)
         const result = await taskModel.update(filter, params);
         return {
             data: result
         };
     },
-    deleteTask: async (id, user) => {
+    deleteTask: async (id) => {
         const filter = { _id: id };
-        await validateUserTask(id, user);
         await taskModel.deleteOne(filter);
-        return
+        return;
     },
     getUniqueTags: async (user) => {
         const userTasks = await taskModel.getAll(user);

@@ -17,6 +17,7 @@ module.exports = handleError = (req, res, next) => {
                     message: err.message || 'Authorization failed'
                 })
             case AuthenticationError:
+                console.log(err)
                 return res.status(403).json({
                     message: err.message || 'Authentication failed'
                 })
