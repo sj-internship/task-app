@@ -29,6 +29,9 @@ const TaskModel = {
         priority: {
             type: 'String',
             in: ['high', 'middle', 'low']
+        },
+        deadline:{
+            type:'String'
         }
     },
     getAll: (user) => {

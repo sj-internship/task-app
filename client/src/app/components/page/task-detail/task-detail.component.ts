@@ -65,7 +65,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
                 _ => this.router.navigate(['/tasks']),
-                _ => { },
+                err => { console.log(err)},
             );
         }
         else {

@@ -12,7 +12,7 @@ const taskSchema = new mongoose.Schema(
             lowercase: true
         }],
         priority:String,
-        deadline:Date
+        deadline:String
     }
 )
 module.exports = mongoose.model('task', taskSchema);

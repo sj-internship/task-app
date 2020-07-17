@@ -12,15 +12,17 @@ class ValidatorService {
         //check required
         modelKeys.forEach(attributeKey => {
             if (modelAttributes[attributeKey].required && !filteredAttributes[attributeKey]) {
-                throw new BadRequestError(`${attributeKey} must be provided`)
+                throw new BadRequestError(`${attributeKey} must be provided`);
             }
         });
 
         //check types
         Object.keys(filteredAttributes).forEach(key => {
-            const constructorName = filteredAttributes[key].constructor.name
-            if (constructorName !== modelAttributes[key].type) {
-                throw new BadRequestError(`Type of ${key} doesnt match`);
+            if(filteredAttributes[key] !== null){
+                const constructorName = filteredAttributes[key].constructor.name;
+                if (constructorName !== modelAttributes[key].type) {
+                    throw new BadRequestError(`Type of ${key} doesnt match`);
+                }
             }
         })
 
@@ -31,7 +33,7 @@ class ValidatorService {
         modelKeys.forEach(modelKey => {
             const attribute = attributes[modelKey];
             if (attribute) {
-                const rulesKeys = Object.keys(modelAttributes[modelKey])
+                const rulesKeys = Object.keys(modelAttributes[modelKey]);
                 rulesKeys.forEach(ruleKey => {
                     const ruleValue = modelAttributes[modelKey][ruleKey];
                     switch (ruleKey) {
