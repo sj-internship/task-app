@@ -12,7 +12,7 @@ export class DatePickerComponent implements OnInit {
     @Output() onDatePicked: EventEmitter<Date> = new EventEmitter<Date>();
     @Input() pickedDate: Date;
     date: FormControl;
-    time: NgbTimeStruct = { hour: 13, minute: 30, second: 0 };
+    time: NgbTimeStruct;
     constructor(private config: NgbTimepickerConfig) {
         config.size = 'small';
     }
@@ -25,7 +25,7 @@ export class DatePickerComponent implements OnInit {
             second: date.getSeconds()
         };
     }
-    public onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
+    public onDateChange(event: MatDatepickerInputEvent<Date>) {
         const date = event.value;
         date.setHours(this.time.hour);
         date.setMinutes(this.time.minute);

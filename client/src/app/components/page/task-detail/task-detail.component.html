@@ -1,24 +1,27 @@
 <div class="card mt-4 container flex-row">
-    <div class="colCard container">
-        <form [formGroup]="taskForm" (submit)="onSubmit()">
-            <h5 class="font-weight-light text-center text-lg-left mt-2 mb-2">Title</h5>
-            <input formControlName="title" class="form-control">
-            <h5 class="mt-2">Description</h5>
-            <input formControlName='description' class="form-control"><br>
-            <button class="btn btn-outline-success my-2 my-sm-0 w-50">
-                {{buttonText}}</button>
-        </form>
-        <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
-    </div>
-    <div class="colCard container">
-        <h5 class="mt-2">Deadline</h5>
-        <app-date-picker *ngIf="fetchedData || !updateMode" [pickedDate]="taskForm.value.deadline" (onDatePicked)="onDateChange($event)"></app-date-picker>
-    </div>
-    <div class="colCard container">
-        <h5 class="mt-2">Choose your tags</h5>
-        <select2 [data]="allUniqueTags" (valueChanged)="onTagsChanged($event)" [width]="200" [value]="selectValue"
-            [options]="selectOptions"></select2>
-        <h5 class="mt-2">To the deadline remained:</h5>
-        <app-deadline-counter></app-deadline-counter>
+    <div class="row">
+        <div class="colCard col-sm">
+            <form [formGroup]="taskForm" (submit)="onSubmit()">
+                <h5 class="font-weight-light text-center text-lg-left mt-2 mb-2">Title</h5>
+                <input formControlName="title" class="form-control">
+                <h5 class="mt-2">Description</h5>
+                <input formControlName='description' class="form-control"><br>
+                <button class="btn btn-outline-success my-2 my-sm-0 w-50">
+                    {{buttonText}}</button>
+            </form>
+            <button (click)="deleteTask()" *ngIf="updateMode" class="btn btn-danger mt-2 w-50">Delete</button>
+        </div>
+        <div class="colCard col-sm">
+            <h5 class="mt-2">Deadline</h5>
+            <app-date-picker *ngIf="fetchedData || !updateMode" [pickedDate]="taskForm.value.deadline"
+                (onDatePicked)="onDateChange($event)"></app-date-picker>
+        </div>
+        <div class="colCard col-sm">
+            <h5 class="mt-2">Choose your tags</h5>
+            <select2 [data]="allUniqueTags" (valueChanged)="onTagsChanged($event)" [width]="200" [value]="selectValue"
+                [options]="selectOptions"></select2>
+            <h5 class="mt-2">To the deadline remained:</h5>
+            <app-deadline-counter></app-deadline-counter>
+        </div>
     </div>
 </div>
