@@ -4,12 +4,11 @@ const { config } = require('./config');
 const mongo = require('./db/mongo');
 const bodyParser = require('body-parser')
 const app = express();
-const handleError = require('./middlewares/errorHandler')
-
+const applyMiddlewares = require('./middlewares/index')
 mongo.connect()
     .then(() => {
         app.use(bodyParser.json());
-        app.use(handleError);
+        applyMiddlewares(app);
         app.use(require('./router'));
         app.listen(config.db.PORT, () => {
             console.log(`Task-app listening on port ${config.db.PORT}!`);

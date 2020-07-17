@@ -11,7 +11,7 @@ const taskController = {
             })
     },
     getTask: (req, res) => {
-        taskService.getTask(req.params.id, req.user)
+        taskService.getTask(req.params.id)
             .then(result => {
                 res.status(200).json({ result });
             })
@@ -30,7 +30,7 @@ const taskController = {
     },
     updateTask: (req, res) => {
         const id = req.params.id
-        taskService.updateTask(id, req.body, req.user)
+        taskService.updateTask(id, req.body)
             .then(result => {
                 res.status(200).json({ result });
             })
@@ -39,7 +39,7 @@ const taskController = {
             })
     },
     deleteTask: (req, res) => {
-        taskService.deleteTask(req.params.id, req.user)
+        taskService.deleteTask(req.params.id)
             .then(result => {
                 res.status(200).send();
             })

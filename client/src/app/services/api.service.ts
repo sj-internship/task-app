@@ -25,7 +25,7 @@ export class ApiService {
     }
 
     public updateTask(params: TaskUpdateModel): Observable<any> {
-        return this.http.post('/api/task/' + params._id, params);
+        return this.http.put('/api/task/' + params._id, params);
     }
     public addTask(params: TaskAddModel): Observable<any> {
         return this.http.post('/api/task/', params);
