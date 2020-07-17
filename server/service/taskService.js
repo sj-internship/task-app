@@ -1,7 +1,6 @@
 const taskModel = require('../model/taskModel');
-const Task = require('../db/models/Task');
 const validatorService = require('../service/validator')
-const { validateUserTask } = require('./taskValidator')
+const { validateUserTask } = require('../middlewares/taskValidator');
 module.exports = {
     getTasks: async (user) => {
         const result = await taskModel.getAll(user);
@@ -11,7 +10,7 @@ module.exports = {
         };
     },
     saveTask: async (params) => {
-        validatorService.validateAttributes(taskModel.attributes, params)
+        validatorService.validateAttributes(taskModel.attributes, params);
         const result = await taskModel.save(params);
         //adding id to the parent 
         if (params.parendId !== null) {
@@ -41,7 +40,7 @@ module.exports = {
         const filter = { _id: id };
         await validateUserTask(id, user);
         await taskModel.deleteOne(filter);
-        return
+        return;
     },
     getUniqueTags: async (user) => {
         const userTasks = await taskModel.getAll(user);

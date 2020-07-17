@@ -1,6 +1,6 @@
 const authorizationJWT = require('./auth');
 const handleErrors = require('./errorHandler');
-
+const {validateUserTask} = require('./taskValidator')
 const endpointsConfig={
     get:{
         '/api/tasks':[authorizationJWT],
@@ -15,7 +15,7 @@ const endpointsConfig={
     delete:{
         '/api/task/:id':[authorizationJWT]
     }
-};
+}
 
 module.exports=(app)=>{
     //all paths use handleErrors

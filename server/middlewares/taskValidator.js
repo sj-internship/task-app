@@ -10,7 +10,5 @@ module.exports = {
             throw new UnauthorizedError(`You have no access to this task`);
         }
         return task;
-    }
+    },
 }
-
-//middleware

@@ -3,7 +3,7 @@ const { config } = require('../config');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validatrService = require('./validator');
-const userValidatorService = require('./userValidator');
+const userValidatorService = require('../middlewares/userValidator');
 module.exports = {
     //TODO:remove
     test: async () => {

@@ -17,10 +17,10 @@ router.post('/api/task/:id', taskController.updateTask);
 
 router.delete('/api/task/:id', taskController.deleteTask);
 
-router.post('/api/register', userController.register)
+router.post('/api/register', userController.register);
 
-router.post('/api/signIn', userController.signIn)
+router.post('/api/signIn', userController.signIn);
 
-router.get('/api/tags', taskController.getUniqueTags)
+router.get('/api/tags', taskController.getUniqueTags);
 
 module.exports = router;
