@@ -2,32 +2,32 @@ const Task = require('../db/models/Task');
 const TaskModel = {
     attributes: {
         createdAt: {
-            type: 'date'
+            type: 'Date'
         },
         updatedAt: {
-            type: 'date'
+            type: 'Date'
         },
         title: {
             required: true,
-            type: 'string',
+            type: 'String',
             maxLength: 30,
         },
         description: {
             required: true,
-            type: 'string',
+            type: 'String',
             maxLength: 300
         },
         tasks: {
-            type: 'array'
+            type: 'Array'
         },
         createdBy: {
-            type: 'string'
+            type: 'String'
         },
         tags: {
-            type: 'array',
+            type: 'Array',
         },
         priority: {
-            type: 'string',
+            type: 'String',
             in: ['high', 'middle', 'low']
         }
     },

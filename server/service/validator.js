@@ -1,6 +1,6 @@
-const {BadRequestError} = require('../errorTypes/errorTypes')
-module.exports = {
-    validateAttributes: (modelAttributes, attributes) => {
+const { BadRequestError } = require('../errorTypes/errorTypes')
+class ValidatorService {
+    validateAttributes= (modelAttributes, attributes) => {
         //filtering attributes which aren't in the schema
 
         const modelKeys = Object.keys(modelAttributes);
@@ -11,7 +11,7 @@ module.exports = {
 
         //check required
         modelKeys.forEach(attributeKey => {
-            if (modelAttributes[attributeKey].required && filteredAttributes[attributeKey] == undefined) {
+            if (modelAttributes[attributeKey].required && !filteredAttributes[attributeKey]) {
                 throw new BadRequestError(`${attributeKey} must be provided`)
             }
         });
@@ -19,13 +19,17 @@ module.exports = {
         //check types
         Object.keys(filteredAttributes).forEach(key => {
             const constructorName = filteredAttributes[key].constructor.name
-            if (constructorName.toLowerCase() !== modelAttributes[key].type) {
+            if (constructorName !== modelAttributes[key].type) {
                 throw new BadRequestError(`Type of ${key} doesnt match`);
             }
         })
-        //length, in
+
+        this.validateRules(modelAttributes, filteredAttributes);
+    }
+    validateRules= (modelAttributes, attributes) => {
+        const modelKeys = Object.keys(modelAttributes);
         modelKeys.forEach(modelKey => {
-            const attribute = filteredAttributes[modelKey];
+            const attribute = attributes[modelKey];
             if (attribute) {
                 const rulesKeys = Object.keys(modelAttributes[modelKey])
                 rulesKeys.forEach(ruleKey => {
@@ -62,5 +66,8 @@ module.exports = {
                 })
             }
         })
+
     }
 }
+
+module.exports = new ValidatorService();
