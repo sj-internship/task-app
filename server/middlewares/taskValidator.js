@@ -1,14 +1,20 @@
 const taskModel = require('../model/taskModel');
 const { NotFoundError, UnauthorizedError } = require('../errorTypes/errorTypes')
 module.exports = {
-    validateUserTask: async (id, user) => {
+    validateUserTask: async (req, res, next) => {
+        const id = req.params.id;
+        const user = req.user;
         const task = await taskModel.getOne(id);
         if (task == null) {
-            throw new NotFoundError(`Task not found`);
+            const error = new NotFoundError(`Task not found`);
+            res.handleError(error, res);
         }
         else if (task.createdBy !== user.name) {
-            throw new UnauthorizedError(`You have no access to this task`);
+            const error = new UnauthorizedError(`You have no access to this task`);
+            res.handleError(error, res);
         }
-        return task;
+        else {
+            next();
+        }
     },
 }

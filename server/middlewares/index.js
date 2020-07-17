@@ -1,18 +1,22 @@
 const authorizationJWT = require('./auth');
 const handleErrors = require('./errorHandler');
+const {validateUniqueName} = require('./userValidator');
+const {validateUserTask} = require('./taskValidator')
 const endpointsConfig={
     get:{
         '/api/tasks':[authorizationJWT],
-        '/api/task/:id':[authorizationJWT],
+        '/api/task/:id':[authorizationJWT, validateUserTask],
         '/api/tags':[authorizationJWT]
     },
     post:{
         '/api/task':[authorizationJWT],
-        '/api/register':[],
-        '/api/signIn':[]
+        '/api/register':[validateUniqueName],
+        '/api/signIn':[],
+        '/api/register':[validateUniqueName],
+        '/api/task/:id': [authorizationJWT, validateUniqueName]
     },
     delete:{
-        '/api/task/:id':[authorizationJWT]
+        '/api/task/:id':[authorizationJWT, validateUserTask]
     }
 }
 
