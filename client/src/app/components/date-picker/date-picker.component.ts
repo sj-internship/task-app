@@ -9,10 +9,10 @@ import { NgbTimepickerConfig } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent implements OnInit {
-    @Output() onDatePicked: EventEmitter<Date> = new EventEmitter<Date>();
-    @Input() pickedDate: Date;
-    date: FormControl;
-    time: NgbTimeStruct;
+    @Output() public onDatePicked: EventEmitter<Date> = new EventEmitter<Date>();
+    @Input() public pickedDate: Date;
+    public date: FormControl;
+    public time: NgbTimeStruct;
     constructor(private config: NgbTimepickerConfig) {
         config.size = 'small';
     }

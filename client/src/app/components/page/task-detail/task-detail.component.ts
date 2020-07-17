@@ -20,7 +20,10 @@ import {DeadlineCounterComponent} from '../../deadline-counter/deadline-counter.
 export class TaskDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
     public updateMode: boolean = true;
+
+    //TODO Refacotr this
     public fetchedData: boolean = false;
+    
     public selectOptions: Select2Options;
     public selectValue: string[] = [];
     public buttonText: string = 'Update';
