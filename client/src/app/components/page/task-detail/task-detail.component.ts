@@ -176,7 +176,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                         this.task = task;
                         this.tags = task.tags;
                         this.taskForm.patchValue(task);
-                        this.counterComponent.setDate(new Date(task.deadline));
+                        if(task.deadline){
+                            this.counterComponent.setDate(new Date(task.deadline));
+                        }
                 },
                 _ => { },
             )
