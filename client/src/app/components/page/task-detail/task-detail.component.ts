@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
 import { TaskModel } from '../../../models/task';
@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2'
 import { LoaderService } from 'src/app/services/loader.service';
-//import {oldMatcher} from 'node_modules/select2/src/js/select2/compat/matcher'
+import {DeadlineCounterComponent} from '../../deadline-counter/deadline-counter.component'
 @Component({
     selector: 'app-task-detail',
     templateUrl: './task-detail.component.html',
@@ -20,6 +20,10 @@ import { LoaderService } from 'src/app/services/loader.service';
 export class TaskDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
     public updateMode: boolean = true;
+
+    //TODO Refacotr this
+    public fetchedData: boolean = false;
+    
     public selectOptions: Select2Options;
     public selectValue: string[] = [];
     public buttonText: string = 'Update';
@@ -28,6 +32,10 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     public tags: string[];
     public task: TaskModel;
     public taskForm: FormGroup;
+
+    @ViewChild(DeadlineCounterComponent)
+    private counterComponent: DeadlineCounterComponent;
+
     constructor(
         private route: ActivatedRoute,
         private ts: TaskService,
@@ -35,7 +43,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         private as: AuthenticationService,
         private router: Router,
         private modalService: ModalService,
-        private loaderService: LoaderService
+        public loaderService: LoaderService
     ) { }
 
     public ngOnInit() {
@@ -49,7 +57,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 _id: this.id,
                 title: this.taskForm.value.title,
                 description: this.taskForm.value.description,
-                tags: this.taskForm.value.tags
+                tags: this.taskForm.value.tags,
+                deadline: this.taskForm.value.deadline
             }
             this.loaderService.setLoading(true);
             this.ts.updateTask(updatedTask).pipe(
@@ -59,7 +68,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
                 _ => this.router.navigate(['/tasks']),
-                _ => { },
+                err => { console.log(err)},
             );
         }
         else {
@@ -68,12 +77,14 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 description: this.taskForm.value.description,
                 createdBy: this.as.currentUserValue.userName,
                 parentId: null,
-                tags: this.taskForm.value.tags
+                tags: this.taskForm.value.tags,
+                deadline: this.taskForm.value.deadline
             }
             this.loaderService.setLoading(true);
             this.ts.addTask(newTask).pipe(
                 finalize(() => {
                     this.loaderService.setLoading(false);
+                    this.fetchedData = true;
                 }),
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
@@ -147,7 +158,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         this.taskForm = this.fb.group({
             title: [null],
             description: [null],
-            tags: [null]
+            tags: [null],
+            deadline: [null]
         });
         if (this.id === 'newTask') {
             this.updateMode = false;
@@ -158,15 +170,18 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             this.loaderService.setLoading(true);
             this.ts.getTaskById(this.id).pipe(
                 finalize(() => {
-                    console.log('raz')
                     this.loaderService.setLoading(false);
+                    this.fetchedData = true;
                 }),
                 takeUntil(this.ngUnsubscribe)
-            ).subscribe(
-                task => {
-                    this.task = task;
-                    this.tags = task.tags;
-                    this.taskForm.patchValue(task);
+                ).subscribe(
+                    task => {
+                        this.task = task;
+                        this.tags = task.tags;
+                        this.taskForm.patchValue(task);
+                        if(task.deadline){
+                            this.counterComponent.setDate(new Date(task.deadline));
+                        }
                 },
                 _ => { },
             )
@@ -179,9 +194,10 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             placeholder: 'Choose a tag',
             multiple: true,
             tags: true,
-            /*matcher: (term, text, option)=>{
-                return option.name.includes(term)
-            }   */
         }
+    }
+    public onDateChange(date: Date) {
+        this.taskForm.patchValue({ deadline: date });
+        this.counterComponent.setDate(date);
     }
 }

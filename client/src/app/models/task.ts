@@ -6,6 +6,7 @@ export interface TaskModel {
     updatedAt: Date;
     tasks: [string];
     tags: string[];
+    deadline:Date
 }
 
 export interface TaskUpdateModel {
@@ -13,6 +14,7 @@ export interface TaskUpdateModel {
     title: string;
     description: string;
     tags: string[];
+    deadline?:Date
 }
 export interface TaskAddModel {
     title: string;
@@ -20,4 +22,5 @@ export interface TaskAddModel {
     createdBy: string;
     parentId?: string;
     tags?: string[];
+    deadline?:Date
 }

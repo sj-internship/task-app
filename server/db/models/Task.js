@@ -11,7 +11,8 @@ const taskSchema = new mongoose.Schema(
             type: String,
             lowercase: true
         }],
-        priority:String
+        priority:String,
+        deadline:String
     }
 )
 module.exports = mongoose.model('task', taskSchema);

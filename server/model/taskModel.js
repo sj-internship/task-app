@@ -29,6 +29,9 @@ const TaskModel = {
         priority: {
             type: 'String',
             in: ['high', 'middle', 'low']
+        },
+        deadline:{
+            type:'String'
         }
     },
     getAll: (user) => {
@@ -42,9 +45,8 @@ const TaskModel = {
             description: params.description,
             tasks: [],
             createdBy: params.createdBy,
-            tags: params.tags,
-            priority: params.priority
-
+            tags: params.tags !== null? params.tags : [],
+            deadline:params.deadline
         });
         return newTask.save();
     },

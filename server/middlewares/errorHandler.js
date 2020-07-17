@@ -3,7 +3,7 @@ const {
     UnauthorizedError,
     AuthenticationError,
     UnavailableServiceError,
-    BadRequestError } = require('../errorTypes/errorTypes')
+    BadRequestError } = require('../errorTypes/errorTypes');
 
 module.exports = handleError = (req, res, next) => {
     res.handleError = (err, res) => {
@@ -17,7 +17,6 @@ module.exports = handleError = (req, res, next) => {
                     message: err.message || 'Authorization failed'
                 })
             case AuthenticationError:
-                console.log(err)
                 return res.status(403).json({
                     message: err.message || 'Authentication failed'
                 })
