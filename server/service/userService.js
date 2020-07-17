@@ -25,7 +25,7 @@ module.exports = {
     },
     signIn: async (credentials) => {
         //validatorService.validateAttributes(userModel.attributes, credentials);
-        const user = await userModel.getByName(credentials.name)
+        const user = await userModel.getByName(credentials.name);
         const isValidPassword = await bcrypt.compare(credentials.password, user.password);
         if (!isValidPassword) {
             throw new Error('Invalid password');
