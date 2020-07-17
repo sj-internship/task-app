@@ -29,7 +29,6 @@ module.exports = handleError = (req, res, next) => {
                     message: err.message || 'Bad request'
                 })
             default:
-                console.log(err)
                 return res.status(500).json({
                     message: err.message || 'Something went wrong'
                 })

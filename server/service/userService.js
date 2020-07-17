@@ -2,7 +2,7 @@ const userModel = require('../model/userModel');
 const { config } = require('../config');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const validatrService = require('./validator');
+const validatorService = require('./validator');
 const userValidatorService = require('../middlewares/userValidator');
 module.exports = {
     //TODO:remove

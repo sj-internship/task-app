@@ -1,6 +1,5 @@
 const authorizationJWT = require('./auth');
 const handleErrors = require('./errorHandler');
-const {validateUserTask} = require('./taskValidator')
 const endpointsConfig={
     get:{
         '/api/tasks':[authorizationJWT],
