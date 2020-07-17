@@ -13,11 +13,12 @@
     <div class="colCard container">
         <h5 class="mt-2">Deadline</h5>
         <app-date-picker *ngIf="fetchedData || !updateMode" [pickedDate]="taskForm.value.deadline" (onDatePicked)="onDateChange($event)"></app-date-picker>
-        <app-time-picker></app-time-picker>
     </div>
     <div class="colCard container">
         <h5 class="mt-2">Choose your tags</h5>
         <select2 [data]="allUniqueTags" (valueChanged)="onTagsChanged($event)" [width]="200" [value]="selectValue"
             [options]="selectOptions"></select2>
+
+        <app-deadline-counter></app-deadline-counter>
     </div>
 </div>

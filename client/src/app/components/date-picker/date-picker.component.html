@@ -7,5 +7,6 @@
         (dateChange)="onDateChange('change', $event)">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+</mat-form-field>
+<ngb-timepicker [(ngModel)]="time" (ngModelChange)="onTimeChange($event)"></ngb-timepicker>
   

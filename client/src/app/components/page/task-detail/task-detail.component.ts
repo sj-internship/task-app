@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../../../services/task.service';
 import { TaskModel } from '../../../models/task';
@@ -11,8 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2'
 import { LoaderService } from 'src/app/services/loader.service';
-import { NgbTimepickerConfig } from 'bootstrap'
-//import {oldMatcher} from 'node_modules/select2/src/js/select2/compat/matcher'
+import {DeadlineCounterComponent} from '../../deadline-counter/deadline-counter.component'
 @Component({
     selector: 'app-task-detail',
     templateUrl: './task-detail.component.html',
@@ -30,6 +29,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     public tags: string[];
     public task: TaskModel;
     public taskForm: FormGroup;
+
+    @ViewChild(DeadlineCounterComponent)
+    private counterComponent: DeadlineCounterComponent;
 
     constructor(
         private route: ActivatedRoute,
@@ -188,6 +190,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         }
     }
     public onDateChange(date: Date) {
-        this.taskForm.patchValue({ deadline: date })
+        this.taskForm.patchValue({ deadline: date });
+        this.counterComponent.setDate(date);
     }
 }

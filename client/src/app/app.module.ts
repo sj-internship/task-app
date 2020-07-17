@@ -27,7 +27,6 @@ import { MatInputModule } from '@angular/material';
 import {MatNativeDateModule} from '@angular/material';
 import { MatFormFieldModule } from '@angular/material';
 import { DeadlineCounterComponent } from './components/deadline-counter/deadline-counter.component';
-import { TimePickerComponent } from './components/time-picker/time-picker.component'
 @NgModule({
     declarations: [
         AppComponent,
@@ -42,7 +41,6 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
         LoaderComponent,
         DatePickerComponent,
         DeadlineCounterComponent,
-        TimePickerComponent,
     ],
     imports: [
         BrowserModule,
