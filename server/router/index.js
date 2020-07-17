@@ -13,7 +13,7 @@ router.get('/api/task/:id', taskController.getTask);
 
 router.post('/api/task', taskController.addTask);
 
-router.post('/api/task/:id', taskController.updateTask);
+router.put('/api/task/:id', taskController.updateTask);
 
 router.delete('/api/task/:id', taskController.deleteTask);
 

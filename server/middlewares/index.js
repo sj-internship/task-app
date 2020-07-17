@@ -12,11 +12,12 @@ const endpointsConfig={
         '/api/task':[authorizationJWT],
         '/api/register':[validateUniqueName],
         '/api/signIn':[],
-        '/api/register':[validateUniqueName],
-        '/api/task/:id': [authorizationJWT, validateUniqueName]
     },
     delete:{
         '/api/task/:id':[authorizationJWT, validateUserTask]
+    },
+    put:{
+        '/api/task/:id': [authorizationJWT, validateUserTask]
     }
 }
 
