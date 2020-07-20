@@ -4,19 +4,55 @@
     </select2>
 
 </div>
-<div class="container">
-    <div class="row">
-        <div *ngFor="let task of filteredTasks; let i = index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <a [routerLink]="['/tasks', task._id]">
-                <div class="card mt-3 cardCol">
-                    <h5 class="card-title">{{task.title}}</h5>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="addTaskButton">
-        <a [routerLink]="['/tasks/newTask']">
-            <button class="btn btn-outline-success my-2 my-sm-0">Add task</button>
+
+<div class="container my-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    <div class="text-right">
+                        Tags
+                    </div>
+                </th>
+                <th>
+                    <div class="text-right">
+                        Created at
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let task of filteredTasks; let i = index">
+                <th>{{i+1}}</th>
+                <td>
+                    <a [routerLink]="['/tasks', task._id]">
+                        {{task.title}}
+                    </a>
+                </td>
+                <td>
+                    <div class="text-right">
+                        <span *ngFor="let tag of task.tags"
+                            class="badge badge-secondary ml-2">
+                            {{tag}}
+                        </span>
+
+                    </div>
+                </td>
+                <td>
+                    <div class="text-right">
+                        {{task.createdAt | date: 'medium'}}
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="addTaskButton mb-3 float-right">
+        <a [routerLink]="['/tasks/newTask']" class="">
+            <button class="btn btn-outline-success my-2 p-2 my-sm-0">Add new task</button>
         </a>
     </div>
 </div>
