@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2';
 import { LoaderService } from '../../../services/loader.service'
+import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -16,14 +17,17 @@ export class ListComponent implements OnInit, OnDestroy {
     public selectOptions;
     private ngUnsubscribe = new Subject<void>();
     public allUniqueTags: Array<Select2OptionData> = [];
+    public filterForm:FormGroup;
     constructor(
         private taskService: TaskService,
-        private loaderService: LoaderService) { }
+        private loaderService: LoaderService,
+        private formBuilder: FormBuilder) { }
 
     public ngOnInit() {
         this.getAllTasks();
         this.getTags();
         this.initializeSelectOptions();
+        this.initializeFilter();
     }
     public getAllTasks() {
         this.loaderService.setLoading(true);
@@ -98,5 +102,15 @@ export class ListComponent implements OnInit, OnDestroy {
         }
         this.filteredTasks = this.tasks.filter(filterTask);
         console.log(this.filteredTasks)
+    }
+    public initializeFilter(){
+        this.filterForm = this.formBuilder.group({
+            tag:[''],
+            title:[''],
+            owner:['']
+        })
+    }
+    public onFilter(){
+        console.log(this.filterForm.value)
     }
 }

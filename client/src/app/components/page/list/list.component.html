@@ -1,9 +1,24 @@
 <div class="float-left ml-4 mt-3">
-    <h4>Filter your tasks</h4>
-    <select2 [data]="allUniqueTags" (valueChanged)="selectChanged($event)" [width]="200" [options]="selectOptions">
+    <label>Filter your tasks</label>
+    <select2 [data]="allUniqueTags" (valueChanged)="selectChanged($event)" [width]="200"
+        [options]="selectOptions">
     </select2>
-    <app-search *ngIf="tasks" (onFilterChange)="onFilterChange($event)"></app-search>
 
+    <form (submit)="onFilter()" [formGroup]="filterForm">
+        <div class="formGroup">
+            <label>Tag</label>
+            <input formControlName="tag" class="form-control">
+        </div>
+        <div class="formGroup">
+            <label>Title</label>
+            <input formControlName="title" class="form-control">
+        </div>
+        <div class="formGroup">
+            <label>Owner</label>
+            <input formControlName="owner" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-secondary">Filter</button>
+    </form>
 </div>
 <div class="container">
     <div class="row">
