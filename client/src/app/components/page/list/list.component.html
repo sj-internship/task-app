@@ -2,6 +2,7 @@
     <h4>Filter your tasks</h4>
     <select2 [data]="allUniqueTags" (valueChanged)="selectChanged($event)" [width]="200" [options]="selectOptions">
     </select2>
+    <app-search *ngIf="tasks" (onFilterChange)="onFilterChange($event)"></app-search>
 
 </div>
 <div class="container">

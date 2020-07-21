@@ -80,4 +80,23 @@ export class ListComponent implements OnInit, OnDestroy {
             placeholder: 'Choose a tag'
         }
     }
+    public onFilterChange(filters){
+        const filterKeys = Object.keys(filters);
+        const filterTask = task=>{
+            let flag = true;
+            filterKeys.forEach(filterKey=>{
+                console.log(filterKey)
+                console.log(task[filterKey])
+                if(filters[filterKey] === ''){
+                    console.log('empty')
+                    return true;
+                }
+                /*if(!task[filterKey].startsWith(filters[filterKey]) ||){
+                    return false;
+                }*/
+            })
+        }
+        this.filteredTasks = this.tasks.filter(filterTask);
+        console.log(this.filteredTasks)
+    }
 }
