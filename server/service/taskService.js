@@ -14,8 +14,10 @@ module.exports = {
             filter.title = params.title;
         }
         const skip = params.skip ? Number(params.skip) : 0;
-        const limit = params.limit ? Number(params.limit) : 0
-        const result = await taskModel.getAll(filter, skip, limit);
+        const limit = params.limit ? Number(params.limit) : 0;
+        const sort = params.sort ? params.sort : '';
+        const orderSign = params.order? params.order === 'ASC'? '-' : '' : '';
+        const result = await taskModel.getAll(filter, skip, limit, sort, orderSign);
         return {
             data: result
         };
