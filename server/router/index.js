@@ -23,6 +23,4 @@ router.post('/api/signIn', userController.signIn);
 
 router.get('/api/tags', taskController.getUniqueTags);
 
-router.get('/api/allTasks', taskController.getAllTasks);
-
 module.exports = router;

@@ -34,8 +34,8 @@ const TaskModel = {
             type:'String'
         }
     },
-    getAll: (filter) => {
-        return Task.find(filter).exec();
+    getAll: (filter, skip, limit) => {
+        return Task.find(filter).skip(skip).limit(limit).exec();
     },
     save: (params) => {
         const newTask = new Task({

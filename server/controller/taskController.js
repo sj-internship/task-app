@@ -2,7 +2,7 @@ const taskService = require('../service/taskService');
 
 const taskController = {
     getTasks: (req, res) => {
-        taskService.getTasks(req.user)
+        taskService.getTasks(req.user, req.query)
             .then(result => {
                 res.status(200).json({ result });
             })
@@ -56,15 +56,5 @@ const taskController = {
                 res.handleError(err, res);
             })
     },
-    getAllTasks: (req, res)=>{
-        const queryParams = req.query;
-        taskService.getAllTasks(queryParams)
-            .then(result => {
-                res.status(200).send(result);
-            })
-            .catch(err => {
-                res.handleError(err, res);
-            })
-    }
 };
 module.exports = taskController;
