@@ -1,26 +1,27 @@
-<div class="formContainer">
-    <form [formGroup]="loginForm" (submit)="onSubmit()">
-        <label>
-            UserName<br>
-            <input type="text" formControlName="userName">
+<div class="d-flex justify-content-center">
+    <div class="card p-3 my-5 px-3">
+        <form [formGroup]="loginForm" (submit)="onSubmit()" class="py-2">
+            <div class="formGroup">
+                <label>UserName</label>
+                <input type="text" formControlName="userName" class="form-control">
+            </div>
             <div *ngIf="loginForm.controls['userName'].invalid && (loginForm.controls['userName'].dirty || loginForm.controls['userName'].touched)"
                 class="alert alert-warning"> Username is required</div>
-            <br>
-        </label>
-        <label>
-            Password
-            <br>
-            <input type="password" formControlName="password">
+            <div class="formGroup">
+                <label>Password</label>
+                <input type="password" formControlName="password" class="form-control">
+            </div>
             <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)"
                 class="alert alert-warning"> Password is required</div>
-
-        </label><br>
-        <div *ngIf="submitted && !correctCredentials" class="alert alert-danger"> Incorrect username or password</div>
-        <button class="btn btn-outline-success my-4 my-sm-0">
-            Login
-        </button>
-        <div>
-            <span>Need an account? </span> <span (click)="goToRegister()">Register</span>
-        </div>
-    </form>
+    
+            <div *ngIf="submitted && !correctCredentials" class="alert alert-danger"> Incorrect username or password</div>
+            <button class="btn btn-outline-success  my-1">
+                Login
+            </button>
+            <div class="mt-1">
+                <span>Need an account? </span>
+                <button class="btn btn-link" (click)="goToRegister()">Register</button>
+            </div>
+        </form>
+    </div>
 </div>
