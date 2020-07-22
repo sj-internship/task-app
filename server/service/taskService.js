@@ -17,7 +17,8 @@ module.exports = {
         const limit = params.limit ? Number(params.limit) : 0;
         const sort = params.sort ? params.sort : '';
         const orderSign = params.order? params.order === 'ASC'? '-' : '' : '';
-        const result = await taskModel.getAll(filter, skip, limit, sort, orderSign);
+        const sorter = orderSign + sort;
+        const result = await taskModel.getAll(filter, skip, limit, sorter);
         return {
             data: result
         };

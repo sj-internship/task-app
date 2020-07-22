@@ -34,9 +34,9 @@ const TaskModel = {
             type:'String'
         }
     },
-    getAll: (filter, skip, limit, sortField, orderSign) => {
+    getAll: (filter, skip, limit, sorter) => {
 
-        return Task.find(filter).skip(skip).limit(limit).sort(orderSign + sortField).exec();
+        return Task.find(filter).skip(skip).limit(limit).sort(sorter).exec();
     },
     save: (params) => {
         const newTask = new Task({
