@@ -55,6 +55,16 @@ const taskController = {
             .catch(err => {
                 res.handleError(err, res);
             })
+    },
+    getAllTasks: (req, res)=>{
+        const queryParams = req.query;
+        taskService.getAllTasks(queryParams)
+            .then(result => {
+                res.status(200).send(result);
+            })
+            .catch(err => {
+                res.handleError(err, res);
+            })
     }
 };
 module.exports = taskController;

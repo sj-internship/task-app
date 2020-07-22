@@ -2,7 +2,7 @@ const taskModel = require('../model/taskModel');
 const validatorService = require('../service/validator');
 module.exports = {
     getTasks: async (user) => {
-        const result = await taskModel.getAll(user);
+        const result = await taskModel.getAll({createdBy: user});
 
         return {
             data: result
@@ -51,4 +51,13 @@ module.exports = {
         });
         return uniqueTags;
     },
+    getAllTasks: async (params)=>{
+        if(params.tags){
+            params.tags = {$all:JSON.parse(params.tags)}
+        }
+        const result = await taskModel.getAll(params);
+        return {
+            data: result
+        };
+    }
 }
