@@ -6,6 +6,7 @@ import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2';
 import { LoaderService } from '../../../services/loader.service'
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -17,11 +18,23 @@ export class ListComponent implements OnInit, OnDestroy {
     public selectOptions;
     private ngUnsubscribe = new Subject<void>();
     public allUniqueTags: Array<Select2OptionData> = [];
-    public filterForm:FormGroup;
+    public filterForm: FormGroup;
+
+
+    public hoveredDate: NgbDate | null = null;
+    public fromDate: NgbDate;
+    public toDate: NgbDate | null = null;
+
     constructor(
         private taskService: TaskService,
         private loaderService: LoaderService,
-        private formBuilder: FormBuilder) { }
+        private formBuilder: FormBuilder,
+
+        private calendar: NgbCalendar) {
+
+        this.fromDate = calendar.getToday();
+        this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    }
 
     public ngOnInit() {
         this.getAllTasks();
@@ -81,36 +94,36 @@ export class ListComponent implements OnInit, OnDestroy {
         this.selectOptions = {
             multiple: true,
             allowClear: true,
-            placeholder: 'Choose a tag'
+            placeholder: 'Choose a tag',
+            width: '100%'
         }
     }
-    public onFilterChange(filters){
-        const filterKeys = Object.keys(filters);
-        const filterTask = task=>{
-            let flag = true;
-            filterKeys.forEach(filterKey=>{
-                console.log(filterKey)
-                console.log(task[filterKey])
-                if(filters[filterKey] === ''){
-                    console.log('empty')
-                    return true;
-                }
-                /*if(!task[filterKey].startsWith(filters[filterKey]) ||){
-                    return false;
-                }*/
-            })
-        }
-        this.filteredTasks = this.tasks.filter(filterTask);
-        console.log(this.filteredTasks)
-    }
-    public initializeFilter(){
+    public initializeFilter() {
         this.filterForm = this.formBuilder.group({
-            tag:[''],
-            title:[''],
-            owner:['']
+            tags: [[]],
+            title: [''],
         })
     }
-    public onFilter(){
+    public onFilterSubmit() {
+        const params = this.filterForm.value;
         console.log(this.filterForm.value)
+        this.loaderService.setLoading(true);
+        this.taskService.getFilteredTasks(params).pipe(
+            finalize(() => {
+                this.loaderService.setLoading(false);
+            }),
+            takeUntil(this.ngUnsubscribe)
+        ).subscribe(
+            tasks => {
+                this.tasks = tasks;
+                this.filteredTasks = tasks;
+                console.log(tasks)
+            },
+            _ => { }
+        );
+    }
+    public onSelectFilterChange(event) {
+        const tagTexts = event.data.map(item => item.text);
+        this.filterForm.patchValue({ tags: tagTexts });
     }
 }

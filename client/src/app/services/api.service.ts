@@ -36,4 +36,9 @@ export class ApiService {
     public getAllTags(): Observable<any> {
         return this.http.get('/api/tags');
     }
+    public getFilteredTasks(params): Observable<any>{
+        return this.http.get('/api/tasks', {
+            params:params
+        });
+    }
 }

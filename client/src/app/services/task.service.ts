@@ -40,4 +40,11 @@ export class TaskService {
     public getTags(): Observable<[String]> {
         return this.apiService.getAllTags();
     }
+    public getFilteredTasks(params):Observable<TaskModel[]> {
+        return this.apiService.getFilteredTasks(params).pipe(
+            map((res: any) => {
+                return res.result.data.map(item => item)
+            })
+        );
+    }
 }

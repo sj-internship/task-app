@@ -1,25 +1,28 @@
 <div class="float-left ml-4 mt-3">
-    <label>Filter your tasks</label>
-    <select2 [data]="allUniqueTags" (valueChanged)="selectChanged($event)" [width]="200"
+    <!--
+<label>Filter your tasks</label>
+    <select2 [data]="allUniqueTags" (valueChanged)="selectChanged($event)"
         [options]="selectOptions">
     </select2>
-
-    <form (submit)="onFilter()" [formGroup]="filterForm">
+    <form (submit)="onFilterSubmit()" [formGroup]="filterForm">
         <div class="formGroup">
             <label>Tag</label>
-            <input formControlName="tag" class="form-control">
+            <select2 [data]="allUniqueTags" (valueChanged)="onSelectFilterChange($event)" [options]="selectOptions">
+            </select2>
         </div>
         <div class="formGroup">
             <label>Title</label>
             <input formControlName="title" class="form-control">
         </div>
-        <div class="formGroup">
-            <label>Owner</label>
-            <input formControlName="owner" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-secondary">Filter</button>
+
+        <button type="submit" class="btn btn-secondary mt-2">Filter</button>
     </form>
+    -->
+
+    <app-search [allUniqueTags]="allUniqueTags"></app-search>
 </div>
+
+
 <div class="container">
     <div class="row">
         <div *ngFor="let task of filteredTasks; let i = index" class="col-lg-3 col-md-4 col-sm-6 col-xs-12">

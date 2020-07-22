@@ -7,11 +7,17 @@ module.exports = {
         filter.createdBy = user.name;
         if (params.tags) {
             filter.tags = {
-                $all: JSON.parse(params.tags)
+                $all: params.tags
             };
         }
         if (params.title) {
             filter.title = params.title;
+        }
+        if(params.fromDeadline && params.toDeadline){
+            filter.deadline={
+                $gte:params.fromDeadline,
+                $lte:params.toDeadline
+            }
         }
         const skip = params.skip ? Number(params.skip) : 0;
         const limit = params.limit ? Number(params.limit) : 0;
@@ -55,7 +61,7 @@ module.exports = {
         return;
     },
     getUniqueTags: async (user) => {
-        const userTasks = await taskModel.getAll(user);
+        const userTasks = await taskModel.getAll({createdBy:user.name});
         const uniqueTags = [];
         userTasks.forEach(task => {
             task.tags.forEach(tag => {
