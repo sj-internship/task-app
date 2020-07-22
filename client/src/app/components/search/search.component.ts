@@ -36,8 +36,11 @@ export class SearchComponent implements OnInit {
         this.initializeSelectOptions();
     }
     public onDateSelection(date: NgbDate) {
-
-        const dateString = date.year + '/' + date.month+'/'+date.day;
+        let dateTemp = new Date(); 
+        dateTemp.setFullYear(date.year);
+        dateTemp.setMonth(date.month);
+        dateTemp.setDate(date.day);
+        const dateString = dateTemp.toISOString();
         if (!this.fromDate && !this.toDate) {
             this.fromDate = date;
             this.filterForm.patchValue({fromDeadline: dateString});
@@ -48,8 +51,8 @@ export class SearchComponent implements OnInit {
         } else {
             this.toDate = null;
             this.fromDate = date;
-            
             this.filterForm.patchValue({fromDeadline: dateString});
+            this.filterForm.patchValue({toDate: null});
 
         }
         console.log(this.fromDate, this.toDate)
@@ -79,6 +82,8 @@ export class SearchComponent implements OnInit {
         ).subscribe(
             tasks => {
                 console.log(tasks)
+
+                //emit
             },
             _ => { }
         );
