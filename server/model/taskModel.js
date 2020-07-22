@@ -34,8 +34,9 @@ const TaskModel = {
             type:'String'
         }
     },
-    getAll: (user) => {
-        return Task.find({ createdBy: user.name }).exec();
+    getAll: (filter, skip, limit, sorter) => {
+
+        return Task.find(filter).skip(skip).limit(limit).sort(sorter).exec();
     },
     save: (params) => {
         const newTask = new Task({
