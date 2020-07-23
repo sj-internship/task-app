@@ -70,6 +70,9 @@ const TaskModel = {
     deleteOne: (filter) => {
         return Task.findOneAndRemove(filter);
     },
+    getTasksCount: (filter)=>{
+        return Task.count(filter);
+    }
 }
 const defaultParams = {
     skip: 0,

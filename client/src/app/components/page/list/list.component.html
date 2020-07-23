@@ -50,10 +50,20 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="addTaskButton mb-3 float-right">
+            
+            <div class="addTaskButton mb-3 d-flex justify-content-end">
                 <a [routerLink]="['/tasks/newTask']" class="">
                     <button class="btn btn-outline-success my-2 p-2 my-sm-0">Add new task</button>
                 </a>
+            </div>
+            <div class="d-flex justify-content-between">
+                <ngb-pagination [collectionSize]="70" [boundaryLinks]="true" (pageChange)="onPageChange($event)"></ngb-pagination>
+                <div>
+                    <span>{{taskCount}}</span>
+                    <button (click)="setLimit(5)" class="btn btn-primary ml-2">5</button>
+                    <button (click)="setLimit(10)" class="btn btn-primary ml-2">10</button>
+                    <button (click)="setLimit(15)" class="btn btn-primary ml-2">15</button>
+                </div>
             </div>
         </div>
     </div>

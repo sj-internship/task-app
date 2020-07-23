@@ -1,13 +1,9 @@
 const taskModel = require('../model/taskModel');
 const validatorService = require('../service/validator');
 
-const defaultParams = {
-    skip: 0,
-    limit: 10
-}
+
 module.exports = {
     getTasks: async (user, params) => {
-        console.log(params)
         const filter = {};
         filter.createdBy = user.name;
         if (params.tags) {
@@ -31,8 +27,10 @@ module.exports = {
             sort: params.sort
         }
         const result = await taskModel.getAll(filter, options);
+        const count = await taskModel.getTasksCount(filter)
         return {
-            data: result
+            data: result,
+            count: count
         };
     },
     saveTask: async (params) => {

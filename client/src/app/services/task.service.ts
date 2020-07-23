@@ -10,10 +10,14 @@ export class TaskService {
 
     constructor(private apiService: ApiService) { }
 
-    public getAllTasks(params): Observable<TaskModel[]> {
+    public getAllTasks(params): Observable<{result: TaskModel[], count:number}> {
         return this.apiService.getAllTasks(params).pipe(
             map((res: any) => {
-                return res.result.data.map(item => item)
+                const result: {result:TaskModel[], count:number}={
+                    result: res.result.data,
+                    count: res.result.count
+                }
+                return result;
             })
         );
     }
