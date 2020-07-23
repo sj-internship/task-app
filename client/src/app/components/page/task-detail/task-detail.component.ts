@@ -19,11 +19,6 @@ import {DeadlineCounterComponent} from '../../deadline-counter/deadline-counter.
 })
 export class TaskDetailComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
-    public updateMode: boolean = true;
-
-    //TODO Refacotr this
-    public fetchedData: boolean = false;
-    
     public selectOptions: Select2Options;
     public selectValue: string[] = [];
     public buttonText: string = 'Update';
@@ -49,10 +44,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     public ngOnInit() {
         this.initialize();
         this.initializeSelectOptions();
-        this.getTags();
     }
     public onSubmit() {
-        if (this.updateMode) {
+        if (this.task) {
             const updatedTask: TaskUpdateModel = {
                 _id: this.id,
                 title: this.taskForm.value.title,
@@ -84,11 +78,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             this.ts.addTask(newTask).pipe(
                 finalize(() => {
                     this.loaderService.setLoading(false);
-                    this.fetchedData = true;
                 }),
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
                 newTask => {
+                    this.task = newTask;
                     this.switchToUpdateMode(newTask._id);
                 },
                 _ => { },
@@ -97,7 +91,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         }
     }
     private switchToUpdateMode(taskId) {
-        this.updateMode = true;
         this.buttonText = 'Update';
         this.id = taskId;
     }
@@ -162,7 +155,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             deadline: [null]
         });
         if (this.id === 'newTask') {
-            this.updateMode = false;
             this.tags = [];
             this.buttonText = 'Add task';
         }
@@ -171,7 +163,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             this.ts.getTaskById(this.id).pipe(
                 finalize(() => {
                     this.loaderService.setLoading(false);
-                    this.fetchedData = true;
                 }),
                 takeUntil(this.ngUnsubscribe)
                 ).subscribe(
@@ -182,6 +173,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                         if(task.deadline){
                             this.counterComponent.setDate(new Date(task.deadline));
                         }
+                    this.getTags();
                 },
                 _ => { },
             )
@@ -194,6 +186,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             placeholder: 'Choose a tag',
             multiple: true,
             tags: true,
+            width:'100%'
+           
         }
     }
     public onDateChange(date: Date) {
