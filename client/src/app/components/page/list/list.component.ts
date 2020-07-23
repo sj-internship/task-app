@@ -5,8 +5,6 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2';
 import { LoaderService } from '../../../services/loader.service'
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -18,7 +16,6 @@ export class ListComponent implements OnInit, OnDestroy {
     public selectOptions;
     private ngUnsubscribe = new Subject<void>();
     public allUniqueTags: Array<Select2OptionData> = [];
-    public filterForm: FormGroup;
     constructor(
         private taskService: TaskService,
         private loaderService: LoaderService) {
@@ -30,7 +27,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
     public getAllTasks() {
         this.loaderService.setLoading(true);
-        this.taskService.getAllTasks().pipe(
+        this.taskService.getAllTasks({}).pipe(
             finalize(() => {
                 this.loaderService.setLoading(false);
             }),

@@ -70,7 +70,7 @@ export class SearchComponent implements OnInit {
         const params = this.filterForm.value;
         console.log(this.filterForm.value)
         this.loaderService.setLoading(true);
-        this.taskService.getFilteredTasks(params).pipe(
+        this.taskService.getAllTasks(params).pipe(
             finalize(() => {
                 this.loaderService.setLoading(false);
             }),
