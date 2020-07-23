@@ -10,11 +10,11 @@ import * as moment from 'moment';
     styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent implements OnInit, OnChanges {
-    @Output() public onDatePicked: EventEmitter<Date> = new EventEmitter<Date>();
+    @Output() public onDatePicked: EventEmitter<moment.Moment> = new EventEmitter<moment.Moment>();
     @Input() public pickedDate: Date;
     public date: FormControl = new FormControl(this.pickedDate);
     public time: NgbTimeStruct;
-    private dateTime:any = moment();
+    private dateTime:moment.Moment = moment().startOf('day');
     constructor(private config: NgbTimepickerConfig) {
         config.size = 'small';
     }
@@ -37,8 +37,6 @@ export class DatePickerComponent implements OnInit, OnChanges {
             year: event.value.getFullYear(),
             month:event.value.getMonth(),
             date:event.value.getDate(),
-            hour:this.time.hour,
-            minute:this.time.minute
         });
         this.onDatePicked.emit(this.dateTime);
     }
