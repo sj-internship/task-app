@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2';
 import { LoaderService } from '../../../services/loader.service'
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -18,8 +19,10 @@ export class ListComponent implements OnInit, OnDestroy {
     public allUniqueTags: Array<Select2OptionData> = [];
     constructor(
         private taskService: TaskService,
-        private loaderService: LoaderService) {
-    }
+        private loaderService: LoaderService,
+        private router: Router,
+        private route: ActivatedRoute,
+    ) { }
 
     public ngOnInit() {
         this.getAllTasks();
@@ -27,18 +30,21 @@ export class ListComponent implements OnInit, OnDestroy {
     }
     public getAllTasks() {
         this.loaderService.setLoading(true);
-        this.taskService.getAllTasks({}).pipe(
-            finalize(() => {
-                this.loaderService.setLoading(false);
-            }),
-            takeUntil(this.ngUnsubscribe)
-        ).subscribe(
-            tasks => {
-                this.tasks = tasks;
-                this.filteredTasks = tasks;
-            },
-            _ => { }
-        );
+        this.route.queryParams.subscribe(params=>{
+            console.log(params);
+            this.taskService.getAllTasks({}).pipe(
+                finalize(() => {
+                    this.loaderService.setLoading(false);
+                }),
+                takeUntil(this.ngUnsubscribe)
+            ).subscribe(
+                tasks => {
+                    this.tasks = tasks;
+                    this.filteredTasks = tasks;
+                },
+                _ => { }
+            );
+        })
     }
     public ngOnDestroy() {
         this.ngUnsubscribe.next();
@@ -66,6 +72,12 @@ export class ListComponent implements OnInit, OnDestroy {
         console.log('list')
         console.log(tasks)
         this.tasks = tasks;
-        this.filteredTasks=tasks;
+        this.filteredTasks = tasks;
+    }
+    private getDataFromParams() {
+
+    }
+    private changeRoute(){
+
     }
 }
