@@ -77,7 +77,10 @@ export class SearchComponent implements OnInit {
                 params[key] = this.filterForm.value[key];
             }
         })
-        params['tags'] = this.getTagParam();
+        const tagParam = this.getTagParam();
+        if(tagParam){
+            params['tags'] = tagParam;
+        }
         this.router.navigate(['/tasks'],{queryParams:params});
 
     }
