@@ -14,12 +14,12 @@ import { Select2OptionData } from 'ng2-select2';
 })
 export class SearchComponent implements OnInit {
     public filterForm: FormGroup;
-
     private ngUnsubscribe = new Subject<void>();
     public hoveredDate: NgbDate | null = null;
     public fromDate: NgbDate;
     public selectOptions;
     public toDate: NgbDate | null = null;
+    @Output() public onFilterEmitter: EventEmitter<TaskModel[]> = new EventEmitter<TaskModel[]>();
     @Input() public allUniqueTags: Array<Select2OptionData>;
     constructor(private fb: FormBuilder,
         private loaderService: LoaderService,
@@ -36,10 +36,7 @@ export class SearchComponent implements OnInit {
         this.initializeSelectOptions();
     }
     public onDateSelection(date: NgbDate) {
-        let dateTemp = new Date(); 
-        dateTemp.setFullYear(date.year);
-        dateTemp.setMonth(date.month);
-        dateTemp.setDate(date.day);
+        let dateTemp = new Date(date.year, date.month-1, date.day+1); 
         const dateString = dateTemp.toISOString();
         if (!this.fromDate && !this.toDate) {
             this.fromDate = date;
@@ -81,8 +78,7 @@ export class SearchComponent implements OnInit {
         ).subscribe(
             tasks => {
                 console.log(tasks)
-
-                //emit
+                this.onFilterEmitter.emit(tasks);
             },
             _ => { }
         );

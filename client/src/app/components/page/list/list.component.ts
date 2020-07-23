@@ -19,28 +19,14 @@ export class ListComponent implements OnInit, OnDestroy {
     private ngUnsubscribe = new Subject<void>();
     public allUniqueTags: Array<Select2OptionData> = [];
     public filterForm: FormGroup;
-
-
-    public hoveredDate: NgbDate | null = null;
-    public fromDate: NgbDate;
-    public toDate: NgbDate | null = null;
-
     constructor(
         private taskService: TaskService,
-        private loaderService: LoaderService,
-        private formBuilder: FormBuilder,
-
-        private calendar: NgbCalendar) {
-
-        this.fromDate = calendar.getToday();
-        this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+        private loaderService: LoaderService) {
     }
 
     public ngOnInit() {
         this.getAllTasks();
         this.getTags();
-        this.initializeSelectOptions();
-        this.initializeFilter();
     }
     public getAllTasks() {
         this.loaderService.setLoading(true);
@@ -78,52 +64,11 @@ export class ListComponent implements OnInit, OnDestroy {
     private prepareTagsSelect(tags) {
         this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }));
     }
-    public selectChanged(event) {
-        if (event.data.length > 0) {
-            const selectedTags = event.data.map(tag => tag.text);
-            this.filteredTasks = this.tasks.filter(task => {
-                const taskTags = task.tags;
-                return taskTags.some(tag => selectedTags.includes(tag));
-            });
-        }
-        else {
-            this.filteredTasks = this.tasks;
-        }
-    }
-    private initializeSelectOptions() {
-        this.selectOptions = {
-            multiple: true,
-            allowClear: true,
-            placeholder: 'Choose a tag',
-            width: '100%'
-        }
-    }
-    public initializeFilter() {
-        this.filterForm = this.formBuilder.group({
-            tags: [[]],
-            title: [''],
-        })
-    }
-    public onFilterSubmit() {
-        const params = this.filterForm.value;
-        console.log(this.filterForm.value)
-        this.loaderService.setLoading(true);
-        this.taskService.getFilteredTasks(params).pipe(
-            finalize(() => {
-                this.loaderService.setLoading(false);
-            }),
-            takeUntil(this.ngUnsubscribe)
-        ).subscribe(
-            tasks => {
-                this.tasks = tasks;
-                this.filteredTasks = tasks;
-                console.log(tasks)
-            },
-            _ => { }
-        );
-    }
-    public onSelectFilterChange(event) {
-        const tagTexts = event.data.map(item => item.text);
-        this.filterForm.patchValue({ tags: tagTexts });
+
+    public onFilterChanged(tasks) {
+        console.log('list')
+        console.log(tasks)
+        this.tasks = tasks;
+        this.filteredTasks=tasks;
     }
 }
