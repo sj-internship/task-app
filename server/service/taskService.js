@@ -2,15 +2,15 @@ const taskModel = require('../model/taskModel');
 const validatorService = require('../service/validator');
 module.exports = {
     getTasks: async (user, params) => {
-        //Do i need to validate that params are available in the schema like we did with posting attributes?
+        console.log(params)
         const filter = {};
         filter.createdBy = user.name;
         if (params.tags) {
             filter.tags = {
-                $all: params.tags
+                $all: params.tags.split(',')
             };
         }
-        if (params.title) {
+        if(params.title){
             filter.title = params.title;
         }
         if(params.fromDeadline && params.toDeadline){
@@ -18,13 +18,13 @@ module.exports = {
                 $gte:params.fromDeadline,
                 $lte:params.toDeadline
             }
+        }      
+        const options = {
+            skip: Number(params.skip),
+            limit: Number(params.limit),
+            sort:params.sort
         }
-        const skip = params.skip ? Number(params.skip) : 0;
-        const limit = params.limit ? Number(params.limit) : 0;
-        const sort = params.sort ? params.sort : '';
-        const orderSign = params.order? params.order === 'ASC'? '-' : '' : '';
-        const sorter = orderSign + sort;
-        const result = await taskModel.getAll(filter, skip, limit, sorter);
+        const result = await taskModel.getAll(filter, options);
         return {
             data: result
         };

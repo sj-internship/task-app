@@ -55,7 +55,6 @@ export class SearchComponent implements OnInit {
             this.filterForm.patchValue({toDate: null});
 
         }
-        console.log(this.fromDate, this.toDate)
     }
 
     isHovered(date: NgbDate) {
