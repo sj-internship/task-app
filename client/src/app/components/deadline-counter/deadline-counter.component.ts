@@ -36,18 +36,15 @@ export class DeadlineCounterComponent implements OnInit {
         this.interval = setInterval(()=>{
             const now = moment();
             const date = moment(this.date);
-            this.daysLeft = date.diff(now, 'days');
-            this.hoursLeft = date.diff(now.add(Number(this.daysLeft), 'days'), 'hours');
-            this.minutesLeft = date.diff(now.add(Number(this.hoursLeft), 'hours'), 'minutes');
-            this.secondsLeft = date.diff(now.add(Number(this.minutesLeft), 'minutes'), 'seconds');
+            const duration = moment.duration(date.diff(now));
+            this.daysLeft = duration.days();
+            this.hoursLeft = duration.hours();
+            this.minutesLeft = duration.minutes();
+            this.secondsLeft = duration.seconds();
             if(date.diff(now) < 0){
                 clearInterval(this.interval);
                 this.clearCounter();
             }
-            // this.daysLeft = Math.floor(distance / (1000 * 60 * 60 * 24));
-            // this.hoursLeft= Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            // this.minutesLeft = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            // this.secondsLeft = Math.floor((distance % (1000 * 60)) / 1000);
         }, 1000);
     }
     private clearCounter(){
