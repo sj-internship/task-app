@@ -3,16 +3,18 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTimepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 @Component({
     selector: 'app-date-picker',
     templateUrl: './date-picker.component.html',
     styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent implements OnInit, OnChanges {
-    @Output() public onDatePicked: EventEmitter<Date> = new EventEmitter<Date>();
+    @Output() public onDatePicked: EventEmitter<string> = new EventEmitter<string>();
     @Input() public pickedDate: Date;
     public date: FormControl = new FormControl(this.pickedDate);
     public time: NgbTimeStruct;
+    private dateTime:moment.Moment = moment().startOf('day');
     constructor(private config: NgbTimepickerConfig) {
         config.size = 'small';
     }
@@ -31,16 +33,19 @@ export class DatePickerComponent implements OnInit, OnChanges {
         };
     }
     public onDateChange(event: MatDatepickerInputEvent<Date>) {
-        const date = event.value;
-        date.setHours(this.time.hour);
-        date.setMinutes(this.time.minute);
-        this.onDatePicked.emit(date);
+        this.dateTime.set({
+            year: event.value.getFullYear(),
+            month:event.value.getMonth(),
+            date:event.value.getDate(),
+        });
+        this.onDatePicked.emit(moment(this.dateTime).utc().format());
     }
-    public onTimeChange(event) {
-        const date = new Date(this.date.value);
-        date.setHours(this.time.hour);
-        date.setMinutes(this.time.minute);
-        this.onDatePicked.emit(date);
+    public onTimeChange(event){
+        this.dateTime.set({
+            hour:this.time.hour,
+            minute:this.time.minute
+        })
+        this.onDatePicked.emit(moment(this.dateTime).utc().format());
     }
     public onClearDate() {
         this.date.setValue(null);

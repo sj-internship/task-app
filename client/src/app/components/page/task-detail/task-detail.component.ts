@@ -190,8 +190,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
            
         }
     }
-    public onDateChange(date: Date) {
-        this.taskForm.patchValue({ deadline: date });
-        this.counterComponent.setDate(date);
+    public onDateChange(dateString:string ) {
+        this.taskForm.patchValue({ deadline: dateString });
+        this.counterComponent.setDate(dateString);
     }
 }
