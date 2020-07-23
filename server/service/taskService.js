@@ -1,28 +1,34 @@
 const taskModel = require('../model/taskModel');
 const validatorService = require('../service/validator');
+
+const defaultParams = {
+    skip: 0,
+    limit: 10
+}
 module.exports = {
     getTasks: async (user, params) => {
         console.log(params)
         const filter = {};
         filter.createdBy = user.name;
         if (params.tags) {
+            console.log(params.tags)
             filter.tags = {
                 $all: params.tags.split(',')
             };
         }
-        if(params.title){
+        if (params.title) {
             filter.title = params.title;
         }
-        if(params.fromDeadline && params.toDeadline){
-            filter.deadline={
-                $gte:params.fromDeadline,
-                $lte:params.toDeadline
+        if (params.fromDeadline && params.toDeadline) {
+            filter.deadline = {
+                $gte: params.fromDeadline,
+                $lte: params.toDeadline
             }
-        }      
+        }
         const options = {
             skip: Number(params.skip),
             limit: Number(params.limit),
-            sort:params.sort
+            sort: params.sort
         }
         const result = await taskModel.getAll(filter, options);
         return {
@@ -61,7 +67,9 @@ module.exports = {
         return;
     },
     getUniqueTags: async (user) => {
-        const userTasks = await taskModel.getAll({createdBy:user.name});
+        const userTasks = await taskModel.getAll(
+            { createdBy: user.name }, 
+            { limit: 0, skip: 0 });
         const uniqueTags = [];
         userTasks.forEach(task => {
             task.tags.forEach(tag => {

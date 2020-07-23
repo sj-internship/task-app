@@ -31,8 +31,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public getAllTasks() {
         this.loaderService.setLoading(true);
         this.route.queryParams.subscribe(params=>{
-            console.log(params);
-            this.taskService.getAllTasks({}).pipe(
+            this.taskService.getAllTasks(params).pipe(
                 finalize(() => {
                     this.loaderService.setLoading(false);
                 }),
@@ -69,15 +68,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public onFilterChanged(tasks) {
-        console.log('list')
-        console.log(tasks)
         this.tasks = tasks;
         this.filteredTasks = tasks;
-    }
-    private getDataFromParams() {
-
-    }
-    private changeRoute(){
-
     }
 }

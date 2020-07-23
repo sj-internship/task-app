@@ -7,6 +7,7 @@ import { TaskService } from 'src/app/services/task.service';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Select2OptionData } from 'ng2-select2';
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
@@ -25,7 +26,9 @@ export class SearchComponent implements OnInit {
         private loaderService: LoaderService,
         public calendar: NgbCalendar,
         private taskService: TaskService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private route: ActivatedRoute,
     ) {
         this.fromDate = calendar.getToday();
         this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
@@ -67,21 +70,16 @@ export class SearchComponent implements OnInit {
     }
 
     public onFilterSubmit() {
-        const params = this.filterForm.value;
-        console.log(this.filterForm.value)
-        this.loaderService.setLoading(true);
-        this.taskService.getAllTasks(params).pipe(
-            finalize(() => {
-                this.loaderService.setLoading(false);
-            }),
-            takeUntil(this.ngUnsubscribe)
-        ).subscribe(
-            tasks => {
-                console.log(tasks)
-                this.onFilterEmitter.emit(tasks);
-            },
-            _ => { }
-        );
+        const params = {};
+        const keys = Object.keys(this.filterForm.value);
+        keys.forEach(key=>{
+            if(this.filterForm.value[key]){
+                params[key] = this.filterForm.value[key];
+            }
+        })
+        params['tags'] = this.getTagParam();
+        this.router.navigate(['/tasks'],{queryParams:params});
+
     }
 
     public initializeFilter() {
@@ -105,5 +103,15 @@ export class SearchComponent implements OnInit {
             placeholder: 'Choose a tag',
             width: '100%'
         }
+    }
+    private getTagParam(): string{
+        let tagParam = '';
+        this.filterForm.value.tags.forEach(tag => {
+            tagParam += tag + ',';
+        });
+        if(tagParam.length > 0){
+            tagParam = tagParam.substr(0, tagParam.length-1);
+        }
+        return tagParam;
     }
 }
