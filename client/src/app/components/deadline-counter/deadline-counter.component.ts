@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-deadline-counter',
@@ -33,9 +34,9 @@ export class DeadlineCounterComponent implements OnInit {
     }
     private startCounter(){
         this.interval = setInterval(()=>{
-            const now = new Date().getTime() - 100000;
-            const countDownDate = this.date.getTime();
-            var distance = countDownDate - now;
+            const now = moment();
+            const date = moment(this.date);
+            var distance = date.diff(now);
             this.daysLeft = Math.floor(distance / (1000 * 60 * 60 * 24));
             this.hoursLeft= Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             this.minutesLeft = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));

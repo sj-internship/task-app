@@ -3,6 +3,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTimepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 @Component({
     selector: 'app-date-picker',
     templateUrl: './date-picker.component.html',
@@ -13,6 +14,7 @@ export class DatePickerComponent implements OnInit {
     @Input() public pickedDate: Date;
     public date: FormControl;
     public time: NgbTimeStruct;
+    private dateTime:any = moment();
     constructor(private config: NgbTimepickerConfig) {
         config.size = 'small';
     }
@@ -24,18 +26,24 @@ export class DatePickerComponent implements OnInit {
             minute: date.getMinutes(), 
             second: date.getSeconds()
         };
+        console.log(this.dateTime)
     }
     public onDateChange(event: MatDatepickerInputEvent<Date>) {
-        const date = event.value;
-        date.setHours(this.time.hour);
-        date.setMinutes(this.time.minute);
-        this.onDatePicked.emit(date);
+        this.dateTime.set({
+            year: event.value.getFullYear(),
+            month:event.value.getMonth(),
+            date:event.value.getDate(),
+            hour:this.time.hour,
+            minute:this.time.minute
+        });
+        this.onDatePicked.emit(this.dateTime);
     }
     public onTimeChange(event){
-        const date = new Date(this.date.value);
-        date.setHours(this.time.hour);
-        date.setMinutes(this.time.minute);
-        this.onDatePicked.emit(date);
+        this.dateTime.set({
+            hour:this.time.hour,
+            minute:this.time.minute
+        })
+        this.onDatePicked.emit(this.dateTime);
     }
     public onClearDate(){
         this.date.setValue(null);
