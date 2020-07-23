@@ -1,9 +1,24 @@
 const taskModel = require('../model/taskModel');
 const validatorService = require('../service/validator');
 module.exports = {
-    getTasks: async (user) => {
-        const result = await taskModel.getAll(user);
-
+    getTasks: async (user, params) => {
+        console.log(params)
+        const filter = {};
+        filter.createdBy = user.name;
+        if (params.tags) {
+            filter.tags = {
+                $all: params.tags.split(',')
+            };
+        }
+        if(params.title){
+            filter.title = params.title;
+        }
+        const options = {
+            skip: Number(params.skip),
+            limit: Number(params.limit),
+            sort:params.sort
+        }
+        const result = await taskModel.getAll(filter, options);
         return {
             data: result
         };
@@ -51,4 +66,5 @@ module.exports = {
         });
         return uniqueTags;
     },
+
 }
