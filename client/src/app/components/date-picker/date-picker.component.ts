@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, OnChanges, EventEmitter, Input, SimpleChanges } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -9,24 +9,28 @@ import * as moment from 'moment';
     templateUrl: './date-picker.component.html',
     styleUrls: ['./date-picker.component.scss']
 })
-export class DatePickerComponent implements OnInit {
+export class DatePickerComponent implements OnInit, OnChanges {
     @Output() public onDatePicked: EventEmitter<Date> = new EventEmitter<Date>();
     @Input() public pickedDate: Date;
-    public date: FormControl;
+    public date: FormControl = new FormControl(this.pickedDate);
     public time: NgbTimeStruct;
     private dateTime:any = moment();
     constructor(private config: NgbTimepickerConfig) {
         config.size = 'small';
     }
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.pickedDate && changes.pickedDate.currentValue) {
+            const date = new Date(changes.pickedDate.currentValue);
+            this.date.setValue(date);
+            this.updateTime(date);
+        }
+    }
     ngOnInit() {
-        this.date = new FormControl(this.pickedDate);
-        const date = new Date(this.pickedDate)
         this.time = {
-            hour: date.getHours(), 
-            minute: date.getMinutes(), 
-            second: date.getSeconds()
+            hour: 0,
+            minute: 0,
+            second: 0
         };
-        console.log(this.dateTime)
     }
     public onDateChange(event: MatDatepickerInputEvent<Date>) {
         this.dateTime.set({
@@ -45,8 +49,15 @@ export class DatePickerComponent implements OnInit {
         })
         this.onDatePicked.emit(this.dateTime);
     }
-    public onClearDate(){
+    public onClearDate() {
         this.date.setValue(null);
         this.onDatePicked.emit(null);
+    }
+    private updateTime(date: Date) {
+        this.time = {
+            hour: date.getHours(),
+            minute: date.getMinutes(),
+            second: date.getSeconds()
+        }
     }
 }
