@@ -10,8 +10,8 @@ export class TaskService {
 
     constructor(private apiService: ApiService) { }
 
-    public getAllTasks(): Observable<TaskModel[]> {
-        return this.apiService.getAllTasks().pipe(
+    public getAllTasks(params): Observable<TaskModel[]> {
+        return this.apiService.getAllTasks(params).pipe(
             map((res: any) => {
                 return res.result.data.map(item => item)
             })
@@ -40,4 +40,5 @@ export class TaskService {
     public getTags(): Observable<[String]> {
         return this.apiService.getAllTags();
     }
+
 }

@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material';
 import {MatNativeDateModule} from '@angular/material';
 import { MatFormFieldModule } from '@angular/material';
 import { DeadlineCounterComponent } from './components/deadline-counter/deadline-counter.component';
+import { SearchComponent } from './components/search/search.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -41,6 +42,7 @@ import { DeadlineCounterComponent } from './components/deadline-counter/deadline
         LoaderComponent,
         DatePickerComponent,
         DeadlineCounterComponent,
+        SearchComponent,
     ],
     imports: [
         BrowserModule,

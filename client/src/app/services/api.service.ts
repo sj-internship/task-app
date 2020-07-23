@@ -17,8 +17,10 @@ export class ApiService {
     public login(params: UserCredentialsModel): Observable<any> {
         return this.http.post('/api/signIn', params);
     }
-    public getAllTasks(): Observable<any> {
-        return this.http.get('/api/tasks');
+    public getAllTasks(params): Observable<any> {
+        return this.http.get('/api/tasks', {
+            params: params
+        });
     }
     public getTaskById(id: string): Observable<any> {
         return this.http.get('/api/task/' + id);

@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2';
 import { LoaderService } from '../../../services/loader.service'
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -18,27 +19,31 @@ export class ListComponent implements OnInit, OnDestroy {
     public allUniqueTags: Array<Select2OptionData> = [];
     constructor(
         private taskService: TaskService,
-        private loaderService: LoaderService) { }
+        private loaderService: LoaderService,
+        private router: Router,
+        private route: ActivatedRoute,
+    ) { }
 
     public ngOnInit() {
         this.getAllTasks();
         this.getTags();
-        this.initializeSelectOptions();
     }
     public getAllTasks() {
         this.loaderService.setLoading(true);
-        this.taskService.getAllTasks().pipe(
-            finalize(() => {
-                this.loaderService.setLoading(false);
-            }),
-            takeUntil(this.ngUnsubscribe)
-        ).subscribe(
-            tasks => {
-                this.tasks = tasks;
-                this.filteredTasks = tasks;
-            },
-            _ => { }
-        );
+        this.route.queryParams.subscribe(params=>{
+            this.taskService.getAllTasks(params).pipe(
+                finalize(() => {
+                    this.loaderService.setLoading(false);
+                }),
+                takeUntil(this.ngUnsubscribe)
+            ).subscribe(
+                tasks => {
+                    this.tasks = tasks;
+                    this.filteredTasks = tasks;
+                },
+                _ => { }
+            );
+        })
     }
     public ngOnDestroy() {
         this.ngUnsubscribe.next();
@@ -61,23 +66,9 @@ export class ListComponent implements OnInit, OnDestroy {
     private prepareTagsSelect(tags) {
         this.allUniqueTags = tags.map((tag, index) => ({ id: index, text: tag }));
     }
-    public selectChanged(event) {
-        if (event.data.length > 0) {
-            const selectedTags = event.data.map(tag => tag.text);
-            this.filteredTasks = this.tasks.filter(task => {
-                const taskTags = task.tags;
-                return taskTags.some(tag => selectedTags.includes(tag));
-            });
-        }
-        else {
-            this.filteredTasks = this.tasks;
-        }
-    }
-    private initializeSelectOptions() {
-        this.selectOptions = {
-            multiple: true,
-            allowClear: true,
-            placeholder: 'Choose a tag'
-        }
+
+    public onFilterChanged(tasks) {
+        this.tasks = tasks;
+        this.filteredTasks = tasks;
     }
 }
