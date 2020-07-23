@@ -1,27 +1,28 @@
-<div class="formContainer">
-    <form [formGroup]="registerForm" (submit)="onSubmit()">
-        <label>
-            UserName<br>
-            <input type="text" formControlName="userName">
+<div class="d-flex justify-content-center">
+    <div class="card p-3 my-5 px-3">
+        <form [formGroup]="registerForm" (submit)="onSubmit()" class="py-2">
+            <div class="formGroup">
+                <label>UserName</label>
+                <input type="text" formControlName="userName" class="form-control">
+            </div>
             <div *ngIf="registerForm.controls['userName'].invalid && (registerForm.controls['userName'].dirty || registerForm.controls['userName'].touched)"
                 class="alert alert-warning"> Username is required</div>
-            <br>
-        </label>
-        <label>
-            Password
-            <br>
-            <input type="password" formControlName="password">
+            <div class="formGroup">
+                <label>Password</label>
+                <input type="password" formControlName="password" class="form-control">
+            </div>
             <div *ngIf="registerForm.controls['password'].invalid && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)"
                 class="alert alert-warning"> Password is required</div>
 
-        </label><br>
-        <div *ngIf="submitted && !correctCredentials" class="alert alert-danger">The credentials don't meet the
-            requirements.</div>
-        <button class="btn btn-outline-success my-4 my-sm-0">
-            Register
-        </button>
-        <div>
-            <span>Already have an account? </span><span (click)="goToLogin()">Login</span>
-        </div>
-    </form>
+            <div *ngIf="submitted && !correctCredentials" class="alert alert-danger">The credentials don't meet the
+                requirements.</div>
+            <button type="submit" class="btn btn-outline-success my-1">
+                Register
+            </button>
+            <div class="mt-1">
+                <span>Already have an account? </span>
+                <button class="btn btn-link" (click)="goToLogin()">Login</button>
+            </div>
+        </form>
+    </div>
 </div>
