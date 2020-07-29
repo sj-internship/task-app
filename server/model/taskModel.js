@@ -36,7 +36,7 @@ const TaskModel = {
     },
     getAll: (filter, options) => {
 
-        return Task.find(filter).skip(options.skip).limit(options.limit).sort(options.sort).exec();
+        return Task.find(filter).skip(options.skip || defaultParams.skip).limit(options.limit || defaultParams.limit).sort(options.sort).exec();
     },
     save: (params) => {
         const newTask = new Task({
@@ -70,5 +70,9 @@ const TaskModel = {
     deleteOne: (filter) => {
         return Task.findOneAndRemove(filter);
     },
+}
+const defaultParams = {
+    skip: 0,
+    limit: 5
 }
 module.exports = TaskModel;

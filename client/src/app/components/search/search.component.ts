@@ -4,9 +4,11 @@ import { TaskModel } from '../../models/task'
 import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderService } from 'src/app/services/loader.service';
 import { TaskService } from 'src/app/services/task.service';
-import { finalize, takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { Select2OptionData } from 'ng2-select2';
+import { Router, ActivatedRoute } from '@angular/router';
+import { param } from 'jquery';
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
@@ -14,18 +16,21 @@ import { Select2OptionData } from 'ng2-select2';
 })
 export class SearchComponent implements OnInit {
     public filterForm: FormGroup;
-
     private ngUnsubscribe = new Subject<void>();
     public hoveredDate: NgbDate | null = null;
     public fromDate: NgbDate;
     public selectOptions;
+    private dateTime: moment.Moment = moment().startOf('day');
     public toDate: NgbDate | null = null;
+    @Output() public onFilterEmitter: EventEmitter<TaskModel[]> = new EventEmitter<TaskModel[]>();
     @Input() public allUniqueTags: Array<Select2OptionData>;
     constructor(private fb: FormBuilder,
         private loaderService: LoaderService,
         public calendar: NgbCalendar,
         private taskService: TaskService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private router: Router,
+        private route: ActivatedRoute,
     ) {
         this.fromDate = calendar.getToday();
         this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
@@ -36,23 +41,23 @@ export class SearchComponent implements OnInit {
         this.initializeSelectOptions();
     }
     public onDateSelection(date: NgbDate) {
-        let dateTemp = new Date(); 
-        dateTemp.setFullYear(date.year);
-        dateTemp.setMonth(date.month);
-        dateTemp.setDate(date.day);
-        const dateString = dateTemp.toISOString();
+        const dateString = moment({
+            year: date.year,
+            months: date.month - 1,
+            days: date.day
+        }).format()
         if (!this.fromDate && !this.toDate) {
             this.fromDate = date;
-            this.filterForm.patchValue({fromDeadline: dateString});
+            this.filterForm.patchValue({ fromDeadline: dateString });
         } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
             this.toDate = date;
-            this.filterForm.patchValue({toDeadline: dateString});
+            this.filterForm.patchValue({ toDeadline: dateString });
 
         } else {
             this.toDate = null;
             this.fromDate = date;
-            this.filterForm.patchValue({fromDeadline: dateString});
-            this.filterForm.patchValue({toDate: null});
+            this.filterForm.patchValue({ fromDeadline: dateString });
+            this.filterForm.patchValue({ toDate: null });
 
         }
     }
@@ -70,30 +75,29 @@ export class SearchComponent implements OnInit {
     }
 
     public onFilterSubmit() {
-        const params = this.filterForm.value;
-        console.log(this.filterForm.value)
-        this.loaderService.setLoading(true);
-        this.taskService.getFilteredTasks(params).pipe(
-            finalize(() => {
-                this.loaderService.setLoading(false);
-            }),
-            takeUntil(this.ngUnsubscribe)
-        ).subscribe(
-            tasks => {
-                console.log(tasks)
+        const params = {};
+        Object.entries(this.filterForm.value)
+            .forEach(([key, value]) => {
+                if (!value) {
+                    return;
+                }
+                if (Array.isArray(value)) {
+                    const arrayString = value.join();
+                    params[key] = arrayString;
+                    return;
+                }
+                params[key] = value;
+            });
+        this.router.navigate(['/tasks'], { queryParams: params });
 
-                //emit
-            },
-            _ => { }
-        );
     }
 
     public initializeFilter() {
         this.filterForm = this.formBuilder.group({
             tags: [[]],
             title: [''],
-            fromDeadline:[''],
-            toDeadline:['']
+            fromDeadline: [''],
+            toDeadline: ['']
         })
     }
 
@@ -109,5 +113,15 @@ export class SearchComponent implements OnInit {
             placeholder: 'Choose a tag',
             width: '100%'
         }
+    }
+    private getTagParam(): string {
+        let tagParam = '';
+        this.filterForm.value.tags.forEach(tag => {
+            tagParam += tag + ',';
+        });
+        if (tagParam.length > 0) {
+            tagParam = tagParam.substr(0, tagParam.length - 1);
+        }
+        return tagParam;
     }
 }
