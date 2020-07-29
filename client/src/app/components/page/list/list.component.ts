@@ -15,9 +15,10 @@ export class ListComponent implements OnInit, OnDestroy {
     public tasks: TaskModel[];
     public filteredTasks: TaskModel[];
     public selectOptions;
-    public collectionSize: number = 5;
+    public pageSize: number = 5;
     private queryParams: any;
-    private taskCount:number;
+    public taskCount:number;
+    public page = 1;
     private ngUnsubscribe = new Subject<void>();
     public allUniqueTags: Array<Select2OptionData> = [];
     constructor(
@@ -34,7 +35,10 @@ export class ListComponent implements OnInit, OnDestroy {
     public getAllTasks() {
         this.loaderService.setLoading(true);
         this.route.queryParams.subscribe(params => {
-            this.queryParams = params;
+            this.queryParams = {...params};
+            if(params.skip && params.limit){
+                this.page = params.skip / params.limit + 1;
+            }
             this.taskService.getAllTasks(params).pipe(
                 finalize(() => {
                     this.loaderService.setLoading(false);
@@ -77,18 +81,14 @@ export class ListComponent implements OnInit, OnDestroy {
         this.filteredTasks = tasks;
     }
     public onPageChange(page: number) {
-        const skip = this.collectionSize * (page - 1);
-        console.log(page - 1)
-        const newQuery: any = {};
-        const queryKeys = Object.keys(this.queryParams);
-        queryKeys.forEach(queryKey => {
-            newQuery[queryKey] = this.queryParams[queryKey];
-        })
-        newQuery.skip = skip;
-        newQuery.limit = this.collectionSize;
-        this.router.navigate(['/tasks'], { queryParams: newQuery });
+        const skip = this.pageSize * (page - 1);
+        this.queryParams.skip = skip;
+        this.queryParams.limit = this.pageSize;
+        this.router.navigate(['/tasks'], { queryParams: this.queryParams });
     }
     public setLimit(limit){
-        this.collectionSize = limit;
+        this.pageSize = limit;
+        this.queryParams.limit = limit;
+        this.router.navigate(['/tasks'], { queryParams: this.queryParams });
     }
 }
