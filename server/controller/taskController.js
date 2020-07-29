@@ -2,7 +2,6 @@ const taskService = require('../service/taskService');
 
 const taskController = {
     getTasks: (req, res) => {
-        console.log(req.query)
         taskService.getTasks(req.user, req.query)
             .then(result => {
                 res.status(200).json({ result });

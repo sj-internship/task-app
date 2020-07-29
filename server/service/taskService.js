@@ -7,17 +7,16 @@ const defaultParams = {
 }
 module.exports = {
     getTasks: async (user, params) => {
-        console.log(params)
         const filter = {};
         filter.createdBy = user.name;
         if (params.tags) {
-            console.log(params.tags)
             filter.tags = {
                 $all: params.tags.split(',')
             };
         }
         if (params.title) {
-            filter.title = params.title;
+            const titleRegex = new RegExp(params.title, 'i');
+            filter.title = {$regex: titleRegex};
         }
         if (params.fromDeadline && params.toDeadline) {
             filter.deadline = {

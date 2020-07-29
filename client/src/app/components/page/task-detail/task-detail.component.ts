@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 import { takeUntil, finalize } from 'rxjs/operators';
 import { Select2OptionData } from 'ng2-select2'
 import { LoaderService } from 'src/app/services/loader.service';
-import {DeadlineCounterComponent} from '../../deadline-counter/deadline-counter.component'
+import { DeadlineCounterComponent } from '../../deadline-counter/deadline-counter.component'
 @Component({
     selector: 'app-task-detail',
     templateUrl: './task-detail.component.html',
@@ -62,7 +62,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                 takeUntil(this.ngUnsubscribe)
             ).subscribe(
                 _ => this.router.navigate(['/tasks']),
-                err => { console.log(err)},
+                err => { },
             );
         }
         else {
@@ -165,14 +165,14 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
                     this.loaderService.setLoading(false);
                 }),
                 takeUntil(this.ngUnsubscribe)
-                ).subscribe(
-                    task => {
-                        this.task = task;
-                        this.tags = task.tags;
-                        this.taskForm.patchValue(task);
-                        if(task.deadline){
-                            this.counterComponent.setDate(new Date(task.deadline));
-                        }
+            ).subscribe(
+                task => {
+                    this.task = task;
+                    this.tags = task.tags;
+                    this.taskForm.patchValue(task);
+                    if (task.deadline) {
+                        this.counterComponent.setDate(new Date(task.deadline));
+                    }
                     this.getTags();
                 },
                 _ => { },
@@ -186,11 +186,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
             placeholder: 'Choose a tag',
             multiple: true,
             tags: true,
-            width:'100%'
-           
+            width: '100%'
+
         }
     }
-    public onDateChange(dateString:string ) {
+    public onDateChange(dateString: string) {
         this.taskForm.patchValue({ deadline: dateString });
         this.counterComponent.setDate(dateString);
     }

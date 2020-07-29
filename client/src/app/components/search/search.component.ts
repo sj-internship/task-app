@@ -4,10 +4,11 @@ import { TaskModel } from '../../models/task'
 import { NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderService } from 'src/app/services/loader.service';
 import { TaskService } from 'src/app/services/task.service';
-import { finalize, takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { Select2OptionData } from 'ng2-select2';
 import { Router, ActivatedRoute } from '@angular/router';
+import { param } from 'jquery';
 @Component({
     selector: 'app-search',
     templateUrl: './search.component.html',
@@ -19,6 +20,7 @@ export class SearchComponent implements OnInit {
     public hoveredDate: NgbDate | null = null;
     public fromDate: NgbDate;
     public selectOptions;
+    private dateTime: moment.Moment = moment().startOf('day');
     public toDate: NgbDate | null = null;
     @Output() public onFilterEmitter: EventEmitter<TaskModel[]> = new EventEmitter<TaskModel[]>();
     @Input() public allUniqueTags: Array<Select2OptionData>;
@@ -39,20 +41,23 @@ export class SearchComponent implements OnInit {
         this.initializeSelectOptions();
     }
     public onDateSelection(date: NgbDate) {
-        let dateTemp = new Date(date.year, date.month-1, date.day+1); 
-        const dateString = dateTemp.toISOString();
+        const dateString = moment({
+            year: date.year,
+            months: date.month - 1,
+            days: date.day
+        }).format()
         if (!this.fromDate && !this.toDate) {
             this.fromDate = date;
-            this.filterForm.patchValue({fromDeadline: dateString});
+            this.filterForm.patchValue({ fromDeadline: dateString });
         } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
             this.toDate = date;
-            this.filterForm.patchValue({toDeadline: dateString});
+            this.filterForm.patchValue({ toDeadline: dateString });
 
         } else {
             this.toDate = null;
             this.fromDate = date;
-            this.filterForm.patchValue({fromDeadline: dateString});
-            this.filterForm.patchValue({toDate: null});
+            this.filterForm.patchValue({ fromDeadline: dateString });
+            this.filterForm.patchValue({ toDate: null });
 
         }
     }
@@ -71,17 +76,19 @@ export class SearchComponent implements OnInit {
 
     public onFilterSubmit() {
         const params = {};
-        const keys = Object.keys(this.filterForm.value);
-        keys.forEach(key=>{
-            if(this.filterForm.value[key]){
-                params[key] = this.filterForm.value[key];
-            }
-        })
-        const tagParam = this.getTagParam();
-        if(tagParam){
-            params['tags'] = tagParam;
-        }
-        this.router.navigate(['/tasks'],{queryParams:params});
+        Object.entries(this.filterForm.value)
+            .forEach(([key, value]) => {
+                if (!value) {
+                    return;
+                }
+                if (Array.isArray(value)) {
+                    const arrayString = value.join();
+                    params[key] = arrayString;
+                    return;
+                }
+                params[key] = value;
+            });
+        this.router.navigate(['/tasks'], { queryParams: params });
 
     }
 
@@ -89,8 +96,8 @@ export class SearchComponent implements OnInit {
         this.filterForm = this.formBuilder.group({
             tags: [[]],
             title: [''],
-            fromDeadline:[''],
-            toDeadline:['']
+            fromDeadline: [''],
+            toDeadline: ['']
         })
     }
 
@@ -107,13 +114,13 @@ export class SearchComponent implements OnInit {
             width: '100%'
         }
     }
-    private getTagParam(): string{
+    private getTagParam(): string {
         let tagParam = '';
         this.filterForm.value.tags.forEach(tag => {
             tagParam += tag + ',';
         });
-        if(tagParam.length > 0){
-            tagParam = tagParam.substr(0, tagParam.length-1);
+        if (tagParam.length > 0) {
+            tagParam = tagParam.substr(0, tagParam.length - 1);
         }
         return tagParam;
     }
